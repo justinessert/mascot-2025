@@ -1,6 +1,6 @@
 <div class="container">
   <h1>March Madness Bracket</h1>
-  
+
   <!-- Region Selection -->
   <div *ngIf="!selectedRegion">
     <h2>Select a Region</h2>
@@ -9,58 +9,24 @@
     </button>
   </div>
 
-  <!-- Matchup Selection -->
-  <div *ngIf="selectedRegion && currentMatchup.length === 2">
-    <h2>{{ selectedRegion | titlecase }} Region</h2>
-    <div class="matchup">
-      <div class="team" (click)="chooseWinner(currentMatchup[0])">
-        <img [src]="currentMatchup[0].image" [alt]="currentMatchup[0].name" />
-        <p>{{ currentMatchup[0].seed }}. {{ currentMatchup[0].displayName }}</p>
-      </div>
-      <p class="vs">VS</p>
-      <div class="team" (click)="chooseWinner(currentMatchup[1])">
-        <img [src]="currentMatchup[1].image" [alt]="currentMatchup[1].name" />
-        <p>{{ currentMatchup[1].seed }}. {{ currentMatchup[1].displayName }}</p>
-      </div>
-    </div>
-  </div>
-  
+  <!-- Winner Selection Component -->
+  <app-winner-selection 
+    *ngIf="selectedRegion && bracket[roundIndex] && bracket[roundIndex][currentMatchupIndex] && bracket[roundIndex][currentMatchupIndex + 1]"
+    [currentMatchup]="[bracket[roundIndex][currentMatchupIndex], bracket[roundIndex][currentMatchupIndex + 1]]" 
+    (winnerSelected)="handleWinnerSelection($event)">
+  </app-winner-selection>
+
   <!-- Full Bracket Display -->
-  <div class="bracket-container">
-    <h2>Bracket Progress</h2>
-    <div class="bracket">
-      <div class="round" *ngFor="let round of bracket; let roundIndex = index">
-        <h3>Round {{ roundIndex + 1 }}</h3>
-        <div class="matchup-pair">
-          <div *ngFor="let team of round" class="bracket-team" [class.empty]="!team">
-            <p *ngIf="team">{{ team.name | titlecase }}</p>
-            <p *ngIf="!team">---</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-bracket-display 
+  [bracket]="bracket" 
+  [champion]="champion" 
+  [selectedRegion]="selectedRegion">
+</app-bracket-display>
 
   <!-- Final Four Selection -->
   <div *ngIf="finalFour.length === 4 && !selectedRegion">
     <h2>Final Four</h2>
     <button (click)="startFinalFour()">Start Final Four</button>
-  </div>
-
-  <!-- Final Four Matchups -->
-  <div *ngIf="selectedRegion === 'finalFour' && currentMatchup.length === 2">
-    <h2>Final Four Championship</h2>
-    <div class="matchup">
-      <div class="team" (click)="declareChampion(currentMatchup[0])">
-        <img [src]="currentMatchup[0].image" [alt]="currentMatchup[0].name" />
-        <p>{{ currentMatchup[0].name | titlecase }}</p>
-      </div>
-      <p class="vs">VS</p>
-      <div class="team" (click)="declareChampion(currentMatchup[1])">
-        <img [src]="currentMatchup[1].image" [alt]="currentMatchup[1].name" />
-        <p>{{ currentMatchup[1].name | titlecase }}</p>
-      </div>
-    </div>
   </div>
 
   <!-- Champion Display -->

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { WinnerSelectionComponent } from '../winner-selection/winner-selection.component';
+import { BracketDisplayComponent } from '../bracket-display/bracket-display.component';
 
 
 const bracketData: Record<string, string[]> = {
@@ -184,24 +186,22 @@ class Team {
   image: string;
   nickname: string;
   displayName: string;
+  shortDisplayName: string;
 
   constructor(name: string, seed: number) {
     this.name = name;
     this.seed = seed;
     this.image = `assets/teams/${name}.jpg`;
     this.nickname = nicknames[name] || '';
-    this.displayName = `${this.capitalize(name)} ${this.capitalize(this.nickname)}`;
-  }
-
-  private capitalize(word: string): string {
-    return word.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    this.displayName = `${this.seed}. ${this.name} ${this.nickname}`;
+    this.shortDisplayName = `${this.seed}. ${this.name}`;
   }
 }
 
 @Component({
   selector: 'app-bracket',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, WinnerSelectionComponent, BracketDisplayComponent],
   templateUrl: './bracket.component.html',
   styleUrls: ['./bracket.component.css']
 })
@@ -209,7 +209,7 @@ export class BracketComponent {
   regions = Object.keys(bracketData);
   selectedRegion: string | null = null;
   bracket: (Team | null)[][] = [];
-  currentMatchup: Team[] = [];
+  currentMatchupIndex: number = 0;
   roundIndex = 0;
   finalFour: (Team | null)[] = [];
   champion: Team | null = null;
@@ -217,6 +217,7 @@ export class BracketComponent {
   selectRegion(region: string) {
     this.selectedRegion = region;
     this.initializeBracket(region);
+    this.currentMatchupIndex = 0;
     this.startNewRound();
   }
 
@@ -224,9 +225,10 @@ export class BracketComponent {
     const teams = bracketData[region].map((name, index) => new Team(name, index + 1));
     this.bracket = [];
     
-    // Ensure correct matchups: 1 vs 16, 2 vs 15, etc.
+    // Correct first-round matchup ordering
+    const matchupOrder = [0, 7, 3, 4, 2, 5, 1, 6];
     this.bracket[0] = [];
-    for (let i = 0; i < teams.length / 2; i++) {
+    for (let i of matchupOrder) {
       this.bracket[0].push(teams[i]);
       this.bracket[0].push(teams[teams.length - 1 - i]);
     }
@@ -237,25 +239,30 @@ export class BracketComponent {
   }
 
   startNewRound() {
-    this.currentMatchup = [this.bracket[this.roundIndex].shift()!, this.bracket[this.roundIndex].shift()!];
+    this.currentMatchupIndex = 0;
   }
 
-  chooseWinner(winner: Team) {
-    this.bracket[this.roundIndex + 1][Math.floor(this.bracket[this.roundIndex].length / 2)] = winner;
-    if (this.bracket[this.roundIndex].length > 0) {
-      this.startNewRound();
+  handleWinnerSelection(winner: Team) {
+    const nextRoundIndex = this.roundIndex + 1;
+    const position = Math.floor(this.currentMatchupIndex / 2);
+    this.bracket[nextRoundIndex][position] = winner;
+    
+    if (this.currentMatchupIndex + 2 < this.bracket[this.roundIndex].length) {
+      this.currentMatchupIndex += 2;
     } else {
-      this.roundIndex++;
-      if (this.roundIndex < this.bracket.length - 1) {
-        this.startNewRound();
-      } else {
-        this.finalFour.push(this.bracket[this.roundIndex][0]);
-      }
+      this.advanceRound();
     }
   }
 
-  randomWinner() {
-    this.chooseWinner(this.currentMatchup[Math.floor(Math.random() * 2)]);
+  advanceRound() {
+    this.roundIndex++;
+    if (this.roundIndex < this.bracket.length - 1) {
+      this.startNewRound();
+    } else {
+      this.champion = this.bracket[this.roundIndex][0];
+      this.finalFour.push(this.bracket[this.roundIndex][0]);
+      this.selectedRegion = null;
+    }
   }
 
   startFinalFour() {
