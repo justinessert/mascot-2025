@@ -1,0 +1,11 @@
+<div *ngIf="currentMatchup.length === 2" class="matchup">
+    <div class="team" (click)="selectWinner(currentMatchup[0])">
+      <img [src]="currentMatchup[0].image" [alt]="currentMatchup[0].name" />
+      <p>{{ currentMatchup[0].displayName | replaceUnderscore | titlecase }}</p>
+    </div>
+    <p class="vs">VS</p>
+    <div class="team" (click)="selectWinner(currentMatchup[1])">
+      <img [src]="currentMatchup[1].image" [alt]="currentMatchup[1].name" />
+      <p>{{ currentMatchup[1].displayName | replaceUnderscore | titlecase }}</p>
+    </div>
+</div>

@@ -1,0 +1,143 @@
+.bracket-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 20px 0;
+    background: #f8f9fa;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f8f9fa;
+  }
+  
+  .bracket {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    align-items: center;
+    justify-items: center;
+    width: max-content;
+    min-width: 1200px;
+  }
+  
+  .round {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    min-height: 100%;
+    position: relative;
+  }
+  
+  .round-title {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    height: 40px;
+  }
+  
+  .matchup-pair {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-grow: 1;
+  }
+  
+  .matchup-box {
+    display: flex;
+    flex-direction: column;
+    width: 180px;
+    height: 60px;
+    border: 2px solid #000;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ffffff;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+  
+  .team {
+    padding: 5px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .top-team, .bottom-team {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e8e8e8;
+    border-bottom: 2px solid #000;
+  }
+  
+  .bottom-team {
+    background-color: #ffffff;
+    border-bottom: none;
+  }
+  
+  /* Maintain shading even if no team is present */
+  .top-team::before, .bottom-team::before {
+    content: '\00a0'; /* Non-breaking space */
+    visibility: visible;
+  }
+  
+  /* Champion Display */
+  .champion-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  .champion-display img {
+    width: 60px;
+    height: 60px;
+    margin-left: 10px;
+    border-radius: 50%;
+  }
+  
+  /* Custom Scrollbar Styling */
+  .bracket-container::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .bracket-container::-webkit-scrollbar-track {
+    background: #f8f9fa;
+  }
+  
+  .bracket-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+  }
+  
+  @media (max-width: 1200px) {
+    .bracket-container {
+      overflow-x: auto;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .matchup-box {
+      width: 140px;
+      height: 50px;
+    }
+    .bracket {
+      grid-template-columns: repeat(3, 1fr);
+      min-width: 800px;
+    }
+  }
