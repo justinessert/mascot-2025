@@ -1,14 +1,14 @@
 <h2>Bracket Progress</h2>
 <!-- Champion Display -->
 <div *ngIf="champion" class="champion-display">
-  The winner of the {{ selectedRegion | titlecase }} region is {{ champion.name | titlecase }}
+  The winner of the {{ selectedRegion | titlecase }} region is {{ champion.displayName | replaceUnderscore | titlecase }}
   <img [src]="champion.image" [alt]="champion.name">
 </div>
 
 <!-- Bracket Display -->
 <div class="bracket-container">
   <div class="bracket">
-    <div class="round" *ngFor="let round of bracket; let roundIndex = index">
+    <div class="round" *ngFor="let round of bracket | slice:0:bracket.length-1; let roundIndex = index">
       <h3>Round {{ roundIndex + 1 }}</h3>
       <div class="matchup-pair" *ngFor="let matchup of getMatchupPairs(round)">
         <div class="matchup-box">
