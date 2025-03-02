@@ -3,6 +3,16 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px;
+  background-color: var(--secondary-bg) !important;
+  color: var(--primary-text) !important;
+}
+
+.nav-links button {
+  color: var(--primary-text) !important;
+}
+
+.nav-links button:hover {
+  background-color: var(--accent-color) !important;
 }
 
 .menu-button {
