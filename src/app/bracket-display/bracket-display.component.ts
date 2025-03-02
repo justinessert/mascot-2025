@@ -13,6 +13,7 @@ export class BracketDisplayComponent {
   @Input() bracket: any[][] = [];
   @Input() champion: any | null = null;
   @Input() selectedRegion: string | null = null;
+  currentRegion: string | null = this.selectedRegion;
 
   getMatchupPairs(round: any[]): any[][] {
     const pairs: any[][] = [];

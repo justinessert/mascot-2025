@@ -1,4 +1,4 @@
-<h2>Bracket Progress</h2>
+<h2>{{ selectedRegion | titlecase }} Region</h2>
 <!-- Champion Display -->
 <div *ngIf="champion" class="champion-display">
   The winner of the {{ selectedRegion | titlecase }} region is {{ champion.displayName | replaceUnderscore | titlecase }}

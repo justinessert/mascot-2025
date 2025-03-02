@@ -1,6 +1,4 @@
 <div class="container">
-  <h1>March Madness Bracket</h1>
-
   <!-- Winner Selection Component -->
   <app-winner-selection 
     *ngIf="selectedRegion && bracket[roundIndex] && bracket[roundIndex][currentMatchupIndex] && bracket[roundIndex][currentMatchupIndex + 1]"
@@ -19,10 +17,5 @@
   <div *ngIf="finalFour.length === 4 && !selectedRegion">
     <h2>Final Four</h2>
     <button (click)="startFinalFour()">Start Final Four</button>
-  </div>
-
-  <!-- Champion Display -->
-  <div *ngIf="champion">
-    <h2>Champion: {{ champion.name | titlecase }}</h2>
   </div>
 </div>

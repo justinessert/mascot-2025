@@ -1,3 +1,5 @@
+<h2>Select Which Mascot You Like Best</h2>
+
 <div *ngIf="currentMatchup.length === 2" class="matchup">
     <div class="team" (click)="selectWinner(currentMatchup[0])">
       <img [src]="currentMatchup[0].image" [alt]="currentMatchup[0].name" />
