@@ -1,8 +1,27 @@
 <mat-toolbar color="primary" class="app-toolbar">
-    <span>🏀 Mascot Madness Bracket</span>
-  </mat-toolbar>
-  
-  <div class="app-container">
-    <router-outlet></router-outlet>
-  </div>
-  
+  <!-- Hamburger Menu Button (Only Visible on Mobile) -->
+  <button mat-icon-button (click)="toggleMenu()" class="menu-button">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <!-- Title -->
+  <span class="toolbar-title">🏀 Mascot Madness Bracket</span>
+
+  <span class="spacer"></span>
+
+  <!-- Navigation Links -->
+  <nav class="nav-links" [ngClass]="{ 'open': menuOpen }">
+    <!-- Create Bracket Dropdown -->
+    <mat-menu #bracketMenu="matMenu">
+      <button mat-menu-item *ngFor="let region of regions" (click)="selectRegion(region)">
+        {{ region | titlecase }} Region
+      </button>
+    </mat-menu>
+    <button mat-button [matMenuTriggerFor]="bracketMenu">Create Bracket</button>
+  </nav>
+</mat-toolbar>
+
+<!-- Main Content (Router Outlet for Navigation) -->
+<div class="app-container">
+  <router-outlet></router-outlet>
+</div>

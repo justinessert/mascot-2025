@@ -1,31 +1,48 @@
-/* Base Styles */
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: Roboto, Arial, sans-serif;
-    background-color: #f5f5f5;
+.app-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.menu-button {
+  display: none; /* Hide by default on desktop */
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* ✅ Mobile Styles */
+@media (max-width: 768px) {
+  .menu-button {
+    display: block; /* Show hamburger on small screens */
   }
-  
-  /* Toolbar */
-  .app-toolbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    padding: 10px 20px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Main Layout */
-  .app-container {
-    display: flex;
+
+  .nav-links {
+    display: none; /* Hide menu by default */
     flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
   }
-  
+
+  .nav-links.open {
+    display: flex; /* ✅ Show menu when open */
+  }
+
+  .nav-links button {
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+  }
+}

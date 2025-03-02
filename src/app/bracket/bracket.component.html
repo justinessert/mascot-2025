@@ -1,14 +1,6 @@
 <div class="container">
   <h1>March Madness Bracket</h1>
 
-  <!-- Region Selection -->
-  <div *ngIf="!selectedRegion">
-    <h2>Select a Region</h2>
-    <button *ngFor="let region of regions" (click)="selectRegion(region)">
-      {{ region | titlecase }}
-    </button>
-  </div>
-
   <!-- Winner Selection Component -->
   <app-winner-selection 
     *ngIf="selectedRegion && bracket[roundIndex] && bracket[roundIndex][currentMatchupIndex] && bracket[roundIndex][currentMatchupIndex + 1]"
