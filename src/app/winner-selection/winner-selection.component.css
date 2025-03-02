@@ -14,10 +14,15 @@
     padding: 10px;
     border-radius: 5px;
   }
-  
+
+  /* Default hover effect (enabled for non-touch devices) */
   .team:hover {
     transform: scale(1.1);
-    background-color: #f0f0f0;
+  }
+
+  /* Hover effect (only for desktop) */
+  body:not(.disable-hover) .team:hover {
+    transform: scale(1.1);
   }
   
   .team img {
