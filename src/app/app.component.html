@@ -9,17 +9,34 @@
 
   <span class="spacer"></span>
 
-  <!-- Navigation Links -->
-  <nav class="nav-links" [ngClass]="{ 'open': menuOpen }">
-    <!-- Create Bracket Dropdown -->
-    <mat-menu #bracketMenu="matMenu">
-      <button mat-menu-item *ngFor="let region of regions" (click)="selectRegion(region)">
-        {{ region | titlecase }} Region
-      </button>
-    </mat-menu>
-    <button mat-button [matMenuTriggerFor]="bracketMenu">Create Bracket</button>
+  <!-- Desktop Navigation -->
+  <nav class="nav-links" [ngClass]="{ 'hidden': menuOpen }">
+    <ng-container *ngIf="!isMobileView">
+      <mat-menu #bracketMenu="matMenu">
+        <button mat-menu-item *ngFor="let region of regions" (click)="selectRegion(region)">
+          {{ region | titlecase }} Region
+        </button>
+      </mat-menu>
+      <button mat-button [matMenuTriggerFor]="bracketMenu">Create Bracket</button>
+    </ng-container>
   </nav>
 </mat-toolbar>
+
+<!-- Mobile Navigation (Hamburger Menu) -->
+<nav class="mobile-menu" *ngIf="menuOpen && isMobileView">
+  <!-- Create Bracket Section -->
+  <button mat-button (click)="toggleBracketSubMenu()" class="bracket-toggle">
+    <mat-icon>{{ bracketSubMenuOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+    Create Bracket
+  </button>
+
+  <!-- Nested Region Links -->
+  <div class="bracket-submenu" *ngIf="bracketSubMenuOpen">
+    <button *ngFor="let region of regions" mat-button (click)="selectRegion(region)">
+      {{ region | titlecase }} Region
+    </button>
+  </div>
+</nav>
 
 <!-- Main Content (Router Outlet for Navigation) -->
 <div class="app-container">
