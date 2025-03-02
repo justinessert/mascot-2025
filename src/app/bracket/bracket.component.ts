@@ -274,7 +274,6 @@ export class BracketComponent implements OnInit {
     } else {
       this.champion = this.bracket[this.roundIndex][0];
       this.finalFour.push(this.bracket[this.roundIndex][0]);
-      this.selectedRegion = null;
     }
   }
 
