@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WinnerSelectionComponent } from '../winner-selection/winner-selection.component';
 import { BracketDisplayComponent } from '../bracket-display/bracket-display.component';
 
@@ -215,14 +215,14 @@ export class BracketComponent implements OnInit {
   finalFour: (Team | null)[] = [];
   champion: Team | null = null;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    // Listen for URL changes and update the selected region dynamically
     this.route.paramMap.subscribe(params => {
       const region = params.get('region');
       if (region && this.regions.includes(region)) {
-        this.selectRegion(region);
+        this.selectedRegion = region;
+        this.initializeBracket(region);
       }
     });
   }

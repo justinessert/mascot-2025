@@ -1,10 +1,10 @@
 import { Component, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterModule } from '@angular/router';
 import { NgFor, NgIf, CommonModule, TitleCasePipe } from '@angular/common';
 
 @Component({
@@ -16,6 +16,7 @@ import { NgFor, NgIf, CommonModule, TitleCasePipe } from '@angular/common';
     MatButtonModule,
     MatIconModule,
     RouterOutlet,
+    RouterModule,
     CommonModule,
     NgFor,
     NgIf,
@@ -28,10 +29,20 @@ export class AppComponent {
   title = 'Mascot Madness Bracket';
   regions = ['east', 'west', 'midwest', 'south'];
   menuOpen = false;
-  bracketSubMenuOpen = true;
+  bracketSubMenuOpen = false; // Closed by default
   isMobileView = window.innerWidth <= 768;
+  isHomePage = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.isHomePage = event.url === '/' || event.url === '/home';
+        if (this.isHomePage) {
+          this.menuOpen = false; // Ensure menu is closed on the home page
+        }
+      }
+    });
+  }
 
   @HostListener('window:resize', [])
   onResize() {

@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="app-toolbar">
+<mat-toolbar *ngIf="!isHomePage" color="primary" class="app-toolbar">
   <!-- Hamburger Menu Button (Only Visible on Mobile) -->
   <button mat-icon-button (click)="toggleMenu()" class="menu-button">
     <mat-icon>menu</mat-icon>
@@ -23,7 +23,7 @@
 </mat-toolbar>
 
 <!-- Mobile Navigation (Hamburger Menu) -->
-<nav class="mobile-menu" *ngIf="menuOpen && isMobileView">
+<nav class="mobile-menu" *ngIf="menuOpen && isMobileView && !isHomePage">
   <!-- Create Bracket Section -->
   <button mat-button (click)="toggleBracketSubMenu()" class="bracket-toggle">
     <mat-icon>{{ bracketSubMenuOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
@@ -31,8 +31,8 @@
   </button>
 
   <!-- Nested Region Links -->
-  <div class="bracket-submenu" *ngIf="bracketSubMenuOpen">
-    <button *ngFor="let region of regions" mat-button (click)="selectRegion(region)">
+  <div class="bracket-submenu" *ngIf="bracketSubMenuOpen && !isHomePage">
+    <button *ngFor="let region of regions" mat-button [routerLink]="['/bracket', region]" (click)="selectRegion(region)">
       {{ region | titlecase }} Region
     </button>
   </div>
