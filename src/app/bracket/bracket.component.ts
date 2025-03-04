@@ -24,6 +24,8 @@ const bracketData: Record<string, string[]> = {
   ]
 };
 
+const regionOrder: string[] = ["east", "west", "midwest", "south"];
+
 const nicknames: Record<string, string> = {
     "akron": "zips",
     "alabama": "crimson tide",
@@ -199,47 +201,29 @@ class Team {
   }
 }
 
-@Component({
-  selector: 'app-bracket',
-  standalone: true,
-  imports: [CommonModule, WinnerSelectionComponent, BracketDisplayComponent],
-  templateUrl: './bracket.component.html',
-  styleUrls: ['./bracket.component.css']
-})
-export class BracketComponent implements OnInit {
-  regions = Object.keys(bracketData);
-  selectedRegion: string | null = null;
+class Region {
+  name: string;
   bracket: (Team | null)[][] = [];
   currentMatchupIndex: number = 0;
   roundIndex = 0;
-  finalFour: (Team | null)[] = [];
   champion: Team | null = null;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
-
-  ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const region = params.get('region');
-      if (region && this.regions.includes(region)) {
-        this.selectedRegion = region;
-        this.initializeBracket(region);
-      }
-    });
-  }
-
-  selectRegion(region: string) {
-    this.selectedRegion = region;
-    this.initializeBracket(region);
-    this.currentMatchupIndex = 0;
-    this.startNewRound();
-  }
-
-  initializeBracket(region: string) {
-    const teams = bracketData[region].map((name, index) => new Team(name, index + 1));
+  constructor(name: string) {
+    this.name = name;
     this.bracket = [];
-    
+  }
+
+  initializeBracket(teams: Team[]) { 
     // Correct first-round matchup ordering
-    const matchupOrder = [0, 7, 3, 4, 2, 5, 1, 6];
+    let matchupOrder = [];
+    if (teams.length === 16) {
+      // Standard Regions
+      matchupOrder = [0, 7, 3, 4, 2, 5, 1, 6];
+    } else {
+      // Final Four
+      matchupOrder = [0, 4, 2, 3];
+    }
+    
     this.bracket[0] = [];
     for (let i of matchupOrder) {
       this.bracket[0].push(teams[i]);
@@ -255,6 +239,16 @@ export class BracketComponent implements OnInit {
     this.currentMatchupIndex = 0;
   }
 
+  advanceRound() {
+    this.roundIndex++;
+    if (this.roundIndex < this.bracket.length - 1) {
+      this.startNewRound();
+    } else {
+      this.champion = this.bracket[this.roundIndex][0];
+    }
+  }
+
+
   handleWinnerSelection(winner: Team) {
     const nextRoundIndex = this.roundIndex + 1;
     const position = Math.floor(this.currentMatchupIndex / 2);
@@ -266,21 +260,62 @@ export class BracketComponent implements OnInit {
       this.advanceRound();
     }
   }
+}
 
-  advanceRound() {
-    this.roundIndex++;
-    if (this.roundIndex < this.bracket.length - 1) {
-      this.startNewRound();
-    } else {
-      this.champion = this.bracket[this.roundIndex][0];
-      this.finalFour.push(this.bracket[this.roundIndex][0]);
+
+@Component({
+  selector: 'app-bracket',
+  standalone: true,
+  imports: [CommonModule, WinnerSelectionComponent, BracketDisplayComponent],
+  templateUrl: './bracket.component.html',
+  styleUrls: ['./bracket.component.css']
+})
+export class BracketComponent implements OnInit {
+  champion: Team | null = null;
+  year: number = 2024;
+  regions: Record<string, Region | null> = {};
+  finalFourTeams: Record<string, Team | null> = {"east": null, "west": null, "midwest": null, "south": null};
+  region: Region;
+  finalFourActive: boolean = false;
+
+  constructor(private route: ActivatedRoute, private router: Router) {
+    // Initialize all primary regions
+    for (let region_name of regionOrder) {
+      this.regions[region_name] = new Region(region_name)
+      this.regions[region_name].initializeBracket(bracketData[region_name].map((name, index) => new Team(name, index + 1)));
+    }
+
+    this.regions["finalFour"] = new Region("finalFour");
+    this.region = this.regions["east"]!;
+  }
+
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      const region_name = params.get('region');
+      if (region_name && Object.keys(bracketData).includes(region_name)) {
+        this.region = this.regions[region_name]!;
+      }
+    });
+  }
+
+  selectRegion(region_name: string) {
+    this.region = this.regions[region_name]!;
+  }
+
+  handleWinnerSelection(winner: Team) {
+    this.region.handleWinnerSelection(winner);
+    if (this.region.champion) {
+      this.finalFourTeams[this.region.name] = this.region.champion;
+      // Check if all finalFourTeams are non-null
+      if (Object.values(this.finalFourTeams).every(team => team !== null)) {
+        this.initializeFinalFour();
+      }
     }
   }
 
-  startFinalFour() {
-    this.selectedRegion = 'finalFour';
-    this.bracket = [[...this.finalFour], [null, null], [null]];
-    this.startNewRound();
+  initializeFinalFour() {
+    this.regions["finalFour"]!.initializeBracket(Object.values(this.finalFourTeams).filter(team => team !== null) as Team[]);
+    this.finalFourActive = true;
   }
 
   declareChampion(winner: Team) {
