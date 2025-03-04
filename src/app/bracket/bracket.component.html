@@ -1,21 +1,15 @@
 <div class="container">
   <!-- Winner Selection Component -->
   <app-winner-selection 
-    *ngIf="selectedRegion && bracket[roundIndex] && bracket[roundIndex][currentMatchupIndex] && bracket[roundIndex][currentMatchupIndex + 1]"
-    [currentMatchup]="[bracket[roundIndex][currentMatchupIndex], bracket[roundIndex][currentMatchupIndex + 1]]" 
+    *ngIf="region && region.bracket[region.roundIndex] && region.bracket[region.roundIndex][region.currentMatchupIndex] && region.bracket[region.roundIndex][region.currentMatchupIndex + 1]"
+    [currentMatchup]="[region.bracket[region.roundIndex][region.currentMatchupIndex], region.bracket[region.roundIndex][region.currentMatchupIndex + 1]]" 
     (winnerSelected)="handleWinnerSelection($event)">
   </app-winner-selection>
 
   <!-- Full Bracket Display -->
   <app-bracket-display 
-  [bracket]="bracket" 
-  [champion]="champion" 
-  [selectedRegion]="selectedRegion">
+  [bracket]="region.bracket" 
+  [champion]="region.champion" 
+  [selectedRegion]="region.name">
 </app-bracket-display>
-
-  <!-- Final Four Selection -->
-  <div *ngIf="finalFour.length === 4 && !selectedRegion">
-    <h2>Final Four</h2>
-    <button (click)="startFinalFour()">Start Final Four</button>
-  </div>
 </div>
