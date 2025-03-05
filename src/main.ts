@@ -8,8 +8,12 @@ import { BracketDisplayComponent } from './app/bracket-display/bracket-display.c
 
 const routes: Routes = [
   { path: '', component: HomeComponent },  // Home page route
-  { path: 'bracket/view/:region', component: BracketDisplayComponent }, // Bracket with selected region
-  { path: 'bracket/pick', component: WinnerSelectionComponent }, // Bracket with selected region
+  { path: 'bracket', component: BracketComponent, children: [
+      { path: 'pick', component: WinnerSelectionComponent },
+      { path: 'view/:region', component: BracketDisplayComponent },
+  ]},
+  // { path: 'bracket/view/:region', component: BracketDisplayComponent }, // Bracket with selected region
+  // { path: 'bracket/pick', component: WinnerSelectionComponent }, // Bracket with selected region
   { path: 'bracket', redirectTo: 'bracket/pick' },  // Base bracket route
   { path: '**', redirectTo: '' } // Redirect any unknown route to home
 ];

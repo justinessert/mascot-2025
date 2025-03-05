@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { WinnerSelectionComponent } from '../winner-selection/winner-selection.component';
 import { BracketDisplayComponent } from '../bracket-display/bracket-display.component';
 
@@ -266,7 +266,7 @@ class Region {
 @Component({
   selector: 'app-bracket',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './bracket.component.html',
   styleUrls: ['./bracket.component.css']
 })

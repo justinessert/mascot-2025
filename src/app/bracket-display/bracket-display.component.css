@@ -142,3 +142,14 @@
       min-width: 800px;
     }
   }
+
+.warning-banner {
+  width: 100%;
+  background-color: #ccc29c; /* Yellow background */
+  color: #000; /* Black text */
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 10px;
+  border-bottom: 2px solid #000;
+}
