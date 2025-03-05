@@ -5,7 +5,7 @@
   </button>
 
   <!-- Title -->
-  <span class="toolbar-title">🏀 Mascot Madness Bracket</span>
+  <span class="toolbar-title" [routerLink]="'/'" style="cursor: pointer;">🏀 Mascot Madness Bracket</span>
 
   <span class="spacer"></span>
 
@@ -14,26 +14,26 @@
     <ng-container *ngIf="!isMobileView">
       <mat-menu #bracketMenu="matMenu">
         <button mat-menu-item *ngFor="let region of regions" (click)="selectRegion(region)">
-          {{ region | titlecase }} Region
+          {{ region | replaceUnderscore | titlecase }} Region
         </button>
       </mat-menu>
-      <button mat-button [matMenuTriggerFor]="bracketMenu">Create Bracket</button>
+      <button mat-button [matMenuTriggerFor]="bracketMenu">Select Region</button>
     </ng-container>
   </nav>
 </mat-toolbar>
 
 <!-- Mobile Navigation (Hamburger Menu) -->
 <nav class="mobile-menu" *ngIf="menuOpen && isMobileView && !isHomePage">
-  <!-- Create Bracket Section -->
+  <!-- Select Region Section -->
   <button mat-button (click)="toggleBracketSubMenu()" class="bracket-toggle">
     <mat-icon>{{ bracketSubMenuOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
-    Create Bracket
+    Select Region
   </button>
 
   <!-- Nested Region Links -->
   <div class="bracket-submenu" *ngIf="bracketSubMenuOpen && !isHomePage">
     <button *ngFor="let region of regions" mat-button [routerLink]="['/bracket', region]" (click)="selectRegion(region)">
-      {{ region | titlecase }} Region
+      {{ region | replaceUnderscore | titlecase }} Region
     </button>
   </div>
 </nav>

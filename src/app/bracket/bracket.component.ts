@@ -221,7 +221,7 @@ class Region {
       matchupOrder = [0, 7, 3, 4, 2, 5, 1, 6];
     } else {
       // Final Four
-      matchupOrder = [0, 4, 2, 3];
+      matchupOrder = [0, 1];
     }
     
     this.bracket[0] = [];
@@ -285,14 +285,14 @@ export class BracketComponent implements OnInit {
       this.regions[region_name].initializeBracket(bracketData[region_name].map((name, index) => new Team(name, index + 1)));
     }
 
-    this.regions["finalFour"] = new Region("finalFour");
+    this.regions["final_four"] = new Region("final_four");
     this.region = this.regions["east"]!;
   }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const region_name = params.get('region');
-      if (region_name && Object.keys(bracketData).includes(region_name)) {
+      if (region_name && Object.keys(this.regions).includes(region_name)) {
         this.region = this.regions[region_name]!;
       }
     });
@@ -307,14 +307,15 @@ export class BracketComponent implements OnInit {
     if (this.region.champion) {
       this.finalFourTeams[this.region.name] = this.region.champion;
       // Check if all finalFourTeams are non-null
-      if (Object.values(this.finalFourTeams).every(team => team !== null)) {
+      if ((this.regions["final_four"]!.bracket.length === 0) && Object.values(this.finalFourTeams).every(team => team !== null)) {
         this.initializeFinalFour();
       }
     }
   }
 
   initializeFinalFour() {
-    this.regions["finalFour"]!.initializeBracket(Object.values(this.finalFourTeams).filter(team => team !== null) as Team[]);
+    let finalFourTeams = Object.values(this.finalFourTeams).filter(team => team !== null) as Team[]
+    this.regions["final_four"]!.initializeBracket(finalFourTeams);
     this.finalFourActive = true;
   }
 
