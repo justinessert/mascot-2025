@@ -1,52 +1,59 @@
 .home-container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    background: url('/assets/basketball.jpeg') no-repeat center center;
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: url('/assets/basketball.jpeg') no-repeat center center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Header Text */
+.home-title {
+  font-size: 50px;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Transparent Dark Button */
+.create-bracket-btn {
+  padding: 15px 30px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white !important;
+  background: transparent;
+  border: 2px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  text-decoration: none;
+}
+
+.create-bracket-btn:visited,
+.create-bracket-btn:active,
+.create-bracket-btn:focus {
+  color: white !important;
+  text-decoration: none; /* Ensures no underline or default styling */
+}
   
-  /* Header Text */
+.create-bracket-btn:hover {
+  background: white; /* White background on hover */
+  color: black; /* Black text on hover */
+}
+
+@media (max-width: 768px) {
   .home-title {
-    font-size: 50px;
-    color: white;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    font-size: 36px;
   }
-  
-  /* Transparent Dark Button */
+
   .create-bracket-btn {
-    padding: 15px 30px;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-    background: transparent;
-    border: 2px solid white;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease, color 0.3s ease;
+    font-size: 18px;
+    padding: 12px 24px;
+    color: white !important;
   }
-  
-  .create-bracket-btn:hover {
-    background: white; /* White background on hover */
-    color: black; /* Black text on hover */
-  }
-  
-  @media (max-width: 768px) {
-    .home-title {
-      font-size: 36px;
-    }
-  
-    .create-bracket-btn {
-      font-size: 18px;
-      padding: 12px 24px;
-      color: white;
-    }
-  }
-  
+}
