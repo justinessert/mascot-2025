@@ -1,9 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { WinnerSelectionComponent } from '../winner-selection/winner-selection.component';
-import { BracketDisplayComponent } from '../bracket-display/bracket-display.component';
-
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 const bracketData: Record<string, string[]> = {
   east: [
@@ -262,26 +258,22 @@ class Region {
   }
 }
 
-
-@Component({
-  selector: 'app-bracket',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './bracket.component.html',
-  styleUrls: ['./bracket.component.css']
+@Injectable({
+  providedIn: 'root'
 })
-export class BracketComponent implements OnInit {
-  champion: Team | null = null;
-  year: number = 2024;
-  regions: Record<string, Region | null> = {};
-  finalFourTeams: Record<string, Team | null> = {"east": null, "west": null, "midwest": null, "south": null};
+export class BracketService {
+  private year = 2024;
+  private finalFourTeams: Record<string, Team | null> = {"east": null, "west": null, "midwest": null, "south": null};
+  private finalFourActive = false;
+  private regions: Record<string, Region | null> = {};
   region: Region;
-  finalFourActive: boolean = false;
-  showBanner: boolean = this.year != 2025;
-  picking: boolean = true;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
-    // Initialize all primary regions
+  regions$ = new BehaviorSubject<Record<string, Region | null>>(this.regions);
+  finalFourActive$ = new BehaviorSubject<boolean>(this.finalFourActive);
+  year$ = new BehaviorSubject<number>(this.year);
+  
+
+  constructor() {
     for (let region_name of regionOrder) {
       this.regions[region_name] = new Region(region_name)
       this.regions[region_name].initializeBracket(bracketData[region_name].map((name, index) => new Team(name, index + 1)));
@@ -289,19 +281,6 @@ export class BracketComponent implements OnInit {
 
     this.regions["final_four"] = new Region("final_four");
     this.region = this.regions["east"]!;
-  }
-
-  ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const region_name = params.get('region');
-      if (region_name && Object.keys(this.regions).includes(region_name)) {
-        this.region = this.regions[region_name]!;
-        console.log(this.region);
-        this.picking = false;
-      } else if (region_name === "pick"){
-        this.picking = true;
-      }
-    });
   }
 
   selectRegion(region_name: string) {
@@ -325,11 +304,18 @@ export class BracketComponent implements OnInit {
     this.finalFourActive = true;
   }
 
-  declareChampion(winner: Team) {
-    this.champion = winner;
+  getRegionBracket(region_name: string) {
+    return this.regions[region_name]!.bracket;
   }
 
-  closeBanner() {
-    this.showBanner = false;
+  getCurrentMatchup() {
+    return [
+      this.region.bracket[this.region.roundIndex][this.region.currentMatchupIndex],
+      this.region.bracket[this.region.roundIndex][this.region.currentMatchupIndex + 1],
+    ];
+  }
+
+  getRegionChampion() {
+    return this.region.champion
   }
 }

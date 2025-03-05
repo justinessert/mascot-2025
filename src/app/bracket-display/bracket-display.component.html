@@ -1,7 +1,7 @@
-<h2>{{ selectedRegion! | replaceUnderscore | titlecase }} Region</h2>
+<h2>{{ currentRegion! | replaceUnderscore | titlecase }} Region</h2>
 <!-- Champion Display -->
 <div *ngIf="champion" class="champion-display">
-  The winner of the {{ selectedRegion! | replaceUnderscore | titlecase }} region is {{ champion.displayName | replaceUnderscore | titlecase }}
+  The winner of the {{ currentRegion! | replaceUnderscore | titlecase }} region is {{ champion.displayName | replaceUnderscore | titlecase }}
   <img [src]="champion.image" [alt]="champion.name">
 </div>
 

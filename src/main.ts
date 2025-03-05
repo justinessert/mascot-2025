@@ -3,11 +3,14 @@ import { provideRouter, Routes, Router, NavigationEnd } from '@angular/router';
 import { AppComponent } from './app/app.component';
 import { BracketComponent } from './app/bracket/bracket.component';
 import { HomeComponent } from './app/home/home.component';
+import { WinnerSelectionComponent } from './app/winner-selection/winner-selection.component';
+import { BracketDisplayComponent } from './app/bracket-display/bracket-display.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },  // Home page route
-  { path: 'bracket/:region', component: BracketComponent }, // Bracket with selected region
-  { path: 'bracket', redirectTo: 'bracket/east' },  // Base bracket route
+  { path: 'bracket/view/:region', component: BracketDisplayComponent }, // Bracket with selected region
+  { path: 'bracket/pick', component: WinnerSelectionComponent }, // Bracket with selected region
+  { path: 'bracket', redirectTo: 'bracket/pick' },  // Base bracket route
   { path: '**', redirectTo: '' } // Redirect any unknown route to home
 ];
 

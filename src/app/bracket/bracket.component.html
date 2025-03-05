@@ -8,19 +8,3 @@
 <div *ngIf="region.name === 'final_four' && region.bracket.length === 0" class="warning-banner">
   ⚠️ The Final Four bracket is not yet available. Complete all other regional brackets first.
 </div>
-
-<div class="container">
-  <!-- Winner Selection Component -->
-  <app-winner-selection 
-    *ngIf="region && region.bracket[region.roundIndex] && region.bracket[region.roundIndex][region.currentMatchupIndex] && region.bracket[region.roundIndex][region.currentMatchupIndex + 1]"
-    [currentMatchup]="[region.bracket[region.roundIndex][region.currentMatchupIndex], region.bracket[region.roundIndex][region.currentMatchupIndex + 1]]" 
-    (winnerSelected)="handleWinnerSelection($event)">
-  </app-winner-selection>
-
-  <!-- Full Bracket Display -->
-  <app-bracket-display 
-  [bracket]="region.bracket" 
-  [champion]="region.champion" 
-  [selectedRegion]="region.name">
-</app-bracket-display>
-</div>
