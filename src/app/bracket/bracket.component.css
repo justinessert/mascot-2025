@@ -130,3 +130,41 @@
   padding: 10px;
   border-bottom: 2px solid #000;
 }
+
+
+.info-banner {
+  width: 100%;
+  background-color: #2196F3; /* Blue background */
+  color: #fff; /* White text */
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
+  padding: 12px 20px;
+  position: fixed; /* Sticks to the top */
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Ensures it stays on top */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.info-banner.hidden {
+  transform: translateY(-100%); /* Moves banner off-screen */
+}
+
+.info-banner .close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.info-banner .close-btn:hover {
+  color: #f8d7da; /* Light red on hover */
+}
