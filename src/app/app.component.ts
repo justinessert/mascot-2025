@@ -34,6 +34,7 @@ export class AppComponent {
   bracketSubMenuOpen = false; // Closed by default
   isMobileView = window.innerWidth <= 768;
   isHomePage = false;
+  currentYear: number = new Date().getFullYear();
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
@@ -63,7 +64,7 @@ export class AppComponent {
   }
 
   selectRegion(region: string) {
-    this.router.navigate(['/bracket', region]);
+    this.router.navigate(['/bracket/view', region]);
     this.menuOpen = false;
   }
 }

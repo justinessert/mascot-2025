@@ -1,39 +1,62 @@
+/* Ensure full-width background */
+.winner-selection-container {
+  width: 100vw; /* Full screen width */
+  background: #222; /* Match footer background */
+  padding: 20px 0; /* Adds spacing for better layout */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Center the heading text */
+.winner-selection-container h2 {
+  color: white; /* Contrast text color */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 .matchup {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
-  }
-  
-  .team {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    transition: transform 0.2s;
-    padding: 10px;
-    border-radius: 5px;
-  }
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
 
-  /* Default hover effect (enabled for non-touch devices) */
-  .team:hover {
-    transform: scale(1.1);
-  }
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  padding: 10px;
+  border-radius: 5px;
+}
 
-  /* Hover effect (only for desktop) */
-  body:not(.disable-hover) .team:hover {
-    transform: scale(1.1);
-  }
+.team p {
+  color: white; /* White text for contrast */
+}
+
+
+/* Default hover effect (enabled for non-touch devices) */
+.team:hover {
+  transform: scale(1.1);
+}
+
+/* Hover effect (only for desktop) */
+body:not(.disable-hover) .team:hover {
+  transform: scale(1.1);
+}
   
-  .team img {
-    width: 120px;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .vs {
-    font-size: 1.5em;
-    font-weight: bold;
-  }
+.team img {
+  width: 120px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.vs {
+  color: white;
+  font-size: 1.5em;
+  font-weight: bold;
+}

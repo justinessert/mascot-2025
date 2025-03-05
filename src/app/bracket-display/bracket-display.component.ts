@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReplaceUnderscorePipe } from '../replace-underscore.pipe';
+import { BracketService } from '../services/bracket.service';
 
 @Component({
   selector: 'app-bracket-display',
@@ -9,11 +11,20 @@ import { ReplaceUnderscorePipe } from '../replace-underscore.pipe';
   templateUrl: './bracket-display.component.html',
   styleUrls: ['./bracket-display.component.css']
 })
-export class BracketDisplayComponent {
-  @Input() bracket: any[][] = [];
-  @Input() champion: any | null = null;
-  @Input() selectedRegion: string | null = null;
-  currentRegion: string | null = this.selectedRegion;
+export class BracketDisplayComponent implements OnInit {
+  currentRegion: string | null = null;
+  bracket: any[][] = [];
+  champion: any | null = null;
+
+  constructor(private route: ActivatedRoute, private router: Router, private bracketService: BracketService) {}
+
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      this.currentRegion = params.get('region');
+      this.bracket = this.bracketService.getRegionBracket(this.currentRegion || "east");
+      this.champion = this.bracketService.getRegionChampion();
+    });
+  }
 
   getMatchupPairs(round: any[]): any[][] {
     const pairs: any[][] = [];

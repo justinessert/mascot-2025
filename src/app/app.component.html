@@ -32,7 +32,7 @@
 
   <!-- Nested Region Links -->
   <div class="bracket-submenu" *ngIf="bracketSubMenuOpen && !isHomePage">
-    <button *ngFor="let region of regions" mat-button [routerLink]="['/bracket', region]" (click)="selectRegion(region)">
+    <button *ngFor="let region of regions" mat-button [routerLink]="['/bracket/view', region]" (click)="selectRegion(region)">
       {{ region | replaceUnderscore | titlecase }} Region
     </button>
   </div>
@@ -42,3 +42,8 @@
 <div class="app-container">
   <router-outlet></router-outlet>
 </div>
+
+<!-- Footer -->
+<footer class="app-footer">
+  <p>© {{ currentYear }} Justin Essert</p>
+</footer>

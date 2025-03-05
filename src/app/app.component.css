@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  background-color: var(--secondary-bg) !important;
+  background-color: var(--primary-bg) !important;
   color: var(--primary-text) !important;
 }
 
@@ -78,4 +78,23 @@
   }
 }
 
+.app-footer {
+  width: 100%;
+  background: var(--primary-bg) !important;
+  color: white; /* White text */
+  text-align: center;
+  padding: 15px 0;
+  bottom: 0;
+  left: 0;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: auto;
+}
+
+@media (max-width: 768px) {
+  .app-footer {
+    font-size: 12px;
+    padding: 10px 0;
+  }
+}
   
