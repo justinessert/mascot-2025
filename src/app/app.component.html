@@ -12,18 +12,21 @@
   <!-- Desktop Navigation -->
   <nav class="nav-links" [ngClass]="{ 'hidden': menuOpen }">
     <ng-container *ngIf="!isMobileView">
+      <button mat-button="pick" [routerLink]="['/bracket/pick']">Pick Bracket</button>
       <mat-menu #bracketMenu="matMenu">
         <button mat-menu-item *ngFor="let region of regions" (click)="selectRegion(region)">
           {{ region | replaceUnderscore | titlecase }} Region
         </button>
       </mat-menu>
-      <button mat-button [matMenuTriggerFor]="bracketMenu">Select Region</button>
+      <button mat-button [matMenuTriggerFor]="bracketMenu">View Bracket</button>
     </ng-container>
   </nav>
 </mat-toolbar>
 
 <!-- Mobile Navigation (Hamburger Menu) -->
 <nav class="mobile-menu" *ngIf="menuOpen && isMobileView && !isHomePage">
+  <!-- Pick Bracket Section -->
+  <button mat-button="pick" [routerLink]="['/bracket/pick']" class="bracket-toggle">Pick Bracket</button>
   <!-- Select Region Section -->
   <button mat-button (click)="toggleBracketSubMenu()" class="bracket-toggle">
     <mat-icon>{{ bracketSubMenuOpen ? 'expand_less' : 'expand_more' }}</mat-icon>

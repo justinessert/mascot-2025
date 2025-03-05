@@ -1,3 +1,8 @@
+<!-- Warning Banner -->
+<div *ngIf="currentRegion === 'final_four' && bracket.length === 0" class="warning-banner">
+  ⚠️ The Final Four bracket is not yet available. Complete all other regional brackets first.
+</div>
+
 <h2>{{ currentRegion! | replaceUnderscore | titlecase }} Region</h2>
 <!-- Champion Display -->
 <div *ngIf="champion" class="champion-display">
