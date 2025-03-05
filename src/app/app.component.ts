@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { NgFor, NgIf, CommonModule, TitleCasePipe } from '@angular/common';
+import { ReplaceUnderscorePipe } from './replace-underscore.pipe';
 
 @Component({
   selector: 'app-root',
@@ -20,14 +21,15 @@ import { NgFor, NgIf, CommonModule, TitleCasePipe } from '@angular/common';
     CommonModule,
     NgFor,
     NgIf,
-    TitleCasePipe
+    TitleCasePipe,
+    ReplaceUnderscorePipe,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'Mascot Madness Bracket';
-  regions = ['east', 'west', 'midwest', 'south'];
+  regions = ['east', 'west', 'midwest', 'south', 'final_four'];
   menuOpen = false;
   bracketSubMenuOpen = false; // Closed by default
   isMobileView = window.innerWidth <= 768;
