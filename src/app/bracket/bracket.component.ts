@@ -277,6 +277,7 @@ export class BracketComponent implements OnInit {
   finalFourTeams: Record<string, Team | null> = {"east": null, "west": null, "midwest": null, "south": null};
   region: Region;
   finalFourActive: boolean = false;
+  showBanner: boolean = this.year != 2025;
 
   constructor(private route: ActivatedRoute, private router: Router) {
     // Initialize all primary regions
@@ -321,5 +322,9 @@ export class BracketComponent implements OnInit {
 
   declareChampion(winner: Team) {
     this.champion = winner;
+  }
+
+  closeBanner() {
+    this.showBanner = false;
   }
 }
