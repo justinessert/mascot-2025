@@ -20,7 +20,7 @@ const bracketData: Record<string, string[]> = {
   ]
 };
 
-const regionOrder: string[] = ["east", "west", "midwest", "south"];
+export const regionOrder: string[] = ["east", "west", "midwest", "south"];
 
 const nicknames: Record<string, string> = {
     "akron": "zips",
@@ -192,8 +192,8 @@ class Team {
     this.seed = seed;
     this.image = `assets/teams/${name}.jpg`;
     this.nickname = nicknames[name] || '';
-    this.displayName = `${this.seed}. ${this.name} ${this.nickname}`;
-    this.shortDisplayName = `${this.seed}. ${this.name}`;
+    this.displayName = `${this.name} ${this.nickname}`;
+    this.shortDisplayName = `${this.name}`;
   }
 }
 
@@ -203,13 +203,20 @@ class Region {
   currentMatchupIndex: number = 0;
   roundIndex = 0;
   champion: Team | null = null;
+  nPicks: number = 0;
+  totalPicks: number;
 
   constructor(name: string) {
     this.name = name;
     this.bracket = [];
+    if (name === "final_four") {
+      this.totalPicks = 3;
+    } else {
+      this.totalPicks = 15;
+    }
   }
 
-  initializeBracket(teams: Team[]) { 
+  initializeBracket(teams: Team[]) {
     // Correct first-round matchup ordering
     let matchupOrder = [];
     if (teams.length === 16) {
@@ -246,6 +253,7 @@ class Region {
 
 
   handleWinnerSelection(winner: Team) {
+    this.nPicks++;
     const nextRoundIndex = this.roundIndex + 1;
     const position = Math.floor(this.currentMatchupIndex / 2);
     this.bracket[nextRoundIndex][position] = winner;
@@ -315,7 +323,23 @@ export class BracketService {
     ];
   }
 
-  getRegionChampion() {
-    return this.region.champion
+  getRegionChampion(region_name: string | null = null) {
+    if (region_name) {
+      return this.regions[region_name]!.champion;
+    } else {
+      return this.region.champion;
+    }
+  }
+
+  getRegionProgress(region_name: string) {
+    return [this.regions[region_name]!.nPicks, this.regions[region_name]!.totalPicks!];
+  }
+
+  getRegionNPicks(region_name: string) {
+    return this.regions[region_name]!.nPicks;
+  }
+
+  getRegionTotalPicks(region_name: string) {
+    return this.regions[region_name]!.totalPicks;
   }
 }

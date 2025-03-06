@@ -1,7 +1,7 @@
 import { Component, Renderer2, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReplaceUnderscorePipe } from '../replace-underscore.pipe';
-import { BracketService } from '../services/bracket.service';
+import { BracketService, regionOrder } from '../services/bracket.service';
 
 @Component({
   selector: 'app-winner-selection',
@@ -12,18 +12,30 @@ import { BracketService } from '../services/bracket.service';
 })
 export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
   currentMatchup: any[];
-  champion: string | null = null;
+  champion: any = null;
+  regionOrder: string[];
 
   private touchListener: any;
 
   constructor(private renderer: Renderer2, private bracketService: BracketService) {
     this.currentMatchup = this.bracketService.getCurrentMatchup()
+    this.regionOrder = regionOrder;
+    if (!this.regionOrder.includes("final_four")) {
+      this.regionOrder.push("final_four");
+    }
   }
 
   updateMatchup() {
     let champion = this.bracketService.getRegionChampion();
     if (champion) {
-      this.champion = champion.name;
+      for (let region of this.regionOrder) {
+        if (!this.bracketService.getRegionChampion(region)) {
+          this.bracketService.selectRegion(region);
+          this.currentMatchup = this.bracketService.getCurrentMatchup();
+          return;
+        }
+      }
+      this.champion = this.bracketService.getRegionChampion("final_four");
     } else {
       this.currentMatchup = this.bracketService.getCurrentMatchup();
     }
@@ -54,5 +66,10 @@ export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
     this.disableHoverOnTouch();
     this.bracketService.handleWinnerSelection(winner);
     this.updateMatchup();
+  }
+
+  getRegionProgress(region_name: string) {
+    let progress = this.bracketService.getRegionProgress(region_name);
+    return `${progress[0]} / ${progress[1]}`;
   }
 }

@@ -296,7 +296,6 @@ export class BracketComponent implements OnInit {
       const region_name = params.get('region');
       if (region_name && Object.keys(this.regions).includes(region_name)) {
         this.region = this.regions[region_name]!;
-        console.log(this.region);
         this.picking = false;
       } else if (region_name === "pick"){
         this.picking = true;

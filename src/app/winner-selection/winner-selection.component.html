@@ -1,15 +1,29 @@
-<div class="winner-selection-container" *ngIf="!champion">
-  <h2>Select Which Mascot You Like Best</h2>
+<div class="winner-selection-container">
+  <div *ngIf="!champion">
+    <h2>Select Which Mascot You Like Best</h2>
 
-  <div *ngIf="currentMatchup.length === 2" class="matchup">
-      <div class="team" (click)="selectWinner(currentMatchup[0])">
-        <img [src]="currentMatchup[0].image" [alt]="currentMatchup[0].name" />
-        <p>{{ currentMatchup[0].displayName | replaceUnderscore | titlecase }}</p>
+    <div *ngIf="currentMatchup.length === 2" class="matchup">
+        <div class="team" (click)="selectWinner(currentMatchup[0])">
+          <img [src]="currentMatchup[0].image" [alt]="currentMatchup[0].name" />
+          <p>{{ currentMatchup[0].displayName | replaceUnderscore | titlecase }}</p>
+        </div>
+        <p class="vs">VS</p>
+        <div class="team" (click)="selectWinner(currentMatchup[1])">
+          <img [src]="currentMatchup[1].image" [alt]="currentMatchup[1].name" />
+          <p>{{ currentMatchup[1].displayName | replaceUnderscore | titlecase }}</p>
+        </div>
+    </div>
+
+    <div class="progress-container">
+      <div *ngFor="let region of regionOrder" class="progress-box">
+        <span class="region-title">{{ region | replaceUnderscore | titlecase }}</span>
+        <span class="progress-text">{{ getRegionProgress(region) }}</span>
       </div>
-      <p class="vs">VS</p>
-      <div class="team" (click)="selectWinner(currentMatchup[1])">
-        <img [src]="currentMatchup[1].image" [alt]="currentMatchup[1].name" />
-        <p>{{ currentMatchup[1].displayName | replaceUnderscore | titlecase }}</p>
-      </div>
+    </div>
+  </div>
+
+  <div *ngIf="champion" class="champion-display">
+    You have picked {{ champion.displayName | replaceUnderscore | titlecase }} as the winner of your bracket!
+    <img [src]="champion.image" [alt]="champion.name">
   </div>
 </div>

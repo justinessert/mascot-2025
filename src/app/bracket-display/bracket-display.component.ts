@@ -22,8 +22,6 @@ export class BracketDisplayComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.currentRegion = params.get('region');
       this.bracket = this.bracketService.getRegionBracket(this.currentRegion || "east");
-      console.log("this bracket")
-      console.log(this.bracket);
       this.champion = this.bracketService.getRegionChampion();
     });
   }
