@@ -98,7 +98,7 @@ export class BracketService {
   private finalFourTeams: Record<string, Team | null> = {"east": null, "west": null, "midwest": null, "south": null};
   private finalFourActive = false;
   private regions: Record<string, Region | null> = {};
-  region: Region;
+  region!: Region;
 
   regions$ = new BehaviorSubject<Record<string, Region | null>>(this.regions);
   finalFourActive$ = new BehaviorSubject<boolean>(this.finalFourActive);
@@ -106,13 +106,26 @@ export class BracketService {
   
 
   constructor() {
-    for (let region_name of regionOrder) {
+    this.setYear(this.year);
+  }
+
+  setYear(year: number) {
+
+    for (let region_name of regionOrder[year]) {
       this.regions[region_name] = new Region(region_name)
-      this.regions[region_name].initializeBracket(bracketData[region_name].map((name, index) => new Team(name, index + 1)));
+      this.regions[region_name].initializeBracket(bracketData[year][region_name].map((name, index) => new Team(name, index + 1)));
     }
 
     this.regions["final_four"] = new Region("final_four");
     this.region = this.regions["east"]!;
+  }
+
+  getYear() {
+    return this.year;
+  }
+
+  getRegionOrder() {
+    return regionOrder[this.year];
   }
 
   selectRegion(region_name: string) {

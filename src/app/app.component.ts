@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { NgFor, NgIf, CommonModule, TitleCasePipe } from '@angular/common';
 import { ReplaceUnderscorePipe } from './replace-underscore.pipe';
+import { bracketData, currentYear } from './constants';
+import { BracketService } from './services/bracket.service';
 
 @Component({
   selector: 'app-root',
@@ -32,11 +34,14 @@ export class AppComponent {
   regions = ['east', 'west', 'midwest', 'south', 'final_four'];
   menuOpen = false;
   bracketSubMenuOpen = false; // Closed by default
+  yearSubMenuOpen = false; // Closed by default
   isMobileView = window.innerWidth <= 768;
   isHomePage = false;
-  currentYear: number = new Date().getFullYear();
+  realCurrentYear: number = new Date().getFullYear();
+  currentYear: number = currentYear;
+  years: number[] = Object.keys(bracketData).map(key => Number(key));
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private bracketService: BracketService) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.isHomePage = event.url === '/' || event.url === '/home';
@@ -66,5 +71,13 @@ export class AppComponent {
   selectRegion(region: string) {
     this.router.navigate(['/bracket/view', region]);
     this.menuOpen = false;
+  }
+
+  selectYear(year: number) {
+    this.bracketService.setYear(year);
+  }
+
+  toggleYearSubMenu() {
+    this.yearSubMenuOpen = !this.yearSubMenuOpen;
   }
 }
