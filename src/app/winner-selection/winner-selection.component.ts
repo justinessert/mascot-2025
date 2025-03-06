@@ -1,7 +1,8 @@
 import { Component, Renderer2, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReplaceUnderscorePipe } from '../replace-underscore.pipe';
-import { BracketService, regionOrder } from '../services/bracket.service';
+import { BracketService } from '../services/bracket.service';
+import { regionOrder } from '../constants';
 
 @Component({
   selector: 'app-winner-selection',
