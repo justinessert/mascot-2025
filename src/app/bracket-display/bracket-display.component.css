@@ -1,3 +1,12 @@
+.bracket-display {
+  width: 100%;
+  max-width: 100vw;
+  padding: 20px 0;
+  background: #2c2c2c;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #f8f9fa;
+}
+
 .bracket-container {
     display: flex;
     justify-content: flex-start;
@@ -7,10 +16,6 @@
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
-    padding: 20px 0;
-    background: #2c2c2c;
-    scrollbar-width: thin;
-    scrollbar-color: #ccc #f8f9fa;
   }
   
   .bracket {

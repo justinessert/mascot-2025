@@ -22,7 +22,7 @@ export class BracketDisplayComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.currentRegion = params.get('region');
       this.bracket = this.bracketService.getRegionBracket(this.currentRegion || "east");
-      this.champion = this.bracketService.getRegionChampion();
+      this.champion = this.bracketService.getRegionChampion(this.currentRegion);
     });
   }
 
