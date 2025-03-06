@@ -1,4 +1,6 @@
-export const bracketData: Record<string, string[]> = {
+export const currentYear = 2024;
+
+export const bracketData24: Record<string, string[]> = {
   east: [
     "uconn", "iowa_state", "illinois", "auburn", "san_diego_state", "byu", "washington_state", "florida_atlantic",
     "northwestern", "drake", "duquesne", "uab", "yale", "morehead_state", "south_dakota_state", "stetson"
@@ -17,7 +19,14 @@ export const bracketData: Record<string, string[]> = {
   ]
 };
 
-export const regionOrder: string[] = ["east", "west", "midwest", "south"];
+export const bracketData: Record<number, Record<string, string[]>> = {
+  2024: bracketData24,
+};
+
+
+export const regionOrder: Record<number, string[]> = {
+  2024: ["east", "west", "midwest", "south"]
+};
 
 export const nicknames: Record<string, string> = {
     "akron": "zips",

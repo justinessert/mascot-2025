@@ -20,11 +20,30 @@
       </mat-menu>
       <button mat-button [matMenuTriggerFor]="bracketMenu">View Bracket</button>
     </ng-container>
+    <mat-menu #yearMenu="matMenu">
+      <button mat-menu-item *ngFor="let year of years" (click)="selectYear(year)">
+        {{ year }}
+      </button>
+    </mat-menu>
+    <button mat-button [matMenuTriggerFor]="yearMenu">Year: {{currentYear}}</button>
   </nav>
 </mat-toolbar>
 
 <!-- Mobile Navigation (Hamburger Menu) -->
 <nav class="mobile-menu" *ngIf="menuOpen && isMobileView && !isHomePage">
+  <!-- Select Region Section -->
+  <button mat-button (click)="toggleYearSubMenu()" class="bracket-toggle">
+    <mat-icon>{{ yearSubMenuOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+    Year: {{ currentYear }}
+  </button>
+
+  <!-- Nested Region Links -->
+  <div class="bracket-submenu" *ngIf="yearSubMenuOpen && !isHomePage">
+    <button *ngFor="let year of years" mat-button (click)="selectYear(year)">
+      {{ year }}
+    </button>
+  </div>
+
   <!-- Pick Bracket Section -->
   <button mat-button="pick" [routerLink]="['/bracket/pick']" class="bracket-toggle">Pick Bracket</button>
   <!-- Select Region Section -->
@@ -48,5 +67,5 @@
 
 <!-- Footer -->
 <footer class="app-footer">
-  <p>© {{ currentYear }} Justin Essert</p>
+  <p>© {{ realCurrentYear }} Justin Essert</p>
 </footer>

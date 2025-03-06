@@ -2,7 +2,6 @@ import { Component, Renderer2, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReplaceUnderscorePipe } from '../replace-underscore.pipe';
 import { BracketService } from '../services/bracket.service';
-import { regionOrder } from '../constants';
 
 @Component({
   selector: 'app-winner-selection',
@@ -20,7 +19,7 @@ export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
 
   constructor(private renderer: Renderer2, private bracketService: BracketService) {
     this.currentMatchup = this.bracketService.getCurrentMatchup()
-    this.regionOrder = regionOrder;
+    this.regionOrder = this.bracketService.getRegionOrder();
     if (!this.regionOrder.includes("final_four")) {
       this.regionOrder.push("final_four");
     }
