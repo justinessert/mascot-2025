@@ -12,20 +12,29 @@
   <!-- Desktop Navigation -->
   <nav class="nav-links" [ngClass]="{ 'hidden': menuOpen }">
     <ng-container *ngIf="!isMobileView">
+      <!-- Login -->
+      <button *ngIf="!user" mat-button routerLink="/login">Login</button>
+      <!-- Logout -->
+      <button *ngIf="user" mat-button (click)="logout()">Logout</button>
+      <!-- Sign Up -->
+      <button *ngIf="!user" mat-button routerLink="/signup">Sign Up</button>
+      <!-- Pick Bracket -->
       <button mat-button="pick" [routerLink]="['/bracket/pick']">Pick Bracket</button>
       <mat-menu #bracketMenu="matMenu">
         <button mat-menu-item *ngFor="let region of regions" (click)="selectRegion(region)">
           {{ region | replaceUnderscore | titlecase }} Region
         </button>
       </mat-menu>
+      <!-- View Bracket -->
       <button mat-button [matMenuTriggerFor]="bracketMenu">View Bracket</button>
+      <!-- Year Selection -->
+      <mat-menu #yearMenu="matMenu">
+        <button mat-menu-item *ngFor="let year of years" (click)="selectYear(year)">
+          {{ year }}
+        </button>
+      </mat-menu>
+      <button mat-button [matMenuTriggerFor]="yearMenu">Year: {{currentYear}}</button>
     </ng-container>
-    <mat-menu #yearMenu="matMenu">
-      <button mat-menu-item *ngFor="let year of years" (click)="selectYear(year)">
-        {{ year }}
-      </button>
-    </mat-menu>
-    <button mat-button [matMenuTriggerFor]="yearMenu">Year: {{currentYear}}</button>
   </nav>
 </mat-toolbar>
 

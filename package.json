@@ -25,6 +25,7 @@
     "@angular/ssr": "^19.2.0",
     "angular-gtag": "^1.0.4",
     "express": "^4.18.2",
+    "firebase": "^11.4.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

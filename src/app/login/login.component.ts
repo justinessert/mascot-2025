@@ -1,0 +1,55 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; 
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent {
+  email: string = '';
+  password: string = '';
+  user: User | null = null;
+  errorMessage: string = '';
+
+  constructor(private router: Router) {
+    const auth = getAuth();
+    auth.onAuthStateChanged(user => {
+      this.user = user; // Store user data
+    });
+  }
+
+  // Sign In with Email & Password
+  login() {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, this.email, this.password)
+      .then(result => {
+        this.user = result.user;
+        console.log("User signed in:", this.user);
+        this.router.navigate(['/']); // Redirect to home
+      })
+      .catch(error => {
+        this.errorMessage = error.message;
+        console.error("Login error:", error);
+      });
+  }
+
+  // Sign Up (Register New User)
+  signup() {
+    this.router.navigate(['/signup']);
+  }
+
+  // Logout
+  logout() {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+      this.user = null;
+      console.log("User signed out");
+    });
+  }
+}
