@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
+import { getAuth, signInWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { BracketService } from '../services/bracket.service';
 
 @Component({
   selector: 'app-login',
@@ -17,10 +18,21 @@ export class LoginComponent {
   user: User | null = null;
   errorMessage: string = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private bracketService: BracketService) {
     const auth = getAuth();
-    auth.onAuthStateChanged(user => {
-      this.user = user; // Store user data
+    auth.onAuthStateChanged(async user => {
+      this.user = user;
+      if (user) {
+        console.log('User logged in:', user.uid);
+        const bracketExists: boolean = await this.bracketService.loadBracket();
+        
+        // ✅ Redirect based on bracket existence
+        if (bracketExists) {
+          this.router.navigate(['/bracket/view/final_four']);
+        } else {
+          this.router.navigate(['/bracket/pick']);
+        }
+      }
     });
   }
 
@@ -31,7 +43,6 @@ export class LoginComponent {
       .then(result => {
         this.user = result.user;
         console.log("User signed in:", this.user);
-        this.router.navigate(['/']); // Redirect to home
       })
       .catch(error => {
         this.errorMessage = error.message;

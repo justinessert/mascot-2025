@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
+import { Auth, getAuth } from '@angular/fire/auth';
 import { bracketData, nicknames, regionOrder } from '../constants';
 
 
@@ -105,7 +107,7 @@ export class BracketService {
   year$ = new BehaviorSubject<number>(this.year);
   
 
-  constructor() {
+  constructor(private firestore: Firestore, private auth: Auth) {
     this.setYear(this.year);
   }
 
@@ -168,6 +170,10 @@ export class BracketService {
     }
   }
 
+  get isComplete(): boolean {
+    return this.getRegionChampion("final_four") !== null;
+  }
+
   getRegionProgress(region_name: string) {
     return [this.regions[region_name]!.nPicks, this.regions[region_name]!.totalPicks!];
   }
@@ -179,4 +185,59 @@ export class BracketService {
   getRegionTotalPicks(region_name: string) {
     return this.regions[region_name]!.totalPicks;
   }
+
+  async saveBracket() {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) {
+      console.error('User not authenticated');
+      return;
+    }
+
+    const userBracketRef = doc(this.firestore, `brackets/${user.uid}/${this.year}/data`);
+    
+    await setDoc(userBracketRef, { 
+      bracket: this.regions, 
+      finalFourTeams: this.finalFourTeams,
+      finalFourActive: this.finalFourActive,
+      timestamp: new Date() 
+    })
+    .then(() => console.log(`Bracket saved successfully`))
+    .catch((error) => console.error('Error saving bracket:', error));
+  }
+
+  async loadBracket(year?: number): Promise<boolean> {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) {
+      console.error('User not authenticated');
+      return new Promise((resolve) => {
+        resolve(false);
+      });
+    }
+
+    if (year && year !== this.year) {
+      this.year = year;
+    }
+    const selectedYear = year || this.year; // Default to the currently selected year
+    const userBracketRef = doc(this.firestore, `brackets/${user.uid}/${selectedYear}/data`);
+    
+    const snapshot = await getDoc(userBracketRef);
+
+    if (snapshot.exists()) {
+      const data = snapshot.data();
+      this.regions = data['bracket']; 
+      this.finalFourTeams = data['finalFourTeams'];
+      this.finalFourActive = data['finalFourActive'];
+
+      console.log(`Bracket loaded for year ${selectedYear}:`, this.regions);
+      this.regions$.next(this.regions);
+    } else {
+      console.log(`No saved bracket found for year ${selectedYear}`);
+    }
+    return new Promise((resolve) => {
+      resolve(snapshot.exists());
+    });
+  }
+
 }

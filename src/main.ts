@@ -2,6 +2,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, Routes, Router, NavigationEnd } from '@angular/router';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { AppComponent } from './app/app.component';
 import { BracketComponent } from './app/bracket/bracket.component';
 import { HomeComponent } from './app/home/home.component';
@@ -29,6 +30,7 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes),
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
   ],
 }).then(app => {
   const router = app.injector.get(Router);

@@ -20,32 +20,6 @@
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
 
-/* Transparent Dark Button */
-.create-bracket-btn {
-  padding: 15px 30px;
-  font-size: 20px;
-  font-weight: bold;
-  color: white !important;
-  background: transparent;
-  border: 2px solid white;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
-  text-decoration: none;
-}
-
-.create-bracket-btn:visited,
-.create-bracket-btn:active,
-.create-bracket-btn:focus {
-  color: white !important;
-  text-decoration: none; /* Ensures no underline or default styling */
-}
-  
-.create-bracket-btn:hover {
-  background: white; /* White background on hover */
-  color: black; /* Black text on hover */
-}
-
 @media (max-width: 768px) {
   .home-title {
     font-size: 36px;

@@ -2,6 +2,7 @@ import { Component, Renderer2, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReplaceUnderscorePipe } from '../replace-underscore.pipe';
 import { BracketService } from '../services/bracket.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-winner-selection',
@@ -17,11 +18,15 @@ export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
 
   private touchListener: any;
 
-  constructor(private renderer: Renderer2, private bracketService: BracketService) {
-    this.currentMatchup = this.bracketService.getCurrentMatchup()
+  constructor(private renderer: Renderer2, private router: Router, private bracketService: BracketService) {
+    this.currentMatchup = this.bracketService.getCurrentMatchup();
     this.regionOrder = this.bracketService.getRegionOrder();
     if (!this.regionOrder.includes("final_four")) {
       this.regionOrder.push("final_four");
+    }
+
+    if (this.bracketService.isComplete) {
+      this.champion = this.bracketService.getRegionChampion("final_four");
     }
   }
 
@@ -71,5 +76,13 @@ export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
   getRegionProgress(region_name: string) {
     let progress = this.bracketService.getRegionProgress(region_name);
     return `${progress[0]} / ${progress[1]}`;
+  }
+
+  viewBracket() {
+    this.router.navigate(['/bracket/view/final_four']);
+  }
+
+  saveBracket() {
+    this.bracketService.saveBracket();
   }
 }

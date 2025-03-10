@@ -1,121 +1,161 @@
 /* Global Dark Theme */
 :root {
-    --primary-bg: #121212;
-    --secondary-bg: #1e1e1e;
-    --primary-text: #ffffff;
-    --secondary-text: #b3b3b3;
-    --accent-color: #007bff;
-  }
-  
-  body {
-    background-color: var(--primary-bg);
-    color: var(--primary-text);
-    font-family: 'Arial', sans-serif;
-  }
-  
-  /* Links */
-  a {
-    color: var(--accent-color);
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Material Theme Overrides */
-  .mat-toolbar {
-    background-color: var(--secondary-bg) !important;
-    color: var(--primary-text) !important;
-  }
-  
-  .mat-menu-panel {
-    background: var(--secondary-bg) !important;
-  }
-  
-  .mat-menu-item {
-    color: var(--primary-text) !important;
-  }
-  
-  .mat-menu-item:hover {
-    background: var(--accent-color) !important;
-  }
-  
-  /* Buttons */
-  button {
-    background-color: var(--secondary-bg);
-    color: var(--primary-text);
-    border: 1px solid var(--primary-text);
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background 0.3s ease, color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: var(--accent-color);
-    color: #ffffff;
-  }
-  
-  /* Form Fields */
-  .mat-form-field {
-    background: var(--secondary-bg) !important;
-    color: var(--primary-text) !important;
-  }
-  
-  .mat-input-element {
-    color: var(--primary-text) !important;
-  }
-  
-  /* Dark Theme for Matchups */
-  .matchup-box {
-    background-color: var(--secondary-bg) !important;
-    color: var(--primary-text) !important;
-    border: 2px solid var(--accent-color);
-  }
-  
-  .top-team {
-    background-color: #292929 !important;
-  }
-  
-  .bottom-team {
-    background-color: #1e1e1e !important;
-  }
-  
-  /* Scrollbar Styling */
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  
+  --primary-bg: #121212;
+  --secondary-bg: #1e1e1e;
+  --primary-text: #ffffff;
+  --secondary-text: #b3b3b3;
+  --accent-color: #007bff;
+}
+
+body {
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
+  font-family: 'Arial', sans-serif;
+}
+
+/* Links */
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Material Theme Overrides */
+.mat-toolbar {
+  background-color: var(--secondary-bg) !important;
+  color: var(--primary-text) !important;
+}
+
+.mat-menu-panel {
+  background: var(--secondary-bg) !important;
+}
+
+.mat-menu-item {
+  color: var(--primary-text) !important;
+}
+
+.mat-menu-item:hover {
+  background: var(--accent-color) !important;
+}
+
+/* Buttons */
+button {
+  background-color: var(--secondary-bg);
+  color: var(--primary-text);
+  border: 1px solid var(--primary-text);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--accent-color);
+  color: #ffffff;
+}
+
+/* Form Fields */
+.mat-form-field {
+  background: var(--secondary-bg) !important;
+  color: var(--primary-text) !important;
+}
+
+.mat-input-element {
+  color: var(--primary-text) !important;
+}
+
+/* Dark Theme for Matchups */
+.matchup-box {
+  background-color: var(--secondary-bg) !important;
+  color: var(--primary-text) !important;
+  border: 2px solid var(--accent-color);
+}
+
+.top-team {
+  background-color: #292929 !important;
+}
+
+.bottom-team {
+  background-color: #1e1e1e !important;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
 /* Scrollbar Styling - More Neutral Gray */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1); /* Light transparent gray */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3); /* Subtle gray scrollbar */
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5); /* Slightly more visible on hover */
+}  
+
+@media (max-width: 768px) {
+  .mat-toolbar {
+    padding: 8px;
   }
-  
-  ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1); /* Light transparent gray */
-    border-radius: 4px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3); /* Subtle gray scrollbar */
-    border-radius: 4px;
-    transition: background 0.3s ease;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.5); /* Slightly more visible on hover */
-  }  
-  
-  @media (max-width: 768px) {
-    .mat-toolbar {
-      padding: 8px;
-    }
-  }
-  
+}
+
 /* Firefox Scrollbar */
 * {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
-  }
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+/* Default button styling applied globally */
+button {
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #ff5722;  /* Default orange background */
+  color: white !important;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin: 5px; /* ✅ Adds spacing around all buttons */
+}
+
+/* Hover effect */
+button:hover {
+  background: #e64a19;
+}
+
+/* Full-width container to center buttons */
+.button-set {
+  width: 100vw; /* Full screen width */
+  display: flex;
+  align-items: center; /* Center buttons */
+  justify-content: center;
+  gap: 15px; /* Adds spacing between buttons */
+  padding: 20px 0;
+}
+
+/* For horizontally aligned buttons */
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Adds spacing between buttons */
+}
+
+.mat-mdc-menu-panel {
+  background-color: #333 !important;
+}

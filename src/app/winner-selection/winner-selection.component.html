@@ -23,7 +23,11 @@
   </div>
 
   <div *ngIf="champion" class="champion-display">
-    You have picked {{ champion.displayName | replaceUnderscore | titlecase }} as the winner of your bracket!
+    <p>You have picked {{ champion.displayName | replaceUnderscore | titlecase }} as the winner of your bracket!</p>
     <img [src]="champion.image" [alt]="champion.name">
+    <div class="button-set">
+      <button mat-button (click)="viewBracket()" class="button-main">View Bracket</button>
+      <button mat-button (click)="saveBracket()" class="button-main">Save Bracket</button>
+    </div>
   </div>
 </div>
