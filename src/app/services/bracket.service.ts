@@ -246,7 +246,7 @@ export class BracketService {
       return;
     }
 
-    const userBracketRef = doc(this.firestore, `brackets/${this.user.uid}/${this.year}/data`);
+    const userBracketRef = doc(this.firestore, `brackets/${this.year}/${this.user.uid}/data`);
 
     let regionsDict = Object.fromEntries(Object.entries(this.regions).map(([key, region]) => [key, region ? region.to_dict() : null]));
     let finalFourTeamsDict = Object.fromEntries(Object.entries(this.finalFourTeams).map(([key, team]) => [key, team ? team.to_dict() : null]));
@@ -281,7 +281,7 @@ export class BracketService {
       this.year = year;
     }
     const selectedYear = year || this.year; // Default to the currently selected year
-    const userBracketRef = doc(this.firestore, `brackets/${user.uid}/${selectedYear}/data`);
+    const userBracketRef = doc(this.firestore, `brackets/${selectedYear}/${user.uid}/data`);
     
     const snapshot = await getDoc(userBracketRef);
 
