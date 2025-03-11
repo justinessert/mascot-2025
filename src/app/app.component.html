@@ -18,9 +18,9 @@
   <nav class="nav-links" [ngClass]="{ 'hidden': menuOpen }">
     <ng-container *ngIf="!isMobileView">
       <!-- Login -->
-      <button *ngIf="!user" mat-button routerLink="/login">Login</button>
+      <button *ngIf="!user" mat-button routerLink="/login">Log In</button>
       <!-- Logout -->
-      <button *ngIf="user" mat-button (click)="logout()">Logout</button>
+      <button *ngIf="user" mat-button (click)="logout()">Log Out</button>
       <!-- Sign Up -->
       <button *ngIf="!user" mat-button routerLink="/signup">Sign Up</button>
       <!-- Pick Bracket -->
@@ -50,8 +50,7 @@
     <mat-icon>{{ yearSubMenuOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
     Year: {{ currentYear }}
   </button>
-
-  <!-- Nested Region Links -->
+  <!-- Nested Year Links -->
   <div class="bracket-submenu" *ngIf="yearSubMenuOpen && !isHomePage">
     <button *ngFor="let year of years" mat-button (click)="selectYear(year)">
       {{ year }}
@@ -60,18 +59,27 @@
 
   <!-- Pick Bracket Section -->
   <button mat-button="pick" [routerLink]="['/bracket/pick']" class="bracket-toggle">Pick Bracket</button>
+
   <!-- Select Region Section -->
   <button mat-button (click)="toggleBracketSubMenu()" class="bracket-toggle">
     <mat-icon>{{ bracketSubMenuOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
     Select Region
   </button>
-
   <!-- Nested Region Links -->
   <div class="bracket-submenu" *ngIf="bracketSubMenuOpen && !isHomePage">
     <button *ngFor="let region of regions" mat-button [routerLink]="['/bracket/view', region]" (click)="selectRegion(region)">
       {{ region | replaceUnderscore | titlecase }} Region
     </button>
   </div>
+
+  <!-- Log In Section -->
+  <button mat-button *ngIf="!user" [routerLink]="['/login']" class="bracket-toggle">Log In</button>
+
+  <!-- Sign Up Section -->
+  <button mat-button *ngIf="!user" [routerLink]="['/signup']" class="bracket-toggle">Sign Up</button>
+
+  <!-- Log Out Section -->
+  <button mat-button *ngIf="user" (click)="logout()" class="bracket-toggle">Log Out</button>
 </nav>
 
 <!-- Main Content (Router Outlet for Navigation) -->
