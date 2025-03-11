@@ -44,7 +44,7 @@ export class AppComponent {
   years: number[] = Object.keys(bracketData).map(key => Number(key));
   user: User | null = null;
 
-  constructor(private router: Router, private bracketService: BracketService, private auth: Auth) {
+  constructor(private router: Router, public bracketService: BracketService, private auth: Auth) {
     this.bracketService.initialize(this.selectedYear); // Initialize bracket data
     user(auth).subscribe(async (authUser) => {
       this.user = authUser; // Track the signed-in user

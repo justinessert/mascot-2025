@@ -1,3 +1,10 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  overflow-x: hidden; /* Prevents unwanted horizontal scrolling */
+}
+
 /* Global Dark Theme */
 :root {
   --primary-bg: #121212;
@@ -54,6 +61,13 @@ button {
 button:hover {
   background-color: var(--accent-color);
   color: #ffffff;
+}
+
+button:disabled {
+  background: #b0b0b0 !important; /* Gray background */
+  color: #666666 !important; /* Darker text for contrast */
+  cursor: not-allowed;
+  border: 1px solid #999999;
 }
 
 /* Form Fields */

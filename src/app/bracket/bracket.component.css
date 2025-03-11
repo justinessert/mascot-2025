@@ -129,7 +129,8 @@
   font-size: 1.1em;
   font-weight: bold;
   padding: 12px 20px;
-  position: fixed; /* Sticks to the top */
+  width: 100vw;
+  position: relative;
   top: 0;
   left: 0;
   z-index: 1000; /* Ensures it stays on top */

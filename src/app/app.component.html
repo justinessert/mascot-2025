@@ -1,3 +1,8 @@
+<!-- Warning Banner -->
+<div *ngIf="bracketService.isComplete && !bracketService.saved" class="warning-banner">
+  <p>You have completed your bracket, but it is not saved! Navigate to "Pick Bracket" to store your selections.</p>
+</div>
+
 <mat-toolbar *ngIf="!isHomePage" color="primary" class="app-toolbar">
   <!-- Hamburger Menu Button (Only Visible on Mobile) -->
   <button mat-icon-button (click)="toggleMenu()" class="menu-button">

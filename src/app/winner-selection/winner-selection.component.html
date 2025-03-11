@@ -25,10 +25,26 @@
   <div *ngIf="champion" class="champion-display">
     <p>You have picked {{ champion.displayName | replaceUnderscore | titlecase }} as the winner of your bracket!</p>
     <img [src]="champion.image" [alt]="champion.name">
-    <div class="button-set">
-      <button mat-button (click)="viewBracket()" class="button-main">View Bracket</button>
-      <button mat-button (click)="saveBracket()" class="button-main">Save Bracket</button>
+      <!-- Form for saving the bracket -->
+  <form class="bracket-form" (ngSubmit)="saveBracket()" #bracketForm="ngForm">
+    <div class="form-container">
+      <label for="bracketName">Bracket Name:</label>
+      <input 
+        type="text" 
+        id="bracketName" 
+        name="bracketName" 
+        [(ngModel)]="bracketService.name"
+        [readonly]="bracketService.saved"
+        required
+      >
     </div>
-    <p *ngIf="bracketService.saved">You have picked {{ champion.displayName | replaceUnderscore | titlecase }} as the winner of your bracket!</p>
+    <div class="button-set">
+      <button mat-button type="button" (click)="viewBracket()">View Bracket</button>
+      <button *ngIf="!bracketService.user" mat-button type="button" (click)="login()">Log In</button>
+      <button *ngIf="!bracketService.user" mat-button type="button" (click)="signup()">Sign Up</button>
+      <button *ngIf="bracketService.user" mat-button type="submit" [disabled]="bracketService.saved">Save Bracket</button>
+    </div>
+  </form>
+    <p *ngIf="bracketService.saved">You have successfully saved your bracket.</p>
   </div>
 </div>

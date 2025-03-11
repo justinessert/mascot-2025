@@ -141,7 +141,7 @@ export class BracketService {
   private finalFourTeams: Record<string, Team | null> = {"east": null, "west": null, "midwest": null, "south": null};
   private finalFourActive = false;
   private regions: Record<string, Region | null> = {};
-  private user: User | null = null;
+  user: User | null = null;
   region!: Region;
   saved: boolean = false;
   name: string = '';
@@ -271,7 +271,6 @@ export class BracketService {
     this.bracketLoadedSubject.next(false);
     if (!user) {
       console.error('User not authenticated');
-      this.initialize(year);
       this.bracketLoadedSubject.next(true);
       return new Promise((resolve) => {
         resolve(false);
@@ -297,7 +296,6 @@ export class BracketService {
       this.saved = true;
     } else {
       console.log(`No saved bracket found for year ${selectedYear}`);
-      this.initialize(year);
     }
     this.bracketLoadedSubject.next(true);
     return new Promise((resolve) => {

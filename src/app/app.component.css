@@ -98,3 +98,18 @@
   }
 }
   
+/* Warning Banner */
+.warning-banner {
+  background: #ff9800;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  font-size: 16px;
+  width: 100vw;
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}

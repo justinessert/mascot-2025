@@ -1,5 +1,6 @@
 import { Component, Renderer2, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ReplaceUnderscorePipe } from '../replace-underscore.pipe';
 import { BracketService } from '../services/bracket.service';
 import { Router } from '@angular/router';
@@ -7,7 +8,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-winner-selection',
   standalone: true,
-  imports: [CommonModule, ReplaceUnderscorePipe],
+  imports: [CommonModule, ReplaceUnderscorePipe, FormsModule],
   templateUrl: './winner-selection.component.html',
   styleUrls: ['./winner-selection.component.css']
 })
@@ -15,6 +16,7 @@ export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
   currentMatchup!: any[];
   champion: any = null;
   regionOrder!: string[];
+  bracketName: string | null = null;
 
   private touchListener: any;
 
@@ -91,7 +93,20 @@ export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
     this.router.navigate(['/bracket/view/final_four']);
   }
 
+  login() {
+    this.router.navigate(['/login']);
+  }
+
+  signup() {
+    this.router.navigate(['/signup']);
+  }
+
   saveBracket() {
+    if (this.bracketService.name.trim() === '') {
+      alert('Please enter a bracket name before saving.');
+      return;
+    }
+  
     this.bracketService.saveBracket();
   }
 }
