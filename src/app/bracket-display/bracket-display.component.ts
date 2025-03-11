@@ -19,11 +19,21 @@ export class BracketDisplayComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private bracketService: BracketService) {}
 
   ngOnInit() {
+    // Wait for the bracket to be fully loaded before initializing
+    this.bracketService.bracketLoaded$.subscribe(loaded => {
+      if (loaded) {
+        this.initialize();
+      }
+    });
+  }
+
+  initialize() {
     this.route.paramMap.subscribe(params => {
       this.currentRegion = params.get('region');
       this.bracket = this.bracketService.getRegionBracket(this.currentRegion || "east");
       this.champion = this.bracketService.getRegionChampion(this.currentRegion);
     });
+    
   }
 
   getMatchupPairs(round: any[]): any[][] {

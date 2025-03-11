@@ -12,14 +12,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./winner-selection.component.css']
 })
 export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
-  currentMatchup: any[];
+  currentMatchup!: any[];
   champion: any = null;
-  regionOrder: string[];
+  regionOrder!: string[];
 
   private touchListener: any;
 
-  constructor(private renderer: Renderer2, private router: Router, private bracketService: BracketService) {
-    this.currentMatchup = this.bracketService.getCurrentMatchup();
+  constructor(private renderer: Renderer2, private router: Router, public bracketService: BracketService) {
+    // Wait for the bracket to be fully loaded before initializing
+    this.bracketService.bracketLoaded$.subscribe(loaded => {
+      if (loaded) {
+        this.initialize();
+      }
+    });
+  }
+
+  initialize() {
+    this.currentMatchup = this.bracketService.getCurrentMatchup() || [];
     this.regionOrder = this.bracketService.getRegionOrder();
     if (!this.regionOrder.includes("final_four")) {
       this.regionOrder.push("final_four");
@@ -36,13 +45,13 @@ export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
       for (let region of this.regionOrder) {
         if (!this.bracketService.getRegionChampion(region)) {
           this.bracketService.selectRegion(region);
-          this.currentMatchup = this.bracketService.getCurrentMatchup();
+          this.currentMatchup = this.bracketService.getCurrentMatchup() || [];
           return;
         }
       }
       this.champion = this.bracketService.getRegionChampion("final_four");
     } else {
-      this.currentMatchup = this.bracketService.getCurrentMatchup();
+      this.currentMatchup = this.bracketService.getCurrentMatchup() || [];
     }
   }
 

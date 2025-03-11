@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { NgFor, NgIf, CommonModule, TitleCasePipe } from '@angular/common';
-import { Auth, getAuth, signOut, onAuthStateChanged, User } from '@angular/fire/auth';
+import { Auth, getAuth, signOut, user, User } from '@angular/fire/auth';
 import { ReplaceUnderscorePipe } from './replace-underscore.pipe';
 import { bracketData, currentYear } from './constants';
 import { BracketService } from './services/bracket.service';
@@ -40,10 +40,20 @@ export class AppComponent {
   isHomePage = false;
   realCurrentYear: number = new Date().getFullYear();
   currentYear: number = currentYear;
+  selectedYear: number = currentYear;
   years: number[] = Object.keys(bracketData).map(key => Number(key));
   user: User | null = null;
 
   constructor(private router: Router, private bracketService: BracketService, private auth: Auth) {
+    this.bracketService.initialize(this.selectedYear); // Initialize bracket data
+    user(auth).subscribe(async (authUser) => {
+      this.user = authUser; // Track the signed-in user
+      if (this.user) {
+        await this.bracketService.loadBracket(); // Load bracket after authentication
+      }
+    });
+
+    // ✅ Handle Navigation Events
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.isHomePage = event.url === '/' || event.url === '/home';
@@ -51,15 +61,6 @@ export class AppComponent {
           this.menuOpen = false; // Ensure menu is closed on the home page
         }
       }
-      const auth = getAuth();
-      onAuthStateChanged(auth, (user) => {
-        this.user = user; // Track the signed-in user
-      });
-
-      // Listen for authentication state changes
-      onAuthStateChanged(auth, (user) => {
-        this.user = user;
-      });
     });
   }
 
@@ -68,6 +69,7 @@ export class AppComponent {
     signOut(auth).then(() => {
       this.router.navigate(['/login']); // Redirect to login after logout
     });
+    window.location.reload();
   }
 
   @HostListener('window:resize', [])
@@ -92,7 +94,8 @@ export class AppComponent {
   }
 
   selectYear(year: number) {
-    this.bracketService.setYear(year);
+    this.selectedYear = year;
+    this.bracketService.initialize(year);
   }
 
   toggleYearSubMenu() {

@@ -23,8 +23,7 @@ export class LoginComponent {
     auth.onAuthStateChanged(async user => {
       this.user = user;
       if (user) {
-        console.log('User logged in:', user.uid);
-        const bracketExists: boolean = await this.bracketService.loadBracket();
+        const bracketExists: boolean = await this.bracketService.loadBracket(this.bracketService.getYear(), user);
         
         // ✅ Redirect based on bracket existence
         if (bracketExists) {
@@ -62,5 +61,6 @@ export class LoginComponent {
       this.user = null;
       console.log("User signed out");
     });
+    window.location.reload();
   }
 }

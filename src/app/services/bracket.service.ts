@@ -1,8 +1,8 @@
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
-import { Auth, getAuth } from '@angular/fire/auth';
-import { bracketData, nicknames, regionOrder } from '../constants';
+import { Auth, user, User } from '@angular/fire/auth';
+import { bracketData, currentYear, nicknames, regionOrder } from '../constants';
 
 
 class Team {
@@ -20,6 +20,18 @@ class Team {
     this.nickname = nicknames[name] || '';
     this.displayName = `${this.name} ${this.nickname}`;
     this.shortDisplayName = `${this.name}`;
+  }
+
+  static from_dict(data: Record<string, any> | null): Team | null {
+    if (!data) return null;
+    return new Team(data["name"], data["seed"]);
+  }
+
+  to_dict(): Record<string, any> {
+    return {
+      name: this.name,
+      seed: this.seed,
+    };
   }
 }
 
@@ -40,6 +52,36 @@ class Region {
     } else {
       this.totalPicks = 15;
     }
+  }
+
+  static from_dict(data: Record<string, any>): Region {
+    const region = new Region(data["name"]);
+
+    Object.keys(data["bracket"]).forEach(round => {
+      region.bracket[+round] = data["bracket"][round].map((team: any) => team ? Team.from_dict(team) : null);
+    });
+
+    region.currentMatchupIndex = data["currentMatchupIndex"];
+    region.roundIndex = data["roundIndex"];
+    region.champion = data["champion"] ? Team.from_dict(data["champion"]) : null;
+    region.nPicks = data["nPicks"];
+    region.totalPicks = data["totalPicks"];
+    return region;
+  }
+
+  to_dict(): Record<string, any> {
+    return {
+      name: this.name,
+      bracket: Object.keys(this.bracket).reduce((acc, round: any) => {
+        acc[round] = this.bracket[round].map((team: any) => team ? team.to_dict() : null);
+        return acc;
+      }, {} as Record<string, any>),
+      currentMatchupIndex: this.currentMatchupIndex,
+      roundIndex: this.roundIndex,
+      champion: this.champion ? this.champion.to_dict() : null,
+      nPicks: this.nPicks,
+      totalPicks: this.totalPicks,
+    };
   }
 
   initializeBracket(teams: Team[]) {
@@ -77,7 +119,6 @@ class Region {
     }
   }
 
-
   handleWinnerSelection(winner: Team) {
     this.nPicks++;
     const nextRoundIndex = this.roundIndex + 1;
@@ -100,18 +141,30 @@ export class BracketService {
   private finalFourTeams: Record<string, Team | null> = {"east": null, "west": null, "midwest": null, "south": null};
   private finalFourActive = false;
   private regions: Record<string, Region | null> = {};
+  private user: User | null = null;
   region!: Region;
+  saved: boolean = false;
+  name: string = '';
+  private bracketLoadedSubject = new BehaviorSubject<boolean>(false);
+  bracketLoaded$ = this.bracketLoadedSubject.asObservable();
 
   regions$ = new BehaviorSubject<Record<string, Region | null>>(this.regions);
   finalFourActive$ = new BehaviorSubject<boolean>(this.finalFourActive);
   year$ = new BehaviorSubject<number>(this.year);
   
 
-  constructor(private firestore: Firestore, private auth: Auth) {
-    this.setYear(this.year);
+  constructor(private firestore: Firestore, private authObj: Auth) {
+    this.initialize(this.year);
+
+    user(authObj).subscribe(authUser => {
+      this.user = authUser;
+    });
   }
 
-  setYear(year: number) {
+  initialize(year?: number) {
+    this.bracketLoadedSubject.next(false);
+    year = year || currentYear;
+    this.year = year;
 
     for (let region_name of regionOrder[year]) {
       this.regions[region_name] = new Region(region_name)
@@ -120,6 +173,7 @@ export class BracketService {
 
     this.regions["final_four"] = new Region("final_four");
     this.region = this.regions["east"]!;
+    this.bracketLoadedSubject.next(true);
   }
 
   getYear() {
@@ -187,30 +241,38 @@ export class BracketService {
   }
 
   async saveBracket() {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    if (!user) {
+    if (!this.user) {
       console.error('User not authenticated');
       return;
     }
 
-    const userBracketRef = doc(this.firestore, `brackets/${user.uid}/${this.year}/data`);
+    const userBracketRef = doc(this.firestore, `brackets/${this.user.uid}/${this.year}/data`);
+
+    let regionsDict = Object.fromEntries(Object.entries(this.regions).map(([key, region]) => [key, region ? region.to_dict() : null]));
+    let finalFourTeamsDict = Object.fromEntries(Object.entries(this.finalFourTeams).map(([key, team]) => [key, team ? team.to_dict() : null]));
     
-    await setDoc(userBracketRef, { 
-      bracket: this.regions, 
-      finalFourTeams: this.finalFourTeams,
+    await setDoc(userBracketRef, {
+      // set bracket as regions.map(region => region.to_dict())
+      bracket: regionsDict,
+      // Map the values of finalFourTeams to their to_dict() values but keep it in a record format
+      finalFourTeams: finalFourTeamsDict,
       finalFourActive: this.finalFourActive,
-      timestamp: new Date() 
+      timestamp: new Date(),
+      name: this.name,
+        })
+        .then(() => {
+      this.saved = true;
     })
-    .then(() => console.log(`Bracket saved successfully`))
     .catch((error) => console.error('Error saving bracket:', error));
   }
 
-  async loadBracket(year?: number): Promise<boolean> {
-    const auth = getAuth();
-    const user = auth.currentUser;
+  async loadBracket(year?: number, user: User | null = null): Promise<boolean> {
+    user = user || this.user
+    this.bracketLoadedSubject.next(false);
     if (!user) {
       console.error('User not authenticated');
+      this.initialize(year);
+      this.bracketLoadedSubject.next(true);
       return new Promise((resolve) => {
         resolve(false);
       });
@@ -226,15 +288,18 @@ export class BracketService {
 
     if (snapshot.exists()) {
       const data = snapshot.data();
-      this.regions = data['bracket']; 
-      this.finalFourTeams = data['finalFourTeams'];
+      this.regions = Object.fromEntries(Object.entries(data['bracket']).map(([key, region]) => [key, Region.from_dict(region as Map<string, any>)]));
+      this.finalFourTeams = Object.fromEntries(Object.entries(data['finalFourTeams']).map(([key, team]) => [key, Team.from_dict(team as Map<string, any>)]));
       this.finalFourActive = data['finalFourActive'];
+      this.name = data['name'];
 
-      console.log(`Bracket loaded for year ${selectedYear}:`, this.regions);
       this.regions$.next(this.regions);
+      this.saved = true;
     } else {
       console.log(`No saved bracket found for year ${selectedYear}`);
+      this.initialize(year);
     }
+    this.bracketLoadedSubject.next(true);
     return new Promise((resolve) => {
       resolve(snapshot.exists());
     });
