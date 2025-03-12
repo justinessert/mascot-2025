@@ -1,4 +1,11 @@
 <div class="home-container">
-    <h1 class="home-title">Mascot Madness</h1>
-    <button [routerLink]="['/bracket']">Create Bracket</button>
+  <h1 class="home-title">Mascot Madness</h1>
+  <div class="button-set">
+    <button mat-button [routerLink]="['/bracket/pick']">Create Bracket</button>
+    <button mat-button [routerLink]="['/bracket/view/east']">View Bracket</button>
+    
+    <!-- Show login & signup buttons if user is not logged in -->
+    <button *ngIf="!user" mat-button [routerLink]="['/login']">Log In</button>
+    <button *ngIf="!user" mat-button [routerLink]="['/signup']">Sign Up</button>
   </div>
+</div>
