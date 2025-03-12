@@ -84,7 +84,7 @@ class Region {
     };
   }
 
-  initializeBracket(teams: Team[]) {
+  initializeBracket(teams: (Team | null)[]) {
     // Correct first-round matchup ordering
     let matchupOrder = [];
     if (teams.length === 16) {
@@ -138,8 +138,6 @@ class Region {
 })
 export class BracketService {
   private year = 2024;
-  private finalFourTeams: Record<string, Team | null> = {"east": null, "west": null, "midwest": null, "south": null};
-  private finalFourActive = false;
   private regions: Record<string, Region | null> = {};
   user: User | null = null;
   region!: Region;
@@ -149,7 +147,6 @@ export class BracketService {
   bracketLoaded$ = this.bracketLoadedSubject.asObservable();
 
   regions$ = new BehaviorSubject<Record<string, Region | null>>(this.regions);
-  finalFourActive$ = new BehaviorSubject<boolean>(this.finalFourActive);
   year$ = new BehaviorSubject<number>(this.year);
   
 
@@ -172,6 +169,7 @@ export class BracketService {
     }
 
     this.regions["final_four"] = new Region("final_four");
+    this.regions["final_four"].initializeBracket([null, null, null, null]);
     this.region = this.regions["east"]!;
     this.bracketLoadedSubject.next(true);
   }
@@ -191,18 +189,16 @@ export class BracketService {
   handleWinnerSelection(winner: Team) {
     this.region.handleWinnerSelection(winner);
     if (this.region.champion) {
-      this.finalFourTeams[this.region.name] = this.region.champion;
-      // Check if all finalFourTeams are non-null
-      if ((this.regions["final_four"]!.bracket.length === 0) && Object.values(this.finalFourTeams).every(team => team !== null)) {
-        this.initializeFinalFour();
+      if (this.region.name !== "final_four") {
+        this.setFinalFourTeam(this.region.name, this.region.champion);
       }
     }
   }
 
-  initializeFinalFour() {
-    let finalFourTeams = Object.values(this.finalFourTeams).filter(team => team !== null) as Team[]
-    this.regions["final_four"]!.initializeBracket(finalFourTeams);
-    this.finalFourActive = true;
+  setFinalFourTeam(region_name: string, team: Team) {
+    // Get Index of region_name in regionOrder[this.year]
+    const regionIndex = regionOrder[this.year].indexOf(region_name);
+    this.regions["final_four"]!.bracket[0][regionIndex] = team;
   }
 
   getRegionBracket(region_name: string) {
@@ -249,14 +245,9 @@ export class BracketService {
     const userBracketRef = doc(this.firestore, `brackets/${this.year}/${this.user.uid}/data`);
 
     let regionsDict = Object.fromEntries(Object.entries(this.regions).map(([key, region]) => [key, region ? region.to_dict() : null]));
-    let finalFourTeamsDict = Object.fromEntries(Object.entries(this.finalFourTeams).map(([key, team]) => [key, team ? team.to_dict() : null]));
     
     await setDoc(userBracketRef, {
-      // set bracket as regions.map(region => region.to_dict())
       bracket: regionsDict,
-      // Map the values of finalFourTeams to their to_dict() values but keep it in a record format
-      finalFourTeams: finalFourTeamsDict,
-      finalFourActive: this.finalFourActive,
       timestamp: new Date(),
       name: this.name,
       user: this.user.displayName,
@@ -289,8 +280,6 @@ export class BracketService {
     if (snapshot.exists()) {
       const data = snapshot.data();
       this.regions = Object.fromEntries(Object.entries(data['bracket']).map(([key, region]) => [key, Region.from_dict(region as Map<string, any>)]));
-      this.finalFourTeams = Object.fromEntries(Object.entries(data['finalFourTeams']).map(([key, team]) => [key, Team.from_dict(team as Map<string, any>)]));
-      this.finalFourActive = data['finalFourActive'];
       this.name = data['name'];
 
       this.regions$.next(this.regions);
