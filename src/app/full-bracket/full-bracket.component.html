@@ -1,10 +1,17 @@
-<div class="bracket-container">
-    <div class="full-bracket-container">
+<div class="full-bracket-container">
+    <div class="bracket-container">
         <!-- Left side (Normal regions, R1 → R4) -->
         <div class="bracket-side">
-        <div class="bracket-wrapper" *ngFor="let region of leftRegions">
-            <h2>{{ region | replaceUnderscore | titlecase }} Region</h2>
-            <app-bracket-segment [currentRegion]="region" [roundHeaders]="false"></app-bracket-segment>
+        <div class="bracket-wrapper">
+            <h2>East Region</h2>
+            <app-bracket-segment [currentRegion]="'east'" [roundHeaders]="false"></app-bracket-segment>
+        </div>
+        <div class="finalFour">
+            <app-bracket-segment [currentRegion]="'final_four'" [roundHeaders]="false"></app-bracket-segment>
+        </div>
+        <div class="bracket-wrapper">
+            <h2>West Region</h2>
+            <app-bracket-segment [currentRegion]="'east'" [roundHeaders]="false"></app-bracket-segment>
         </div>
         </div>
     
@@ -16,7 +23,5 @@
         </div>
         </div>
     </div>
-    <div class="finalFour">
-        <app-bracket-segment [currentRegion]="'final_four'" [roundHeaders]="false"></app-bracket-segment>
-    </div>
+
 </div>
