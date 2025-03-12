@@ -5,6 +5,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterOutlet, RouterModule } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 import { NgFor, NgIf, CommonModule, TitleCasePipe } from '@angular/common';
 import { Auth, getAuth, signOut, user, User } from '@angular/fire/auth';
 import { ReplaceUnderscorePipe } from './replace-underscore.pipe';
@@ -44,7 +45,8 @@ export class AppComponent {
   years: number[] = Object.keys(bracketData).map(key => Number(key));
   user: User | null = null;
 
-  constructor(private router: Router, public bracketService: BracketService, private auth: Auth) {
+  constructor(private router: Router, public bracketService: BracketService, private auth: Auth, private titleService: Title, private metaService: Meta) {
+    this.setSEO();
     this.bracketService.initialize(this.selectedYear); // Initialize bracket data
     user(auth).subscribe(async (authUser) => {
       this.user = authUser; // Track the signed-in user
@@ -62,6 +64,22 @@ export class AppComponent {
         }
       }
     });
+  }
+
+
+
+  setSEO() {
+    this.titleService.setTitle("Mascot Madness - Create Your Mascot March Madness Bracket"); // Page title
+
+    this.metaService.addTags([
+      { name: 'description', content: 'Create and share your March Madness bracket based on team mascots!' },
+      { name: 'keywords', content: 'March Madness, Bracket, Basketball, NCAA, Mascots, Mascot, Team' },
+      { property: 'og:title', content: 'Mascot Madness Bracket Challenge' },
+      { property: 'og:description', content: 'Pick your favorite team mascots and win!' },
+      { property: 'og:image', content: 'https://mascot-madness.com/assets/banner.jpg' },
+      { property: 'og:url', content: 'https://mascot-madness.com/' },
+      { name: 'twitter:card', content: 'summary_large_image' }
+    ]);
   }
 
   logout() {
