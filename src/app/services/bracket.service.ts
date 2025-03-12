@@ -259,6 +259,7 @@ export class BracketService {
       finalFourActive: this.finalFourActive,
       timestamp: new Date(),
       name: this.name,
+      user: this.user.displayName,
         })
         .then(() => {
       this.saved = true;

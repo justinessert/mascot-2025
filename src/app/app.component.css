@@ -2,17 +2,34 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   background-color: var(--primary-bg) !important;
   color: var(--primary-text) !important;
 }
 
+.nav-links {
+  display: flex;
+  align-items: stretch; /* Make items fill full height */
+  height: 100%;
+}
+
 .nav-links button {
+  display: flex;
+  align-items: stretch;
   color: var(--primary-text) !important;
+  background: transparent !important;
+  border-radius: 0 !important; /* Removes rounded effect */
+  height: 100%; /* Ensures full vertical span */
+  padding: 10px 20px; /* Adds spacing */
+  border: none; /* Removes any border */
+  align-items: center;
 }
 
 .nav-links button:hover {
-  background-color: var(--accent-color) !important;
+  background-color: #e64a19 !important;
+  color: white !important; /* Ensure text is visible */
+  box-shadow: none !important; /* Remove Material hover box */
 }
 
 .menu-button {
@@ -72,9 +89,13 @@
   }
 
   .bracket-submenu button {
-    width: auto; /* ✅ Let buttons size dynamically */
+    width: 100%;
     text-align: center; /* ✅ Center text */
     padding: 10px;
+  }
+
+  .mobile-menu button:hover {
+    background: #e64a19 !important;
   }
 }
 
