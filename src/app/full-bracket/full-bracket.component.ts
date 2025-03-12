@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BracketSegmentComponent } from '../bracket-segment/bracket-segment.component';
-import { ReplaceUnderscorePipe } from '../replace-underscore.pipe';
 import { BracketService } from '../services/bracket.service';
 
 @Component({
   selector: 'app-full-bracket',
   standalone: true,
-  imports: [CommonModule, BracketSegmentComponent, ReplaceUnderscorePipe],
+  imports: [CommonModule, BracketSegmentComponent],
   templateUrl: './full-bracket.component.html',
   styleUrls: ['./full-bracket.component.css']
 })

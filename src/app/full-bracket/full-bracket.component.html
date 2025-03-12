@@ -2,25 +2,31 @@
     <div class="bracket-container">
         <!-- Left side (Normal regions, R1 → R4) -->
         <div class="bracket-side">
-        <div class="bracket-wrapper">
-            <h2>East Region</h2>
-            <app-bracket-segment [currentRegion]="'east'" [roundHeaders]="false"></app-bracket-segment>
-        </div>
-        <div class="finalFour">
-            <app-bracket-segment [currentRegion]="'final_four'" [roundHeaders]="false"></app-bracket-segment>
-        </div>
-        <div class="bracket-wrapper">
-            <h2>West Region</h2>
-            <app-bracket-segment [currentRegion]="'east'" [roundHeaders]="false"></app-bracket-segment>
-        </div>
+            <div class="bracket-wrapper">
+                <h2>East Region</h2>
+                <app-bracket-segment [currentRegion]="'east'" [roundHeaders]="false"></app-bracket-segment>
+            </div>
+            <div class="finalFour">
+                <app-bracket-segment [currentRegion]="'final_four'" [roundHeaders]="false"></app-bracket-segment>
+            </div>
+            <div class="bracket-wrapper">
+                <h2>West Region</h2>
+                <app-bracket-segment [currentRegion]="'east'" [roundHeaders]="false"></app-bracket-segment>
+            </div>
         </div>
     
         <!-- Right side (Mirrored regions, R4 → R1) -->
         <div class="bracket-side">
-        <div class="bracket-wrapper" *ngFor="let region of rightRegions">
-            <h2 class="reverse">{{ region | replaceUnderscore | titlecase }} Region</h2>
-            <app-bracket-segment [currentRegion]="region" [roundHeaders]="false" [reverseOrder]="true"></app-bracket-segment>
-        </div>
+            <div class="bracket-wrapper">
+                <h2 class="reverse">Midwest Region</h2>
+                <app-bracket-segment [currentRegion]="'midwest'" [roundHeaders]="false" [reverseOrder]="true"></app-bracket-segment>
+            </div>
+            <div class="finalFour">
+            </div>
+            <div class="bracket-wrapper">
+                <h2 class="reverse">South Region</h2>
+                <app-bracket-segment [currentRegion]="'south'" [roundHeaders]="false" [reverseOrder]="true"></app-bracket-segment>
+            </div>
         </div>
     </div>
 
