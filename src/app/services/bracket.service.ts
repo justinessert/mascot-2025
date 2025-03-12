@@ -205,6 +205,10 @@ export class BracketService {
     return this.regions[region_name]!.bracket;
   }
 
+  get champion(): Team | null {
+    return this.regions["final_four"]?.champion ?? null;
+  }
+
   getCurrentMatchup() {
     return [
       this.region.bracket[this.region.roundIndex][this.region.currentMatchupIndex],

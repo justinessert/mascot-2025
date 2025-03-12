@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { WinnerSelectionComponent } from './winner-selection/winner-selection.component';
 import { BracketDisplayComponent } from './bracket-display/bracket-display.component';
+import { FullBracketComponent } from './full-bracket/full-bracket.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },  // Home page route
@@ -11,6 +12,7 @@ export const routes: Routes = [
   { path: 'signup', component: SignupComponent },  // Signup page route
   { path: 'bracket', redirectTo: 'bracket/pick', pathMatch: 'full' },  // Base bracket route
   { path: 'bracket/pick', component: WinnerSelectionComponent },  // Base pick route
+  { path: 'bracket/viewfull', component: FullBracketComponent },  // Base display route
   { path: 'bracket/view/:region', component: BracketDisplayComponent },  // Base display route
-  { path: '**', redirectTo: '' } // Redirect any unknown route to home
+  { path: '**', redirectTo: 'login' } // Redirect any unknown route to home
 ];

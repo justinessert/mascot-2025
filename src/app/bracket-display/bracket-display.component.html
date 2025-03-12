@@ -1,33 +1,13 @@
-<!-- Warning Banner -->
-<div *ngIf="currentRegion === 'final_four' && bracket.length === 0" class="warning-banner">
-  ⚠️ The Final Four bracket is not yet available. Complete all other regional brackets first.
-</div>
-
-
 <div class="bracket-display">
   <h2>{{ currentRegion! | replaceUnderscore | titlecase }} Region</h2>
   <!-- Champion Display -->
-  <div *ngIf="champion" class="champion-display">
-    The winner of the {{ currentRegion! | replaceUnderscore | titlecase }} region is {{ champion.displayName | replaceUnderscore | titlecase }}
-    <img [src]="champion.image" [alt]="champion.name">
+  <div *ngIf="this.bracketService.champion" class="champion-display">
+    The winner of the {{ currentRegion! | replaceUnderscore | titlecase }} region is {{ this.bracketService.champion.displayName | replaceUnderscore | titlecase }}
+    <img [src]="this.bracketService.champion.image" [alt]="this.bracketService.champion.name">
   </div>
 
   <!-- Bracket Display -->
   <div class="bracket-container">
-    <div class="bracket">
-      <div class="round" *ngFor="let round of bracket | slice:0:bracket.length-1; let roundIndex = index">
-        <h3>Round {{ roundIndex + 1 }}</h3>
-        <div class="matchup-pair" *ngFor="let matchup of getMatchupPairs(round)">
-          <div class="matchup-box">
-            <div class="top-team">
-              {{ matchup?.[0]?.shortDisplayName || ' ' | replaceUnderscore | titlecase}}
-            </div>
-            <div class="bottom-team">
-              {{ matchup?.[1]?.shortDisplayName || ' ' | replaceUnderscore | titlecase}}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <app-bracket-segment [currentRegion]="currentRegion"></app-bracket-segment>
   </div>
 </div>
