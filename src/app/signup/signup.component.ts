@@ -24,7 +24,7 @@ export class SignupComponent {
       const userCredential = await createUserWithEmailAndPassword(this.auth, this.email, this.password);
       await updateProfile(userCredential.user, { displayName: this.username });
       console.log('User registered:', userCredential.user);
-      this.router.navigate(['/']); // Redirect to home after successful signup
+      this.router.navigate(['/bracket/pick']); // Redirect to home after successful signup
     } catch (error: any) {
       this.errorMessage = error.message;
       console.error('Signup error:', error);
