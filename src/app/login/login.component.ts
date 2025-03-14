@@ -24,10 +24,14 @@ export class LoginComponent {
       this.user = user;
       if (user) {
         const bracketExists: boolean = await this.bracketService.loadBracket(this.bracketService.getYear(), user);
+
+        console.log(bracketService)
         
-        // ✅ Redirect based on bracket existence
-        if (bracketExists) {
+        // Redirect based on bracket existence
+        if (bracketExists && !this.bracketService.published) {
           this.router.navigate(['/bracket/view/final_four']);
+        } else if (bracketExists && this.bracketService.published) {
+          this.router.navigate(['/leaderboard']);
         } else {
           this.router.navigate(['/bracket/pick']);
         }
