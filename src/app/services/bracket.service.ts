@@ -5,7 +5,7 @@ import { Auth, user, User } from '@angular/fire/auth';
 import { bracketData, currentYear, nicknames, regionOrder } from '../constants';
 
 
-class Team {
+export class Team {
   name: string;
   seed: number;
   image: string;
@@ -35,7 +35,7 @@ class Team {
   }
 }
 
-class Region {
+export class Region {
   name: string;
   bracket: (Team | null)[][] = [];
   currentMatchupIndex: number = 0;

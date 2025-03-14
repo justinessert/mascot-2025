@@ -14,7 +14,7 @@ export class FullBracketComponent {
   leftRegions = ['east', 'west']; // Normal order
   rightRegions = ['midwest', 'south']; // Reverse order
 
-  constructor(private bracketService: BracketService) {}
+  constructor(public bracketService: BracketService) {}
 
   getFinalFourMatchups(){
     let bracket = this.bracketService.getRegionBracket("final_four");

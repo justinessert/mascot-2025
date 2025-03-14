@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ReplaceUnderscorePipe } from '../replace-underscore.pipe';
 import { BracketService } from '../services/bracket.service';
+import { MatchupComponent } from '../matchup/matchup.component';
 
 @Component({
   selector: 'app-bracket-segment',
   standalone: true,
-  imports: [CommonModule, ReplaceUnderscorePipe],
+  imports: [CommonModule, MatchupComponent],
   templateUrl: './bracket-segment.component.html',
   styleUrl: './bracket-segment.component.css'
 })

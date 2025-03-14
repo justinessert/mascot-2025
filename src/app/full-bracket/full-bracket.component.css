@@ -53,7 +53,7 @@
   }
 
 /* ✅ Center the Final Four inside the bracket */
-.finalFour {
+.final-four {
     position: relative;
     top: 50%;
     left: 100%;
@@ -66,8 +66,13 @@
     pointer-events: none; /* ✅ Prevents blocking interactions */
 }
 
-.finalFour * {
+.final-four * {
     pointer-events: auto;
+}
+
+.final-four-champion {
+    position: absolute;
+    left: 50%;
 }
 
 .matchup-pair {
