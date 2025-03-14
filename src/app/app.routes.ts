@@ -12,7 +12,7 @@ export const routes: Routes = [
   { path: 'signup', component: SignupComponent },  // Signup page route
   { path: 'bracket', redirectTo: 'bracket/pick', pathMatch: 'full' },  // Base bracket route
   { path: 'bracket/pick', component: WinnerSelectionComponent },  // Base pick route
-  { path: 'bracket/viewfull', component: FullBracketComponent },  // Base display route
+  { path: 'bracket/view/full', component: FullBracketComponent },  // Base display route
   { path: 'bracket/view/:region', component: BracketDisplayComponent },  // Base display route
   { path: '**', redirectTo: 'login' } // Redirect any unknown route to home
 ];

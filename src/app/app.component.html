@@ -26,8 +26,9 @@
       <!-- Pick Bracket -->
       <button mat-button="pick" [routerLink]="['/bracket/pick']">Pick Bracket</button>
       <mat-menu #bracketMenu="matMenu">
-        <button mat-menu-item *ngFor="let region of regions" (click)="selectRegion(region)">
-          {{ region | replaceUnderscore | titlecase }} Region
+        <button mat-menu-item *ngFor="let region of regionsMenu" (click)="selectRegion(region)">
+          <div *ngIf="region!='full'">{{ region | replaceUnderscore | titlecase }} Region</div>
+          <div *ngIf="region==='full'">All Regions</div>
         </button>
       </mat-menu>
       <!-- View Bracket -->
@@ -67,8 +68,9 @@
   </button>
   <!-- Nested Region Links -->
   <div class="bracket-submenu" *ngIf="bracketSubMenuOpen && !isHomePage">
-    <button *ngFor="let region of regions" mat-button [routerLink]="['/bracket/view', region]" (click)="selectRegion(region)">
-      {{ region | replaceUnderscore | titlecase }} Region
+    <button *ngFor="let region of regionsMenu" mat-button [routerLink]="['/bracket/view', region]" (click)="selectRegion(region)">
+      <div *ngIf="region!='full'">{{ region | replaceUnderscore | titlecase }} Region</div>
+      <div *ngIf="region==='full'">All Regions</div>
     </button>
   </div>
 

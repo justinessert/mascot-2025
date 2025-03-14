@@ -33,7 +33,7 @@ import { BracketService } from './services/bracket.service';
 })
 export class AppComponent {
   title = 'Mascot Madness Bracket';
-  regions = ['east', 'west', 'midwest', 'south', 'final_four'];
+  regionsMenu = ['east', 'west', 'midwest', 'south', 'final_four', 'full'];
   menuOpen = false;
   bracketSubMenuOpen = false; // Closed by default
   yearSubMenuOpen = false; // Closed by default
