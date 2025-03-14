@@ -25,7 +25,7 @@ export class LeaderboardComponent implements OnInit {
   leaderboardBrackets$: Observable<PublishedBracket[]> | null = null;
   userBracket: PublishedBracket | null = null;
 
-  constructor(private firestore: Firestore, private bracketService: BracketService) { }
+  constructor(private firestore: Firestore, public bracketService: BracketService) { }
 
   ngOnInit() {
     const leaderboardCollection = collection(this.firestore, `leaderboard/${this.bracketService.getYear()}/data`);

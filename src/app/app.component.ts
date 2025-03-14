@@ -42,6 +42,7 @@ export class AppComponent {
   realCurrentYear: number = new Date().getFullYear();
   currentYear: number = currentYear;
   selectedYear: number = currentYear;
+  showBanner: boolean = this.selectedYear != this.realCurrentYear;
   years: number[] = Object.keys(bracketData).map(key => Number(key));
   user: User | null = null;
 
@@ -118,5 +119,9 @@ export class AppComponent {
 
   toggleYearSubMenu() {
     this.yearSubMenuOpen = !this.yearSubMenuOpen;
+  }
+
+  closeBanner() {
+    this.showBanner = false;
   }
 }

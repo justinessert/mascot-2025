@@ -1,8 +1,10 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100vw;
-  overflow-x: hidden; /* Prevents unwanted horizontal scrolling */
+  overflow-x: hidden;
+  /* Prevents unwanted horizontal scrolling */
 }
 
 /* Global Dark Theme */
@@ -64,8 +66,10 @@ button:hover {
 }
 
 button:disabled {
-  background: #b0b0b0 !important; /* Gray background */
-  color: #666666 !important; /* Darker text for contrast */
+  background: #b0b0b0 !important;
+  /* Gray background */
+  color: #666666 !important;
+  /* Darker text for contrast */
   cursor: not-allowed;
   border: 1px solid #999999;
 }
@@ -108,19 +112,22 @@ button:disabled {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1); /* Light transparent gray */
+  background: rgba(255, 255, 255, 0.1);
+  /* Light transparent gray */
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3); /* Subtle gray scrollbar */
+  background: rgba(255, 255, 255, 0.3);
+  /* Subtle gray scrollbar */
   border-radius: 4px;
   transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5); /* Slightly more visible on hover */
-}  
+  background: rgba(255, 255, 255, 0.5);
+  /* Slightly more visible on hover */
+}
 
 @media (max-width: 768px) {
   .mat-toolbar {
@@ -139,13 +146,15 @@ button {
   padding: 10px 16px;
   font-size: 16px;
   font-weight: bold;
-  background: #ff5722;  /* Default orange background */
+  background: #ff5722;
+  /* Default orange background */
   color: white !important;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s ease;
-  margin: 5px; /* ✅ Adds spacing around all buttons */
+  margin: 5px;
+  /* ✅ Adds spacing around all buttons */
 }
 
 /* Hover effect */
@@ -155,11 +164,14 @@ button:hover {
 
 /* Full-width container to center buttons */
 .button-set {
-  width: 100vw; /* Full screen width */
+  width: 100vw;
+  /* Full screen width */
   display: flex;
-  align-items: center; /* Center buttons */
+  align-items: center;
+  /* Center buttons */
   justify-content: center;
-  gap: 15px; /* Adds spacing between buttons */
+  gap: 15px;
+  /* Adds spacing between buttons */
   padding: 20px 0;
 }
 
@@ -167,7 +179,8 @@ button:hover {
 .button-row {
   display: flex;
   justify-content: center;
-  gap: 15px; /* Adds spacing between buttons */
+  gap: 15px;
+  /* Adds spacing between buttons */
 }
 
 .mat-mdc-menu-panel {
@@ -183,3 +196,40 @@ img {
 }
 
 
+.info-banner {
+  width: 100%;
+  background-color: #2196F3; /* Blue background */
+  color: #fff; /* White text */
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
+  padding: 12px 20px;
+  width: 100vw;
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Ensures it stays on top */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.info-banner.hidden {
+  transform: translateY(-100%); /* Moves banner off-screen */
+}
+
+.info-banner .close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.info-banner .close-btn:hover {
+  color: #f8d7da; /* Light red on hover */
+}

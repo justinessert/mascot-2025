@@ -3,6 +3,12 @@
   <p>You have completed your bracket, but it is not saved! Navigate to "Pick Bracket" to store your selections.</p>
 </div>
 
+<!-- Info Banner-->
+<div class="info-banner" *ngIf="showBanner">
+  ℹ️ You are looking at the {{ selectedYear }} Bracket. The 2025 Bracket will be announced on the evening of March 16th, 2025 and this website will be updated shortly afterwards.
+  <button class="close-btn" (click)="closeBanner()">×</button>
+</div>
+
 <mat-toolbar *ngIf="!isHomePage" color="primary" class="app-toolbar">
   <!-- Hamburger Menu Button (Only Visible on Mobile) -->
   <button mat-icon-button (click)="toggleMenu()" class="menu-button">
