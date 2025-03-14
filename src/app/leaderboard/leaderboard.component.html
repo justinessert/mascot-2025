@@ -1,37 +1,40 @@
 <div class="leaderboard-container">
     <!-- Header Section -->
     <div class="leaderboard-header">
-        <div class="header-column">
-            <p class="header-label">Bracket Name</p>
-            <p class="header-value">{{ userBracket?.bracketName || 'N/A' }}</p>
-        </div>
-        <div class="header-column">
-            <p class="header-label">Bracket Score</p>
-            <p class="header-value">{{ userBracket?.score ?? 'N/A' }}</p>
-        </div>
-        <div class="header-column">
-            <p class="header-label">Bracket Rank</p>
-            <p class="header-value">{{ userRank ?? 'N/A' }}</p>
-        </div>
+      <div class="header-item">
+        <span class="header-label">Bracket Name</span>
+        <span class="header-value">{{ userBracket?.bracketName || 'N/A' }}</span>
+      </div>
+      <div class="header-item">
+        <span class="header-label">Bracket Score</span>
+        <span class="header-value">{{ userBracket?.score ?? 'N/A' }}</span>
+      </div>
+      <div class="header-item">
+        <span class="header-label">Bracket Rank</span>
+        <span class="header-value">{{ userBracket?.rank ?? 'N/A' }}</span>
+      </div>
     </div>
-
-    <!-- Leaderboard Table -->
-    <table class="leaderboard-table">
+  
+    <!-- Table Section -->
+    <div class="table-wrapper">
+      <table class="leaderboard-table">
         <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Score</th>
-                <th>Bracket Name</th>
-                <th>User</th>
-            </tr>
+          <tr>
+            <th>Rank</th>
+            <th>Score</th>
+            <th>Bracket Name</th>
+            <th>User</th>
+          </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let bracket of publishedBrackets$ | async">
-                <td>{{ bracket.rank }}</td>
-                <td>{{ bracket.score ?? 'N/A' }}</td>
-                <td>{{ bracket.bracketName }}</td>
-                <td>{{ bracket.userName }}</td>
-            </tr>
+          <tr *ngFor="let bracket of leaderboardBrackets$ | async">
+            <td>{{ bracket.rank }}</td>
+            <td>{{ bracket.score }}</td>
+            <td>{{ bracket.bracketName }}</td>
+            <td>{{ bracket.userName }}</td>
+          </tr>
         </tbody>
-    </table>
-</div>
+      </table>
+    </div>
+  </div>
+  
