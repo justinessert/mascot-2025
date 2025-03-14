@@ -6,11 +6,17 @@
                 <h2>East Region</h2>
                 <app-bracket-segment [currentRegion]="'east'" [roundHeaders]="false"></app-bracket-segment>
             </div>
-            <div class="final-four">
-                <app-bracket-segment [currentRegion]="'final_four'" [roundHeaders]="false"></app-bracket-segment>
-                <div *ngIf="bracketService.champion" class="final-four-champion">
-                    <h2>Champion</h2>
-                    <img [src]="bracketService.champion.image" [alt]="bracketService.champion.name" />
+            <div class="final-four-wrapper">
+                <div class="final-four">
+                    <div class="final-four-matchups" *ngFor="let matchup of getFinalFourMatchups()">
+                        <div class="final-four-matchup">
+                            <app-matchup [topTeam]="matchup?.[0]" [bottomTeam]="matchup?.[1]"></app-matchup>
+                        </div>
+                    </div>
+                    <div *ngIf="bracketService.champion" class="final-four-champion">
+                        <h2>Champion</h2>
+                        <img [src]="bracketService.champion.image" [alt]="bracketService.champion.name" />
+                    </div>
                 </div>
             </div>
             <div class="bracket-wrapper">

@@ -1,33 +1,34 @@
 .full-bracket-container {
     display: flex;
     justify-content: center;
-    gap: 50px; /* Space between left and right sides */
+    gap: 50px;
+    /* Space between left and right sides */
     padding: 20px;
     background: #2c2c2c;
     width: max-content;
-  }
+}
 
-  .reverse {
+.reverse {
     text-align: right;
-  }
+}
 
 
-  .bracket-side {
+.bracket-side {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .bracket-wrapper {
+}
+
+.bracket-wrapper {
     width: 100%;
     margin-bottom: 30px;
-  }
+}
 
-  .bracket-wrapper h2{
+.bracket-wrapper h2 {
     padding: 0px 50px;
-  }
+}
 
-  .bracket-container {
+.bracket-container {
     display: flex;
     justify-content: flex-start;
     flex-wrap: nowrap;
@@ -40,8 +41,8 @@
     position: relative;
     align-items: center;
 }
-  
-  .bracket {
+
+.bracket {
     display: grid;
     grid-auto-flow: column;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -50,29 +51,62 @@
     justify-items: center;
     width: max-content;
     min-width: 1200px;
-  }
+}
 
 /* ✅ Center the Final Four inside the bracket */
 .final-four {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: 50%;
     left: 100%;
-    transform: translate(-50%, 0%); 
+    transform: translate(-50%, 0%);
     z-index: 10;
     padding: 10px;
     border-radius: 10px;
     height: 150px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    pointer-events: none; /* ✅ Prevents blocking interactions */
+    pointer-events: none;
+    /* ✅ Prevents blocking interactions */
 }
 
 .final-four * {
     pointer-events: auto;
 }
 
+.final-four-wrapper {
+    width: 100%;
+}
+
+.final-four-matchups {
+    display: flex !important; /* ✅ Ensures horizontal alignment */
+    flex-direction: row !important; /* ✅ Forces it to be horizontal */
+    justify-content: space-evenly; /* ✅ Distributes matchups evenly */
+    align-items: center; /* ✅ Keeps them vertically aligned */
+    gap: 40px; /* ✅ Adds spacing between matchups */
+    width: 100%; /* ✅ Ensures full width */
+    min-width: 250px; /* ✅ Prevents collapsing */
+    padding: 20px; /* ✅ Adds spacing */
+    flex-wrap: nowrap; /* ✅ Prevents wrapping */
+    align-self: stretch; /* ✅ Ensures it doesn’t shrink due to the parent */
+}
+
+.final-four-matchup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 200px; /* ✅ Consistent width */
+    text-align: center;
+    flex-shrink: 0; /* ✅ Prevents shrinking */
+}
+
 .final-four-champion {
     position: absolute;
+    top: 100%;
     left: 50%;
+    transform: translate(-50%, 0%);
 }
 
 .matchup-pair {
@@ -82,9 +116,9 @@
     justify-content: center;
     gap: 10px;
     flex-grow: 1;
-  }
-  
-  .matchup-box {
+}
+
+.matchup-box {
     display: flex;
     flex-direction: column;
     width: 180px;
@@ -97,17 +131,18 @@
     font-weight: bold;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
     position: relative;
-  }
-  
-  .team {
+}
+
+.team {
     padding: 5px;
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  .top-team, .bottom-team {
+}
+
+.top-team,
+.bottom-team {
     width: 100%;
     height: 50%;
     display: flex;
@@ -115,15 +150,17 @@
     justify-content: center;
     background-color: #e8e8e8;
     border-bottom: 2px solid #000;
-  }
-  
-  .bottom-team {
+}
+
+.bottom-team {
     background-color: #ffffff;
     border-bottom: none;
-  }
-  
-  /* Maintain shading even if no team is present */
-  .top-team::before, .bottom-team::before {
-    content: '\00a0'; /* Non-breaking space */
+}
+
+/* Maintain shading even if no team is present */
+.top-team::before,
+.bottom-team::before {
+    content: '\00a0';
+    /* Non-breaking space */
     visibility: visible;
-  }
+}
