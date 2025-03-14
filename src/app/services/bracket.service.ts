@@ -1,8 +1,9 @@
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
+import { Firestore, doc, setDoc, getDoc, addDoc } from '@angular/fire/firestore';
 import { Auth, user, User } from '@angular/fire/auth';
 import { bracketData, currentYear, nicknames, regionOrder } from '../constants';
+import { collection } from 'firebase/firestore';
 
 
 export class Team {
@@ -142,6 +143,7 @@ export class BracketService {
   user: User | null = null;
   region!: Region;
   saved: boolean = false;
+  published: boolean = false;
   name: string = '';
   private bracketLoadedSubject = new BehaviorSubject<boolean>(false);
   bracketLoaded$ = this.bracketLoadedSubject.asObservable();
@@ -255,6 +257,7 @@ export class BracketService {
       timestamp: new Date(),
       name: this.name,
       user: this.user.displayName,
+      published: this.published,
         })
         .then(() => {
       this.saved = true;
@@ -285,9 +288,9 @@ export class BracketService {
       const data = snapshot.data();
       this.regions = Object.fromEntries(Object.entries(data['bracket']).map(([key, region]) => [key, Region.from_dict(region as Map<string, any>)]));
       this.name = data['name'];
-
       this.regions$.next(this.regions);
       this.saved = true;
+      this.published = data['published']
     } else {
       console.log(`No saved bracket found for year ${selectedYear}`);
     }
@@ -296,5 +299,38 @@ export class BracketService {
       resolve(snapshot.exists());
     });
   }
+
+  async publishBracket() {
+    if (!this.user) {
+      console.error('User not authenticated');
+      return;
+    }
+  
+    if (!this.saved) {
+      console.error('Bracket must be saved before publishing.');
+      return;
+    }
+  
+    const leaderboardRef = collection(this.firestore, `leaderboard/${this.year}/data`);
+    
+    try {
+      await addDoc(leaderboardRef, {
+        bracketId: this.user.uid,
+        bracketName: this.name,
+        userName: this.user.displayName || 'Anonymous',
+        score: 0, // Score will be updated later
+        timestamp: new Date(),
+      });
+  
+      console.log(`Bracket published successfully.`);
+      this.published = true; // ✅ Mark bracket as published
+    } catch (error) {
+      console.error('Error publishing bracket:', error);
+      throw error;
+    }
+
+    // Update saved bracket with published = True
+    this.saveBracket()
+  }  
 
 }

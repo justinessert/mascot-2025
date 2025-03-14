@@ -1,0 +1,37 @@
+<div class="leaderboard-container">
+    <!-- Header Section -->
+    <div class="leaderboard-header">
+        <div class="header-column">
+            <p class="header-label">Bracket Name</p>
+            <p class="header-value">{{ userBracket?.bracketName || 'N/A' }}</p>
+        </div>
+        <div class="header-column">
+            <p class="header-label">Bracket Score</p>
+            <p class="header-value">{{ userBracket?.score ?? 'N/A' }}</p>
+        </div>
+        <div class="header-column">
+            <p class="header-label">Bracket Rank</p>
+            <p class="header-value">{{ userRank ?? 'N/A' }}</p>
+        </div>
+    </div>
+
+    <!-- Leaderboard Table -->
+    <table class="leaderboard-table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Score</th>
+                <th>Bracket Name</th>
+                <th>User</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let bracket of publishedBrackets$ | async">
+                <td>{{ bracket.rank }}</td>
+                <td>{{ bracket.score ?? 'N/A' }}</td>
+                <td>{{ bracket.bracketName }}</td>
+                <td>{{ bracket.userName }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

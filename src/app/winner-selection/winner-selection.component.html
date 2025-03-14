@@ -43,8 +43,10 @@
       <button *ngIf="!bracketService.user" mat-button type="button" (click)="login()">Log In</button>
       <button *ngIf="!bracketService.user" mat-button type="button" (click)="signup()">Sign Up</button>
       <button *ngIf="bracketService.user" mat-button type="submit" [disabled]="bracketService.saved">Save Bracket</button>
+      <button *ngIf="bracketService.user" mat-button type="button" (click)="publishBracket()" [disabled]="bracketService.published">Publish Bracket</button>
     </div>
   </form>
-    <p *ngIf="bracketService.saved">You have successfully saved your bracket.</p>
+    <p *ngIf="bracketService.saved && !bracketService.published">You have successfully saved your bracket.</p>
+    <p *ngIf="bracketService.published">You have successfully saved & published your bracket.</p>
   </div>
 </div>

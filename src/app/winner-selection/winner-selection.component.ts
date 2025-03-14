@@ -109,4 +109,22 @@ export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
   
     this.bracketService.saveBracket();
   }
+
+  async publishBracket() {
+    if (!this.bracketService.saved) {
+      this.saveBracket();
+    }
+  
+    if (this.bracketService.published) {
+      alert('This bracket is already published.');
+      return;
+    }
+  
+    try {
+      await this.bracketService.publishBracket();
+    } catch (error) {
+      console.error('Error publishing bracket:', error);
+      alert('Failed to publish bracket. Please try again.');
+    }
+  }
 }
