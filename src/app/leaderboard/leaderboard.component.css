@@ -3,17 +3,21 @@
     max-width: 900px;
     margin: 40px auto;
     padding: 20px;
-    background: #1c1c1c; /* Dark background */
+    background: #1c1c1c;
+    /* Dark background */
     border-radius: 12px;
-    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1); /* Softer shadow */
-    color: #f1f1f1; /* Light text */
+    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+    /* Softer shadow */
+    color: #f1f1f1;
+    /* Light text */
 }
 
 /* Header Section */
 .leaderboard-header {
     display: flex;
     justify-content: space-between;
-    background: #292929; /* Slightly lighter than container */
+    background: #292929;
+    /* Slightly lighter than container */
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -29,7 +33,8 @@
 .header-label {
     display: block;
     font-size: 14px;
-    color: #b0b0b0; /* Subtle contrast */
+    color: #b0b0b0;
+    /* Subtle contrast */
 }
 
 .header-value {
@@ -46,38 +51,73 @@
 /* Leaderboard Table */
 .leaderboard-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
     font-size: 16px;
-    background: #1c1c1c; /* Same as container */
-    color: #ffffff; /* Light text */
+    background: #1c1c1c;
+    /* Same as container */
+    color: #ffffff;
+    /* Light text */
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 /* Table Headers */
 .leaderboard-table thead {
-    background: #ff5722; /* Accent color */
+    background: #444;
+    /* Accent color */
     color: white;
     text-transform: uppercase;
 }
 
-.leaderboard-table th {
-    padding: 12px;
-    text-align: left;
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 12px;
+  text-align: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.leaderboard-table th:last-child,
+.leaderboard-table td:last-child {
+  border-right: none;
 }
 
 /* Table Body */
 .leaderboard-table tbody tr {
-    border-bottom: 1px solid #333; /* Subtle border */
+    border-bottom: 1px solid #666;
+    /* Subtle border */
     transition: background 0.3s ease;
+}
+
+/* Round top corners of the first and last header cells */
+.leaderboard-table thead th:first-child {
+    border-top-left-radius: 12px;
+}
+
+.leaderboard-table thead th:last-child {
+    border-top-right-radius: 12px;
+}
+
+/* Round bottom corners of the first and last row cells */
+.leaderboard-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px;
+}
+
+.leaderboard-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px;
 }
 
 /* Alternate Row Background */
 .leaderboard-table tbody tr:nth-child(even) {
-    background: #292929; /* Dark Gray */
+    background: #292929;
+    /* Dark Gray */
 }
 
 /* Hover Effect */
 .leaderboard-table tbody tr:hover {
-    background: #383838; /* Slightly lighter gray */
+    background: #383838;
+    /* Slightly lighter gray */
 }
 
 /* Table Cells */
@@ -96,7 +136,7 @@
         text-align: center;
     }
 
-    .leaderboard-table th, 
+    .leaderboard-table th,
     .leaderboard-table td {
         padding: 10px;
         font-size: 14px;
