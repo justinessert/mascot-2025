@@ -15,6 +15,7 @@ export const manualUpdateNCAAGames = onRequest(
 
         // Log final message to confirm function completion
         console.log("🏁 [manualUpdateNCAAGames] Finished execution successfully.");
+        res.status(200).json({ message: "Games updated successfully"});
     } catch (error) {
         console.error("❌ [manualUpdateNCAAGames] Error updating games:", error);
         res.status(500).json({ error: "Failed to fetch NCAA games", details: error });
