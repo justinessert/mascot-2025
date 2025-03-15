@@ -141,18 +141,18 @@ async function manualUpdateGameMappings(year: number, newMappings: Record<string
 
 export const updateGameMappings = onRequest(async (req, res) => {
     try {
-      const { year, newMappings } = req.body; // Get data from request body
-  
-      if (!year || newMappings === undefined) {
-        res.status(400).json({ error: "Missing required parameters" });
-        return
-      }
-  
-      await manualUpdateGameMappings(year, newMappings);
-  
-      res.status(200).json({ message: "Game mapping updated successfully" });
+        const { year, newMappings } = req.body; // Get data from request body
+
+        if (!year || newMappings === undefined) {
+            res.status(400).json({ error: "Missing required parameters" });
+            return
+        }
+
+        await manualUpdateGameMappings(year, newMappings);
+
+        res.status(200).json({ message: "Game mapping updated successfully" });
     } catch (error) {
-      console.error("❌ Error in updateGameMappings:", error);
-      res.status(500).json({ error: "Failed to update game mappings" });
+        console.error("❌ Error in updateGameMappings:", error);
+        res.status(500).json({ error: "Failed to update game mappings" });
     }
-  });
+});
