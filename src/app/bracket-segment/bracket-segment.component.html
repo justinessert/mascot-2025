@@ -1,7 +1,7 @@
 <!-- Bracket Display -->
 <div class="bracket">
     <div class="round" *ngFor="let round of getBracketRounds(); let roundIndex = index">
-    <h3 *ngIf="roundHeaders">Round {{ roundIndex + 1 }}</h3>
+    <h3 *ngIf="roundHeaders">{{roundNames[roundIndex]}}</h3>
     <div class="bracket-column" *ngFor="let matchup of getMatchupPairs(round)">
         <app-matchup [topTeam]="matchup?.[0]" [bottomTeam]="matchup?.[1]"></app-matchup>
     </div>
