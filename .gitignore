@@ -44,3 +44,6 @@ Thumbs.db
 # Firebase files
 .firebase**
 src/environments/
+
+**/firebase-debug.log
+**/.ipynb_checkpoints/
