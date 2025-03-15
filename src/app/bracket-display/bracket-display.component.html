@@ -1,9 +1,9 @@
 <div class="bracket-display">
   <h2>{{ currentRegion! | replaceUnderscore | titlecase }} Region</h2>
   <!-- Champion Display -->
-  <div *ngIf="this.bracketService.champion" class="champion-display">
-    The winner of the {{ currentRegion! | replaceUnderscore | titlecase }} region is {{ this.bracketService.champion.displayName | replaceUnderscore | titlecase }}
-    <img [src]="this.bracketService.champion.image" [alt]="this.bracketService.champion.name">
+  <div *ngIf="this.champion" class="champion-display">
+    The winner of the {{ currentRegion! | replaceUnderscore | titlecase }} region is {{ this.champion.displayName | replaceUnderscore | titlecase }}
+    <img [src]="this.champion.image" [alt]="this.champion.name">
   </div>
 
   <!-- Bracket Display -->

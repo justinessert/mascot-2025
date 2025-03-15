@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReplaceUnderscorePipe } from '../replace-underscore.pipe';
-import { BracketService } from '../services/bracket.service';
+import { BracketService, Team } from '../services/bracket.service';
 import { BracketSegmentComponent } from '../bracket-segment/bracket-segment.component';
 
 @Component({
@@ -24,6 +24,10 @@ export class BracketDisplayComponent implements OnInit {
         this.initialize();
       }
     });
+  }
+
+  get champion(): Team | null {
+    return this.bracketService.getRegionChampion(this.currentRegion)
   }
 
   initialize() {
