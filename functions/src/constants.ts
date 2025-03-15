@@ -1,0 +1,35 @@
+export const specialNcaaNames: Record<string, string> = {
+    "central_connecticut_state": "central-conn-st",
+    "charleston": "col-of-charleston",
+    "csu_fullerton": "cal-st-fullerton",
+    "eastern_kentucky": "eastern-ky",
+    "east_washington": "eastern-wash",
+    "florida_atlantic": "fla-atlantic",
+    "grambling_state": "grambling",
+    "little_rock": "ualr",
+    "louisiana": "la-lafayette",
+    "mcneese": "mcneese-st",
+    "miami": "miami-fl",
+    "nc_state": "north-carolina-st",
+    "northern_iowa": "uni",
+    "northern_kentucky": "northern-ky",
+    "saint_johns": "st-johns-ny",
+    "saint_marys": "st-marys-ca",
+    "saint_peters": "st-peters",
+    "sam_houston": "sam-houston-st",
+    "south_florida": "south-fla",
+    "southeast_missouri_state": "southeast-mo-st",
+    "texas_a&m_cc": "am-corpus-chris",
+    "texas_a&m": "texas-am",
+    "ucsb": "uc-santa-barbara",
+    "usc": "southern-california",
+    "western_kentucky": "western-ky",
+};
+
+
+export const roundOrders: Record<number, number[]> = {
+    1: [0, 6, 4, 2, 3, 5, 7, 1],
+    2: [0, 3, 2, 1],
+    3: [0, 1],
+    4: [0],
+}
