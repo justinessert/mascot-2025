@@ -37,7 +37,6 @@ export class BracketSegmentComponent implements OnInit, OnChanges {
   }
 
   initialize() {
-    console.log("test")
     let region_name = this.currentRegion || "east"
     this.bracket = this.bracketService.getRegionBracket(region_name);
     let n_rounds = this.bracket.length
