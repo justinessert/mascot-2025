@@ -153,15 +153,17 @@ export class BracketService {
   
 
   constructor(private firestore: Firestore, private authObj: Auth) {
+    this.bracketLoadedSubject.next(false);
     this.initialize(this.year);
 
     user(authObj).subscribe(authUser => {
       this.user = authUser;
+      this.loadBracket();
     });
+
   }
 
   initialize(year?: number) {
-    this.bracketLoadedSubject.next(false);
     year = year || currentYear;
     this.year = year;
 
@@ -173,7 +175,6 @@ export class BracketService {
     this.regions["final_four"] = new Region("final_four");
     this.regions["final_four"].initializeBracket([null, null, null, null]);
     this.region = this.regions["east"]!;
-    this.bracketLoadedSubject.next(true);
   }
 
   getYear() {

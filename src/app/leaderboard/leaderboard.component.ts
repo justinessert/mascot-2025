@@ -24,8 +24,19 @@ interface PublishedBracket {
 export class LeaderboardComponent implements OnInit {
   leaderboardBrackets$: Observable<PublishedBracket[]> | null = null;
   userBracket: PublishedBracket | null = null;
+  showUserBanner: boolean = false;
+  showPublishBanner: boolean = false;
 
-  constructor(private firestore: Firestore, public bracketService: BracketService) { }
+  constructor(private firestore: Firestore, public bracketService: BracketService) {
+
+    // Wait for the bracket to be fully loaded before initializing
+    this.bracketService.bracketLoaded$.subscribe(loaded => {
+      if (loaded) {
+        this.showUserBanner = this.bracketService.user == null;
+        this.showPublishBanner = !this.bracketService.published;
+      }
+    });
+  }
 
   ngOnInit() {
     const leaderboardCollection = collection(this.firestore, `leaderboard/${this.bracketService.getYear()}/data`);
@@ -66,5 +77,13 @@ export class LeaderboardComponent implements OnInit {
         return typedBrackets;
       })
     );
+  }
+
+  closeUserBanner() {
+    this.showUserBanner = false;
+  }
+
+  closePublishBanner() {
+    this.showPublishBanner = false;
   }
 }

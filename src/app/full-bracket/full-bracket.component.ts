@@ -22,7 +22,6 @@ export class FullBracketComponent {
     let semiFinalLeft = [bracket[0][0], bracket[0][1]]
     let semiFinalRight = [bracket[0][2], bracket[0][3]]
     let final = [bracket[1][0], bracket[1][1]]
-    console.log("matchups: {}", [semiFinalLeft, final, semiFinalRight])
     return [semiFinalLeft, final, semiFinalRight]
   }
 }

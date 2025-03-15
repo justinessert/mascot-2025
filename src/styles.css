@@ -198,8 +198,10 @@ img {
 
 .info-banner {
   width: 100%;
-  background-color: #2196F3; /* Blue background */
-  color: #fff; /* White text */
+  background-color: #2196F3;
+  /* Blue background */
+  color: #fff;
+  /* White text */
   text-align: center;
   font-size: 1.1em;
   font-weight: bold;
@@ -208,7 +210,8 @@ img {
   position: relative;
   top: 0;
   left: 0;
-  z-index: 1000; /* Ensures it stays on top */
+  z-index: 1000;
+  /* Ensures it stays on top */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -217,7 +220,8 @@ img {
 }
 
 .info-banner.hidden {
-  transform: translateY(-100%); /* Moves banner off-screen */
+  transform: translateY(-100%);
+  /* Moves banner off-screen */
 }
 
 .info-banner .close-btn {
@@ -231,5 +235,6 @@ img {
 }
 
 .info-banner .close-btn:hover {
-  color: #f8d7da; /* Light red on hover */
+  color: #f8d7da;
+  /* Light red on hover */
 }

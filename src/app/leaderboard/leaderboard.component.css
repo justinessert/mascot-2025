@@ -1,3 +1,7 @@
+.info-banner {
+    width: unset;
+}
+
 /* Dark Theme Leaderboard Container */
 .leaderboard-container {
     max-width: 900px;
@@ -73,14 +77,14 @@
 
 .leaderboard-table th,
 .leaderboard-table td {
-  padding: 12px;
-  text-align: center;
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 12px;
+    text-align: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .leaderboard-table th:last-child,
 .leaderboard-table td:last-child {
-  border-right: none;
+    border-right: none;
 }
 
 /* Table Body */

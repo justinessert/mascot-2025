@@ -1,6 +1,14 @@
 <div class="leaderboard-container">
+    <!-- Info Banner-->
+    <div class="info-banner" *ngIf="showUserBanner">
+        ℹ️ Log In to see your stats!
+        <button class="close-btn" (click)="closeUserBanner()">×</button>
+    </div>
+    <div class="info-banner" *ngIf="showPublishBanner && bracketService.user">
+        ℹ️ Create & publish a bracket to get on the leaderboard
+        <button class="close-btn" (click)="closePublishBanner()">×</button>
+    </div>
     <!-- Header Section -->
-    <h3 *ngIf="!bracketService.user">Log in to see your bracket</h3>
     <div class="leaderboard-header">
       <div class="header-item">
         <span class="header-label">Bracket Name</span>
