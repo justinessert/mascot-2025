@@ -5,7 +5,9 @@ import { updateNCAAGames } from "./games";
 import { manualUpdateGameMappings } from "./mapping";
 import { updateScores } from "./scoring";
 
-export const manualUpdateNCAAGames = onRequest(async (req, res) => {
+export const manualUpdateNCAAGames = onRequest(
+    { timeoutSeconds: 300 },
+    async (req, res) => {
 
     try {
         const date = req.query.date as string
@@ -21,12 +23,19 @@ export const manualUpdateNCAAGames = onRequest(async (req, res) => {
 
 
 // Scheduled Automatic Update (Every 15 minutes)
-export const scheduledUpdateNCAAGames = onSchedule("every 15 minutes", async () => {
+export const scheduledUpdateNCAAGames = onSchedule(
+    {
+        schedule: "every 15 minutes",
+        timeoutSeconds: 540,
+    },
+    async () => {
     await updateNCAAGames();
     await updateScores();
 });
 
-export const updateGameMappings = onRequest(async (req, res) => {
+export const updateGameMappings = onRequest(
+    { timeoutSeconds: 300 },
+    async (req, res) => {
     try {
         const { year, newMappings } = req.body; // Get data from request body
 
@@ -45,7 +54,9 @@ export const updateGameMappings = onRequest(async (req, res) => {
 });
 
 // 🎯 **Update Published Bracket Scores**
-export const updateBracketScores = onRequest(async (req, res) => {
+export const updateBracketScores = onRequest(
+    { timeoutSeconds: 300 },
+    async (req, res) => {
     try {
         const year = req.query.year ? parseInt(req.query.year as string) : DateTime.now().year;
 
