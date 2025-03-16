@@ -47,3 +47,4 @@ src/environments/
 
 **/firebase-debug.log
 **/.ipynb_checkpoints/
+utils/data
