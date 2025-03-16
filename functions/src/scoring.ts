@@ -14,6 +14,7 @@ function calculateBracketScore(bracket: any, gameMappings: any, ncaaGameResults:
         }
 
         for (const [roundKey, gameIds] of Object.entries(rounds as Record<string, string[]>)) {
+            let regionRoundScore = 0;
             const roundNumber = parseInt(roundKey.split("_")[1]); // Extracts the round number
             let pointsPerWin = 10 * Math.pow(2, roundNumber - 1); // Doubles each round
             pointsPerWin = region === "final_four" ? pointsPerWin * 16 : pointsPerWin;
@@ -24,14 +25,16 @@ function calculateBracketScore(bracket: any, gameMappings: any, ncaaGameResults:
                 if (!gameId || !ncaaGameResults[gameId]) continue; // Skip if no game mapping or game data
 
                 const correctWinner = ncaaGameResults[gameId].winner;
-                const userGameIdx = userRoundOrder[i]
+                const userGameIdx = region === "final_four" ? i : userRoundOrder[i]
                 const userSelection = bracket.bracketData.bracket[region]["bracket"][roundNumber]?.[userGameIdx];
                 const userSelectionTransform = transformTeamName(userSelection["name"]);
 
                 if (userSelectionTransform === correctWinner) {
-                    totalScore += pointsPerWin;
+                    regionRoundScore += pointsPerWin;
                 }
             }
+            totalScore += regionRoundScore;
+            console.log(`Score for ${bracket.bracketData.name} of region ${region} & round ${roundNumber}: ${regionRoundScore}`)
         }
     }
 
