@@ -30,8 +30,21 @@ export const scheduledUpdateNCAAGames = onSchedule(
         timeoutSeconds: 540,
     },
     async () => {
-    await updateNCAAGames();
-    await updateScores();
+        const now = DateTime.now().setZone("America/Los_Angeles"); // Use Pacific Time
+
+        const currentHour = now.hour; // 0-23 format
+        const currentDay = now.weekday; // 1 (Monday) - 7 (Sunday)
+
+        const isValidDay = [4, 5, 6, 7].includes(currentDay); // Thursday-Sunday
+        const isValidHour = currentHour >= 12 && currentHour < 24; // 12pm - 11:59pm
+
+        if (!isValidDay || !isValidHour) {
+            console.log(`⏳ Skipping update. Current time: ${now.toFormat("yyyy-MM-dd HH:mm:ss ZZZZ")}`);
+            return;
+        }
+
+        await updateNCAAGames();
+        await updateScores();
 });
 
 export const updateGameMappings = onRequest(
