@@ -8,7 +8,7 @@ async function fetchNCAAGamesFromAPI(date: string | null = null) {
     const pacificNow = DateTime.now().setZone("America/Los_Angeles");
     const targetDate = date || pacificNow.toFormat("yyyy/MM/dd"); // Format: "2024/03/10"
     const apiUrl = `https://data.ncaa.com/casablanca/scoreboard/basketball-men/d1/${targetDate}/scoreboard.json`;
-    console.log(`🌍 Fetching NCAA games from: ${apiUrl}`);
+    console.log(`🌍 Fetching NCAA games from for ${targetDate}: ${apiUrl}`);
 
     try {
         console.log("⏳ Fetching NCAA games...");
@@ -58,8 +58,8 @@ export async function updateNCAAGames(date: string | undefined | null = null) {
     if (date) {
         date = DateTime.fromISO(date).toFormat("yyyy/MM/dd");
     }
-    console.log("🔄 Updating NCAA games...");
-    const games = await fetchNCAAGamesFromAPI();
+    console.log(`🔄 Updating NCAA games for date ${date}...`);
+    const games = await fetchNCAAGamesFromAPI(date);
     console.log("🎉 NCAA games fetched successfully.");
     await saveGamesToDatabase(games);
     console.log("🎉 NCAA games updated successfully.");
