@@ -15,7 +15,8 @@ function calculateBracketScore(bracket: any, gameMappings: any, ncaaGameResults:
 
         for (const [roundKey, gameIds] of Object.entries(rounds as Record<string, string[]>)) {
             const roundNumber = parseInt(roundKey.split("_")[1]); // Extracts the round number
-            const pointsPerWin = 10 * Math.pow(2, roundNumber - 1); // Doubles each round
+            let pointsPerWin = 10 * Math.pow(2, roundNumber - 1); // Doubles each round
+            pointsPerWin = region === "final_four" ? pointsPerWin * 16 : pointsPerWin;
             const userRoundOrder = roundOrders[roundNumber];
 
             for (let i = 0; i < gameIds.length; i++) {
