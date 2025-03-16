@@ -201,7 +201,9 @@ export class BracketService {
   setFinalFourTeam(region_name: string, team: Team) {
     // Get Index of region_name in regionOrder[this.year]
     const regionIndex = regionOrder[this.year].indexOf(region_name);
-    this.regions["final_four"]!.bracket[0][regionIndex] = team;
+    const reOrder = [0, 2, 3, 1];
+    const realRegionIndex = reOrder[regionIndex]
+    this.regions["final_four"]!.bracket[0][realRegionIndex] = team;
   }
 
   getRegionBracket(region_name: string) {

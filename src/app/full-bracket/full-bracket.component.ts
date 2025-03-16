@@ -3,18 +3,17 @@ import { CommonModule } from '@angular/common';
 import { BracketSegmentComponent } from '../bracket-segment/bracket-segment.component';
 import { BracketService } from '../services/bracket.service';
 import { MatchupComponent } from '../matchup/matchup.component';
+import { regionOrder } from '../constants';
+import { ReplaceUnderscorePipe } from '../replace-underscore.pipe';
 
 @Component({
   selector: 'app-full-bracket',
   standalone: true,
-  imports: [CommonModule, MatchupComponent, BracketSegmentComponent],
+  imports: [CommonModule, MatchupComponent, BracketSegmentComponent, ReplaceUnderscorePipe],
   templateUrl: './full-bracket.component.html',
   styleUrls: ['./full-bracket.component.css']
 })
 export class FullBracketComponent {
-  leftRegions = ['east', 'west']; // Normal order
-  rightRegions = ['midwest', 'south']; // Reverse order
-
   constructor(public bracketService: BracketService) {}
 
   getFinalFourMatchups(): any[][]{
@@ -23,5 +22,15 @@ export class FullBracketComponent {
     let semiFinalRight = [bracket[0][2], bracket[0][3]]
     let final = [bracket[1][0], bracket[1][1]]
     return [semiFinalLeft, final, semiFinalRight]
+  }
+
+  get leftRegions(): string[] {
+    const year = this.bracketService.getYear()
+    return [regionOrder[year][0], regionOrder[year][3]]
+  }
+
+  get rightRegions(): string[] {
+    const year = this.bracketService.getYear()
+    return [regionOrder[year][1], regionOrder[year][2]]
   }
 }

@@ -3,8 +3,8 @@
         <!-- Left side (Normal regions, R1 → R4) -->
         <div class="bracket-side">
             <div class="bracket-wrapper">
-                <h2>East Region</h2>
-                <app-bracket-segment [currentRegion]="'east'" [roundHeaders]="false"></app-bracket-segment>
+                <h2>{{ leftRegions[0] | replaceUnderscore | titlecase }} Region</h2>
+                <app-bracket-segment [currentRegion]="leftRegions[0]" [roundHeaders]="false"></app-bracket-segment>
             </div>
             <div class="final-four-wrapper">
                 <div class="final-four">
@@ -20,22 +20,22 @@
                 </div>
             </div>
             <div class="bracket-wrapper">
-                <h2>West Region</h2>
-                <app-bracket-segment [currentRegion]="'west'" [roundHeaders]="false"></app-bracket-segment>
+                <h2>{{ leftRegions[1] | replaceUnderscore | titlecase }} Region</h2>
+                <app-bracket-segment [currentRegion]="leftRegions[1]" [roundHeaders]="false"></app-bracket-segment>
             </div>
         </div>
     
         <!-- Right side (Mirrored regions, R4 → R1) -->
         <div class="bracket-side">
             <div class="bracket-wrapper">
-                <h2 class="reverse">Midwest Region</h2>
-                <app-bracket-segment [currentRegion]="'midwest'" [roundHeaders]="false" [reverseOrder]="true"></app-bracket-segment>
+                <h2 class="reverse">{{ rightRegions[0] | replaceUnderscore | titlecase }} Region</h2>
+                <app-bracket-segment [currentRegion]="rightRegions[0]" [roundHeaders]="false" [reverseOrder]="true"></app-bracket-segment>
             </div>
             <div class="final-four">
             </div>
             <div class="bracket-wrapper">
-                <h2 class="reverse">South Region</h2>
-                <app-bracket-segment [currentRegion]="'south'" [roundHeaders]="false" [reverseOrder]="true"></app-bracket-segment>
+                <h2 class="reverse">{{ rightRegions[1] | replaceUnderscore | titlecase }} Region</h2>
+                <app-bracket-segment [currentRegion]="rightRegions[1]" [roundHeaders]="false" [reverseOrder]="true"></app-bracket-segment>
             </div>
         </div>
     </div>

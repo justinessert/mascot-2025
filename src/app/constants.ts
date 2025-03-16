@@ -25,7 +25,7 @@ export const bracketData: Record<number, Record<string, string[]>> = {
 
 
 export const regionOrder: Record<number, string[]> = {
-  2024: ["east", "west", "midwest", "south"]
+  2024: ["east", "south", "midwest", "west"]
 };
 
 export const nicknames: Record<string, string> = {
