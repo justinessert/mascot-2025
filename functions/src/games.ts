@@ -45,6 +45,7 @@ async function saveGamesToDatabase(games: any) {
             gameDate: game.game.startDate,
             status: game.game.currentPeriod,
             winner: winner,
+            gameId: game.game.gameID.toString(),
             lastUpdated: Timestamp.now(),
         });
     });

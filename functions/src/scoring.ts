@@ -88,17 +88,44 @@ export async function updateScores(year: string | number | null = null) {
         console.error(`❌ No game mappings found for year ${year}`);
         return;
     }
-    const gameMappings = gameMappingsSnapshot.data();
+    const gameMappings = gameMappingsSnapshot.data() as Record<string, Record<string, string[]>>;
     console.log("📌 Game mappings retrieved:", gameMappings);
+
+    // **Extract all game IDs into a single array**
+    const gameIds: string[] = Object.values(gameMappings)
+        .flatMap(region => Object.values(region))
+        .flat()
+        .filter(id => id !== null && id !== undefined);
+    console.log("📌 Game ids to pull:", gameIds);
 
     // **Step 4: Get NCAA Game Results**
     const ncaaGamesRef = db.collection("ncaaGames");
-    // const ncaaGameResults: Record<string, any> = await ncaaGamesRef.get();
-    const ncaaGamesSnapshot = await ncaaGamesRef.get();
     const ncaaGameResults: Record<string, any> = {};
-    ncaaGamesSnapshot.forEach(doc => {
-        ncaaGameResults[doc.id] = doc.data();
-    });
+
+    if (gameIds.length === 0) {
+        console.warn("⚠ No game IDs found to query NCAA results.");
+    } else {
+        const chunkSize = 30; // Firestore has a limit of 30 items in 'in' queries
+        const gameIdChunks = [];
+        
+        // Split gameIds into chunks of 30
+        for (let i = 0; i < gameIds.length; i += chunkSize) {
+            gameIdChunks.push(gameIds.slice(i, i + chunkSize));
+        }
+
+        console.log(`🔍 Fetching NCAA game results for ${gameIds.length} games in ${gameIdChunks.length} queries...`);
+
+        // Run multiple queries if needed
+        for (const chunk of gameIdChunks) {
+            console.log(`Fetching chunk: ${chunk}`)
+            let query = ncaaGamesRef.where("gameId", "in", chunk);
+            const querySnapshot = await query.get();
+            
+            querySnapshot.forEach(doc => {
+                ncaaGameResults[doc.id] = doc.data();
+            });
+        }
+    }
 
     console.log(`📌 Retrieved ${Object.keys(ncaaGameResults).length} NCAA games.`);
 
