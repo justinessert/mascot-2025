@@ -11,7 +11,7 @@ export const manualUpdateNCAAGames = onRequest(
 
     try {
         const date = req.query.date as string
-        updateNCAAGames(date);
+        await updateNCAAGames(date);
 
         // Log final message to confirm function completion
         console.log("🏁 [manualUpdateNCAAGames] Finished execution successfully.");
@@ -61,7 +61,7 @@ export const updateBracketScores = onRequest(
     try {
         const year = req.query.year ? parseInt(req.query.year as string) : DateTime.now().year;
 
-        updateScores(year)
+        await updateScores(year)
 
         res.status(200).json({ message: "Bracket scores updated successfully!" });
 
