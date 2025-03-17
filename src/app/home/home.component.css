@@ -1,5 +1,7 @@
 .home-container {
-  position: relative;
+  position: absolute;
+  left: 0px;
+  top: 0px;
   width: 100vw;
   height: 100vh;
   background: url('/assets/basketball.jpeg') no-repeat center center;
