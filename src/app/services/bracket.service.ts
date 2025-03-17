@@ -174,7 +174,7 @@ export class BracketService {
 
     this.regions["final_four"] = new Region("final_four");
     this.regions["final_four"].initializeBracket([null, null, null, null]);
-    this.region = this.regions["east"]!;
+    this.region = this.regions[this.getRegionOrder()[0]]!;
   }
 
   getYear() {

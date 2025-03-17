@@ -1,4 +1,4 @@
-export const currentYear = 2024;
+export const currentYear = 2025;
 
 export const bracketData24: Record<string, string[]> = {
   east: [
@@ -19,18 +19,53 @@ export const bracketData24: Record<string, string[]> = {
   ]
 };
 
+// const TODO = [
+//   "louisville", "uc_san_diego", "lipscomb", "alabama_state", "saint_francis_u",
+//   "vanderbilt", "liberty", "montana", "robert_morris", "american", "mount_saint_marys",
+//   "georgia", "wofford", "siu_edwardsville",
+//   "omaha",
+// ]
+
+// S 11 - san_diego_state, north_carolina
+// S 16 - alabama_state, saint_francis_u
+// E 16 - american, mount_saint_marys
+// MW 11 - texas, xavier
+
+export const bracketData25: Record<string, string[]> = {
+  south: [
+    "auburn", "michigan_state", "iowa_state", "texas_a&m", "michigan", "ole_miss", "marquette", "louisville",
+    "creighton", "new_mexico", "san_diego_state_or_north_carolina", "uc_san_diego", "yale", "lipscomb", "bryant", "alabama_state_or_saint_francis_u",
+  ],
+  east: [
+    "duke", "alabama", "wisconsin", "arizona", "oregon", "byu", "saint_marys", "mississippi_state",
+    "baylor", "vanderbilt", "vcu", "liberty", "akron", "montana", "robert_morris", "american_or_mount_saint_marys",
+  ],
+  midwest: [
+    "houston", "tennessee", "kentucky", "purdue", "clemson", "illinois", "ucla", "gonzaga",
+    "georgia", "utah_state", "texas_or_xavier", "mcneese", "high_point", "troy", "wofford", "siu_edwardsville",
+  ],
+  west: [
+    "florida", "saint_johns", "texas_tech", "maryland", "memphis", "missouri", "kansas", "uconn",
+    "oklahoma", "arkansas", "drake", "colorado_state", "grand_canyon", "unc_wilmington", "omaha", "norfolk_state",
+  ],
+};
+
 export const bracketData: Record<number, Record<string, string[]>> = {
   2024: bracketData24,
+  2025: bracketData25,
 };
 
 
 export const regionOrder: Record<number, string[]> = {
-  2024: ["east", "south", "midwest", "west"]
+  2024: ["east", "south", "midwest", "west"],
+  2025: ["south", "east", "midwest", "west"],
 };
 
 export const nicknames: Record<string, string> = {
     "akron": "zips",
     "alabama": "crimson tide",
+    "alabama_state": "hornets",
+    "american": "eagles",
     "appalachian_state": "mountaineers",
     "arizona_state": "sun devils",
     "arizona": "wildcats",
@@ -65,6 +100,7 @@ export const nicknames: Record<string, string> = {
     "florida": "gators",
     "florida_atlantic": "owls",
     "furman": "paladins",
+    "georgia": "bulldogs",
     "georgia_state": "panthers",
     "gonzaga": "bulldogs",
     "grambling_state": "tigers",
@@ -86,11 +122,14 @@ export const nicknames: Record<string, string> = {
     "kennesaw_state": "owls",
     "kent_state": "golden flashes",
     "kentucky": "wildcats",
+    "liberty": "flames",
+    "lipscomb": "bisons",
     "little_rock": "trojans",
     "long_beach_state": "the beach",
     "longwood": "lancers",
     "louisiana": "ragin cajuns",
     "louisiana_tech": "bulldogs",
+    "louisville": "cardinals",
     "loyola_chicago": "ramblers",
     "lsu": "tigers",
     "marquette": "golden eagles",
@@ -103,7 +142,9 @@ export const nicknames: Record<string, string> = {
     "michigan": "wolverines",
     "mississippi_state": "bulldogs",
     "missouri": "mizzou",
+    "montana": "grizzlies",
     "montana_state": "fighting bobcats",
+    "mount_saint_marys": "mountaineers",
     "morehead_state": "eagles",
     "murray_state": "racers",
     "nc_central": "eagles",
@@ -124,6 +165,7 @@ export const nicknames: Record<string, string> = {
     "ohio_state": "buckeyes",
     "oklahoma": "sooners",
     "ole_miss": "rebels",
+    "omaha": "mavericks",
     "oral_roberts": "golden eagles",
     "oregon": "ducks",
     "penn_state": "nittany lions",
@@ -132,7 +174,9 @@ export const nicknames: Record<string, string> = {
     "purdue": "boilmakers",
     "quinnipiac": "bobcats",
     "richmond": "spiders",
+    "robert_morris": "colonials",
     "rutgers": "scarlet knights",
+    "saint_francis_u": "red flash",
     "saint_johns": "red storm",
     "saint_marys": "gaels",
     "saint_peters": "peacocks",
@@ -141,6 +185,7 @@ export const nicknames: Record<string, string> = {
     "san_diego_state": "aztecs",
     "san_francisco": "dons",
     "seton_hall": "pirates",
+    "siu_edwardsville": "cougars",
     "south_carolina": "gamecocks",
     "south_dakota_state": "jackrabbits",
     "south_florida": "bulls",
@@ -161,11 +206,13 @@ export const nicknames: Record<string, string> = {
     "uconn": "huskies",
     "ucsb": "bison",
     "uc_irvine": "anteaters",
+    "uc_san_diego": "tritons",
     "unc_asheville": "bulldogs",
     "unc_wilmington": "seahawks",
     "usc": "trojans",
     "utah": "utes",
     "utah_state": "aggies",
+    "vanderbilt": "commodores",
     "vcu": "rams",
     "vermont": "catamounts",
     "villanova": "wildcats",
@@ -177,6 +224,7 @@ export const nicknames: Record<string, string> = {
     "west_virginia": "mountaineers",
     "western_kentucky": "hilltoppers",
     "wisconsin": "badgers",
+    "wofford": "terriers",
     "wright_state": "raiders",
     "wyoming": "cowboys",
     "xavier": "musketeers",
