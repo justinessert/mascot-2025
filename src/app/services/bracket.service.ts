@@ -2,7 +2,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Firestore, doc, setDoc, getDoc, addDoc } from '@angular/fire/firestore';
 import { Auth, user, User } from '@angular/fire/auth';
-import { bracketData, currentYear, nicknames, regionOrder } from '../constants';
+import { bracketData, currentYear, firstFourMapping, nicknames, regionOrder } from '../constants';
 import { collection } from 'firebase/firestore';
 
 
@@ -169,7 +169,7 @@ export class BracketService {
 
     for (let region_name of regionOrder[year]) {
       this.regions[region_name] = new Region(region_name)
-      this.regions[region_name].initializeBracket(bracketData[year][region_name].map((name, index) => new Team(name, index + 1)));
+      this.regions[region_name].initializeBracket(bracketData[year][region_name].map((name, index) => new Team(this.mapName(name), index + 1)));
     }
 
     this.regions["final_four"] = new Region("final_four");
@@ -183,6 +183,10 @@ export class BracketService {
 
   getRegionOrder() {
     return regionOrder[this.year];
+  }
+
+  mapName(team_name: string): string {
+    return firstFourMapping[this.year][team_name] || team_name;
   }
 
   selectRegion(region_name: string) {
@@ -290,7 +294,7 @@ export class BracketService {
     if (snapshot.exists()) {
       const data = snapshot.data();
       this.regions = Object.fromEntries(Object.entries(data['bracket']).map(([key, region]) => [key, Region.from_dict(region as Map<string, any>)]));
-      this.name = data['name'];
+      this.name = this.mapName(data['name']);
       this.regions$.next(this.regions);
       this.saved = true;
       this.published = data['published']

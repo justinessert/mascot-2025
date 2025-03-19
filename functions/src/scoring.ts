@@ -3,9 +3,8 @@ import { transformTeamName } from "./utils";
 import { roundOrders } from "./constants";
 import { db } from "./firebase";
 
-
 // 🎯 **Calculate Score for a Single Bracket**
-function calculateBracketScore(bracket: any, gameMappings: any, ncaaGameResults: any): number {
+function calculateBracketScore(bracket: any, gameMappings: any, ncaaGameResults: any, year: string): number {
     let totalScore = 0;
 
     for (const [region, rounds] of Object.entries(gameMappings)) {
@@ -27,7 +26,7 @@ function calculateBracketScore(bracket: any, gameMappings: any, ncaaGameResults:
                 const correctWinner = ncaaGameResults[gameId].winner;
                 const userGameIdx = region === "final_four" ? i : userRoundOrder[i]
                 const userSelection = bracket.bracketData.bracket[region]["bracket"][roundNumber]?.[userGameIdx];
-                const userSelectionTransform = transformTeamName(userSelection["name"]);
+                const userSelectionTransform = transformTeamName(userSelection["name"], year);
 
                 if (userSelectionTransform === correctWinner) {
                     regionRoundScore += pointsPerWin;
@@ -131,7 +130,7 @@ export async function updateScores(year: string | number | null = null) {
 
     // **Step 5: Score & Update Each Published Bracket**
     const updatePromises = publishedBrackets.map(async bracket => {
-        const score = calculateBracketScore(bracket, gameMappings, ncaaGameResults);
+        const score = calculateBracketScore(bracket, gameMappings, ncaaGameResults, String(year));
         console.log(`🏆 Bracket ${bracket!.id} - New Score: ${score}`);
 
         return publishedBracketsRef.doc(bracket!.id).update({ score });

@@ -61,6 +61,16 @@ export const regionOrder: Record<number, string[]> = {
   2025: ["south", "east", "midwest", "west"],
 };
 
+export const firstFourMapping: Record<number, Record<string, string>> = {
+  2024: {},
+  2025: {
+    "san_diego_state_or_north_carolina": "san_diego_state_or_north_carolina",
+    "alabama_state_or_saint_francis_u": "alabama_state",
+    "american_or_mount_saint_marys": "american_or_mount_saint_marys",
+    "texas_or_xavier": "texas_or_xavier",
+  }
+}
+
 export const nicknames: Record<string, string> = {
     "akron": "zips",
     "alabama": "crimson tide",

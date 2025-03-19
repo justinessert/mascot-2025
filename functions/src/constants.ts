@@ -29,6 +29,16 @@ export const specialNcaaNames: Record<string, string> = {
     "western_kentucky": "western-ky",
 };
 
+export const firstFourMapping: Record<string, Record<string, string>> = {
+    "2024": {},
+    "2025": {
+      "san_diego_state_or_north_carolina": "san_diego_state_or_north_carolina",
+      "alabama_state_or_saint_francis_u": "alabama_state_or_saint_francis_u",
+      "american_or_mount_saint_marys": "american_or_mount_saint_marys",
+      "texas_or_xavier": "texas_or_xavier",
+    }
+  }
+
 
 export const roundOrders: Record<number, number[]> = {
     1: [0, 6, 4, 2, 3, 5, 7, 1],

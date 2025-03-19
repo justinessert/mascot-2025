@@ -1,7 +1,9 @@
-import { specialNcaaNames } from "./constants";
+import { firstFourMapping, specialNcaaNames } from "./constants";
 
-export function transformTeamName(teamName: string): string {
+export function transformTeamName(teamName: string, year: string): string {
   if (!teamName) return "";
+
+  teamName = firstFourMapping[year][teamName] || teamName;
 
   // Convert using special mapping if exists
   const mappedName = specialNcaaNames[teamName] || teamName;
