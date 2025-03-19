@@ -46,6 +46,15 @@
       <button *ngIf="bracketService.user" mat-button type="button" (click)="publishBracket()" [disabled]="bracketService.published">Publish Bracket</button>
     </div>
   </form>
+
+    <div class="info-banner" *ngIf="!bracketService.saved && !bracketService.published">
+      ℹ️ Save & publish your bracket to get it on the leaderboard
+      <button class="close-btn" (click)="closePublishBanner()">×</button>
+    </div>
+    <div class="info-banner" *ngIf="bracketService.saved && !bracketService.published">
+      ℹ️ Publish your bracket to get it on the leaderboard
+      <button class="close-btn" (click)="closePublishBanner()">×</button>
+    </div>
     <p *ngIf="bracketService.saved && !bracketService.published">You have successfully saved your bracket.</p>
     <p *ngIf="bracketService.published">You have successfully saved & published your bracket.</p>
   </div>

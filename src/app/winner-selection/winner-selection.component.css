@@ -1,6 +1,6 @@
 /* Ensure full-width background */
 .winner-selection-container {
-  width: 100vw; /* Full screen width */
+  width: 100%; /* Full screen width */
   background: #222; /* Match footer background */
   padding: 20px 0; /* Adds spacing for better layout */
   display: flex;
@@ -139,4 +139,8 @@ input {
   border-radius: 5px;
   border: none;
   width: 250px;
+}
+
+.info-banner {
+  width: unset;
 }

@@ -17,6 +17,7 @@ export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
   champion: any = null;
   regionOrder!: string[];
   bracketName: string | null = null;
+  showPublishBanner: boolean = false;
 
   private touchListener: any;
 
@@ -99,6 +100,10 @@ export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
 
   signup() {
     this.router.navigate(['/signup']);
+  }
+
+  closePublishBanner() {
+    this.showPublishBanner = false;
   }
 
   async saveBracket() {
