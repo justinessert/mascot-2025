@@ -89,6 +89,7 @@ export class AppComponent {
       this.router.navigate(['/login']); // Redirect to login after logout
     });
     window.location.reload();
+    this.menuOpen = false;
   }
 
   @HostListener('window:resize', [])

@@ -92,7 +92,7 @@
   <button mat-button *ngIf="!user" (click)="route(['/signup'])" class="bracket-toggle">Sign Up</button>
 
   <!-- Log Out Section -->
-  <button mat-button *ngIf="user" (click)="route(['/logout'])" class="bracket-toggle">Log Out</button>
+  <button mat-button *ngIf="user" (click)="logout()" class="bracket-toggle">Log Out</button>
 </nav>
 
 <!-- Main Content (Router Outlet for Navigation) -->
