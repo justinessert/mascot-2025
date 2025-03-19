@@ -101,18 +101,18 @@ export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
     this.router.navigate(['/signup']);
   }
 
-  saveBracket() {
+  async saveBracket() {
     if (this.bracketService.name.trim() === '') {
       alert('Please enter a bracket name before saving.');
       return;
     }
   
-    this.bracketService.saveBracket();
+    await this.bracketService.saveBracket();
   }
 
   async publishBracket() {
     if (!this.bracketService.saved) {
-      this.saveBracket();
+      await this.saveBracket();
     }
   
     if (this.bracketService.published) {
