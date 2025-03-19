@@ -112,6 +112,11 @@ export class AppComponent {
     this.menuOpen = false;
   }
 
+  route(path: any) {
+    this.router.navigate(path);
+    this.menuOpen = false;
+  }
+
   selectYear(year: number) {
     this.selectedYear = year;
     this.bracketService.initialize(year);

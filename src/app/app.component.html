@@ -67,10 +67,10 @@
   </div>
 
   <!-- Leaderboard Section -->
-  <button mat-button="pick" [routerLink]="['/leaderboard']" class="bracket-toggle">Leaderboard</button>
+  <button mat-button="leaderboard" (click)="route(['/leaderboard'])" class="bracket-toggle">Leaderboard</button>
 
   <!-- Pick Bracket Section -->
-  <button mat-button="pick" [routerLink]="['/bracket/pick']" class="bracket-toggle">Pick Bracket</button>
+  <button mat-button="pick" (click)="route(['/bracket/pick'])" class="bracket-toggle">Pick Bracket</button>
 
   <!-- Select Region Section -->
   <button mat-button (click)="toggleBracketSubMenu()" class="bracket-toggle">
@@ -79,20 +79,20 @@
   </button>
   <!-- Nested Region Links -->
   <div class="bracket-submenu" *ngIf="bracketSubMenuOpen && !isHomePage">
-    <button *ngFor="let region of regionsMenu" mat-button [routerLink]="['/bracket/view', region]" (click)="selectRegion(region)">
+    <button *ngFor="let region of regionsMenu" mat-button (click)="route(['/bracket/view', region])" (click)="selectRegion(region)">
       <div *ngIf="region!='full'">{{ region | replaceUnderscore | titlecase }} Region</div>
       <div *ngIf="region==='full'">All Regions</div>
     </button>
   </div>
 
   <!-- Log In Section -->
-  <button mat-button *ngIf="!user" [routerLink]="['/login']" class="bracket-toggle">Log In</button>
+  <button mat-button *ngIf="!user" (click)="route(['/login'])" class="bracket-toggle">Log In</button>
 
   <!-- Sign Up Section -->
-  <button mat-button *ngIf="!user" [routerLink]="['/signup']" class="bracket-toggle">Sign Up</button>
+  <button mat-button *ngIf="!user" (click)="route(['/signup'])" class="bracket-toggle">Sign Up</button>
 
   <!-- Log Out Section -->
-  <button mat-button *ngIf="user" (click)="logout()" class="bracket-toggle">Log Out</button>
+  <button mat-button *ngIf="user" (click)="route(['/logout'])" class="bracket-toggle">Log Out</button>
 </nav>
 
 <!-- Main Content (Router Outlet for Navigation) -->
