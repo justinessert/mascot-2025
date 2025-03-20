@@ -47,7 +47,7 @@
           {{ year }}
         </button>
       </mat-menu>
-      <button mat-button [matMenuTriggerFor]="yearMenu">Year: {{currentYear}}</button>
+      <button mat-button [matMenuTriggerFor]="yearMenu">Year: {{selectedYear}}</button>
     </ng-container>
   </nav>
 </mat-toolbar>
@@ -57,7 +57,7 @@
   <!-- Select Region Section -->
   <button mat-button (click)="toggleYearSubMenu()" class="bracket-toggle">
     <mat-icon>{{ yearSubMenuOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
-    Year: {{ currentYear }}
+    Year: {{ selectedYear }}
   </button>
   <!-- Nested Year Links -->
   <div class="bracket-submenu" *ngIf="yearSubMenuOpen && !isHomePage">
@@ -102,5 +102,5 @@
 
 <!-- Footer -->
 <footer class="app-footer">
-  <p>© {{ realCurrentYear }} Justin Essert</p>
+  <p>© {{ currentYear }} Justin Essert</p>
 </footer>

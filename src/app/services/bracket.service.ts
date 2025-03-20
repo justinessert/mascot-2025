@@ -142,7 +142,7 @@ export function loadRegions(bracketData: Record<string, any>): Record<string, Re
   providedIn: 'root'
 })
 export class BracketService {
-  private year = 2024;
+  private year = new BehaviorSubject<number>(currentYear);
   regions: Record<string, Region | null> = {};
   user: User | null = null;
   region!: Region;
@@ -153,27 +153,28 @@ export class BracketService {
   bracketLoaded$ = this.bracketLoadedSubject.asObservable();
 
   regions$ = new BehaviorSubject<Record<string, Region | null>>(this.regions);
-  year$ = new BehaviorSubject<number>(this.year);
+  year$ = this.year.asObservable();
   
 
   constructor(private firestore: Firestore, private authObj: Auth) {
-    this.bracketLoadedSubject.next(false);
-    this.initialize(this.year);
-
-    user(authObj).subscribe(authUser => {
-      this.user = authUser;
-      this.loadBracket();
-    });
-
+    this.init_or_load()
   }
 
-  initialize(year?: number) {
-    year = year || currentYear;
-    this.year = year;
+  async init_or_load() {
+    this.bracketLoadedSubject.next(false);
+    this.initialize();
 
-    for (let region_name of regionOrder[year]) {
+    await user(this.authObj).subscribe(async authUser => {
+      this.user = authUser;
+      await this.loadBracket();
+    });
+    this.bracketLoadedSubject.next(true);
+  }
+
+  initialize() {
+    for (let region_name of regionOrder[this.getYear()]) {
       this.regions[region_name] = new Region(region_name)
-      this.regions[region_name].initializeBracket(bracketData[year][region_name].map((name, index) => new Team(this.mapName(name), index + 1)));
+      this.regions[region_name].initializeBracket(bracketData[this.getYear()][region_name].map((name, index) => new Team(this.mapName(name), index + 1)));
     }
 
     this.regions["final_four"] = new Region("final_four");
@@ -181,16 +182,21 @@ export class BracketService {
     this.region = this.regions[this.getRegionOrder()[0]]!;
   }
 
-  getYear() {
-    return this.year;
+  getYear(): number {
+    return this.year.getValue();
+  }
+
+  async setYear(year: number) {
+    this.year.next(year);
+    await this.init_or_load()
   }
 
   getRegionOrder() {
-    return regionOrder[this.year];
+    return regionOrder[this.getYear()];
   }
 
   mapName(team_name: string): string {
-    return firstFourMapping[this.year][team_name] || team_name;
+    return firstFourMapping[this.getYear()][team_name] || team_name;
   }
 
   selectRegion(region_name: string) {
@@ -208,7 +214,7 @@ export class BracketService {
 
   setFinalFourTeam(region_name: string, team: Team) {
     // Get Index of region_name in regionOrder[this.year]
-    const regionIndex = regionOrder[this.year].indexOf(region_name);
+    const regionIndex = regionOrder[this.getYear()].indexOf(region_name);
     const reOrder = [0, 2, 3, 1];
     const realRegionIndex = reOrder[regionIndex]
     this.regions["final_four"]!.bracket[0][realRegionIndex] = team;
@@ -259,7 +265,7 @@ export class BracketService {
       return;
     }
 
-    const userBracketRef = doc(this.firestore, `brackets/${this.year}/${this.user.uid}/data`);
+    const userBracketRef = doc(this.firestore, `brackets/${this.getYear()}/${this.user.uid}/data`);
 
     let regionsDict = Object.fromEntries(Object.entries(this.regions).map(([key, region]) => [key, region ? region.to_dict() : null]));
     
@@ -287,10 +293,10 @@ export class BracketService {
       });
     }
 
-    if (year && year !== this.year) {
-      this.year = year;
+    if (year && year !== this.getYear()) {
+      this.setYear(year);
     }
-    const selectedYear = year || this.year; // Default to the currently selected year
+    const selectedYear = year || this.getYear(); // Default to the currently selected year
     const userBracketRef = doc(this.firestore, `brackets/${selectedYear}/${user.uid}/data`);
     
     const snapshot = await getDoc(userBracketRef);
@@ -322,7 +328,7 @@ export class BracketService {
       return;
     }
   
-    const leaderboardRef = collection(this.firestore, `leaderboard/${this.year}/data`);
+    const leaderboardRef = collection(this.firestore, `leaderboard/${this.getYear()}/data`);
     
     try {
       await addDoc(leaderboardRef, {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Firestore, collectionData, collection, DocumentData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BracketService, Team } from '../services/bracket.service';
 import { Router } from '@angular/router';
@@ -30,6 +30,7 @@ export class LeaderboardComponent implements OnInit {
   showUserBanner: boolean = false;
   showPublishBanner: boolean = false;
   champion: Team | null = null;
+  private yearSubscription!: Subscription;
 
   constructor(private router: Router, private firestore: Firestore, public bracketService: BracketService) {
 
@@ -40,10 +41,22 @@ export class LeaderboardComponent implements OnInit {
         this.showPublishBanner = !this.bracketService.published;
       }
     });
+
+    this.yearSubscription = this.bracketService.year$.subscribe((year) => {
+      console.log(`🏆 Year changed to: ${year}. Reloading leaderboard...`);
+      this.loadLeaderboard(year);
+    });
+
+    // Initial load
+    this.loadLeaderboard(this.bracketService.getYear());
+
   }
 
-  ngOnInit() {
-    const leaderboardCollection = collection(this.firestore, `leaderboard/${this.bracketService.getYear()}/data`);
+  ngOnInit() {    // Subscribe to year changes
+  }
+
+  loadLeaderboard(year: number) {
+    const leaderboardCollection = collection(this.firestore, `leaderboard/${year}/data`);
 
     this.leaderboardBrackets$ = collectionData(leaderboardCollection, { idField: 'entryId' }).pipe(
       map((brackets: DocumentData[]) => {
@@ -56,8 +69,6 @@ export class LeaderboardComponent implements OnInit {
           score: doc["score"] ?? null,
           champion: Team.from_dict(doc["champion"]),
         }));
-
-        console.log(typedBrackets)
 
         // Sort brackets by score (Descending)
         typedBrackets.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
@@ -104,5 +115,9 @@ export class LeaderboardComponent implements OnInit {
     if (nowUTC >= cutOffTimes[this.bracketService.getYear()]) {
       this.router.navigate(['/bracket', this.bracketService.getYear(), bracketId]); // Navigate to the bracket page
     }
+  }
+
+  ngOnDestroy() {
+    this.yearSubscription.unsubscribe(); // Clean up subscription to prevent memory leaks
   }
 }

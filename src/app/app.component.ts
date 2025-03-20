@@ -39,16 +39,14 @@ export class AppComponent {
   yearSubMenuOpen = false; // Closed by default
   isMobileView = window.innerWidth <= 768;
   isHomePage = false;
-  realCurrentYear: number = new Date().getFullYear();
   currentYear: number = currentYear;
-  selectedYear: number = currentYear;
-  showBanner: boolean = this.selectedYear != this.realCurrentYear;
+  showBanner: boolean = this.selectedYear != this.currentYear;
   years: number[] = Object.keys(bracketData).map(key => Number(key));
   user: User | null = null;
 
   constructor(private router: Router, public bracketService: BracketService, private auth: Auth, private titleService: Title, private metaService: Meta) {
     this.setSEO();
-    this.bracketService.initialize(this.selectedYear); // Initialize bracket data
+    this.bracketService.initialize(); // Initialize bracket data
     user(auth).subscribe(async (authUser) => {
       this.user = authUser; // Track the signed-in user
       if (this.user) {
@@ -97,6 +95,10 @@ export class AppComponent {
     this.isMobileView = window.innerWidth <= 768;
   }
 
+  get selectedYear(): number {
+    return this.bracketService?.getYear();
+  }
+
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
     if (!this.menuOpen) {
@@ -118,9 +120,8 @@ export class AppComponent {
     this.menuOpen = false;
   }
 
-  selectYear(year: number) {
-    this.selectedYear = year;
-    this.bracketService.initialize(year);
+  async selectYear(year: number) {
+    await this.bracketService.setYear(year);
   }
 
   toggleYearSubMenu() {

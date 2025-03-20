@@ -1,4 +1,4 @@
-export const currentYear = 2025;
+export const currentYear = new Date().getFullYear();
 
 export const bracketData24: Record<string, string[]> = {
   east: [

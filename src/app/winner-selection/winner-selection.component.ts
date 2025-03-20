@@ -38,7 +38,7 @@ export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
 
   initialize() {
     this.currentMatchup = this.bracketService.getCurrentMatchup() || [];
-    this.regionOrder = this.bracketService.getRegionOrder();
+    this.regionOrder = [...this.bracketService.getRegionOrder()];
     if (!this.regionOrder.includes("final_four")) {
       this.regionOrder.push("final_four");
     }
