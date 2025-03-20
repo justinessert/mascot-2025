@@ -87,8 +87,8 @@ export class AppComponent {
     const auth = getAuth();
     signOut(auth).then(() => {
       this.router.navigate(['/login']); // Redirect to login after logout
+      this.bracketService.initialize();
     });
-    window.location.reload();
     this.menuOpen = false;
   }
 
