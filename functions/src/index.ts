@@ -5,12 +5,16 @@ import { updateNCAAGames } from "./games";
 import { manualUpdateGameMappings } from "./mapping";
 import { updateScores } from "./scoring";
 import { addChampToLeaderboard } from "./updateBrackets";
+import { authenticateRequest } from "./auth";
 
 export const manualUpdateNCAAGames = onRequest(
     { timeoutSeconds: 300 },
     async (req, res) => {
 
     try {
+        // Authenticate the request
+        await authenticateRequest(req, res);
+
         const date = req.query.date as string
         await updateNCAAGames(date);
 
@@ -52,6 +56,9 @@ export const updateGameMappings = onRequest(
     { timeoutSeconds: 300 },
     async (req, res) => {
     try {
+        // Authenticate the request
+        await authenticateRequest(req, res);
+
         const { year, newMappings } = req.body; // Get data from request body
 
         if (!year || newMappings === undefined) {
@@ -73,6 +80,9 @@ export const updateBracketScores = onRequest(
     { timeoutSeconds: 300 },
     async (req, res) => {
     try {
+        // Authenticate the request
+        await authenticateRequest(req, res);
+
         const year = req.query.year ? parseInt(req.query.year as string) : DateTime.now().year;
 
         await updateScores(year)
@@ -87,6 +97,9 @@ export const updateBracketScores = onRequest(
 
 export const updatePublishedBracketsWithChampion = onRequest(async (req, res) => {
     try {
+        // Authenticate the request
+        await authenticateRequest(req, res);
+
         await addChampToLeaderboard(Number(req.query.year))
         res.status(200).json({ message: "Successfully updated all published brackets with champions." });
 
@@ -95,3 +108,4 @@ export const updatePublishedBracketsWithChampion = onRequest(async (req, res) =>
         res.status(500).json({ error: "Failed to update published brackets" });
     }
 });
+
