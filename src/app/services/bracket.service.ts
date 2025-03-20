@@ -134,6 +134,10 @@ export class Region {
   }
 }
 
+export function loadRegions(bracketData: Record<string, any>): Record<string, Region | null> {
+  return Object.fromEntries(Object.entries(bracketData).map(([key, region]) => [key, Region.from_dict(region as Map<string, any>)]));
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -293,7 +297,7 @@ export class BracketService {
 
     if (snapshot.exists()) {
       const data = snapshot.data();
-      this.regions = Object.fromEntries(Object.entries(data['bracket']).map(([key, region]) => [key, Region.from_dict(region as Map<string, any>)]));
+      this.regions = loadRegions(data['bracket']);
       this.name = this.mapName(data['name']);
       this.regions$.next(this.regions);
       this.saved = true;

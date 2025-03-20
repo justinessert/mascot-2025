@@ -36,7 +36,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let bracket of leaderboardBrackets$ | async">
+          <tr *ngFor="let bracket of leaderboardBrackets$ | async" (click)="viewBracket(bracket.bracketId)">
             <td>{{ bracket.rank }}</td>
             <td>{{ bracket.score }}</td>
             <td>{{ bracket.bracketName }}</td>

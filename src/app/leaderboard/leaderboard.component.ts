@@ -4,6 +4,7 @@ import { Firestore, collectionData, collection, DocumentData } from '@angular/fi
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BracketService } from '../services/bracket.service';
+import { Router } from '@angular/router';
 
 interface PublishedBracket {
   bracketId: string;
@@ -27,7 +28,7 @@ export class LeaderboardComponent implements OnInit {
   showUserBanner: boolean = false;
   showPublishBanner: boolean = false;
 
-  constructor(private firestore: Firestore, public bracketService: BracketService) {
+  constructor(private router: Router, private firestore: Firestore, public bracketService: BracketService) {
 
     // Wait for the bracket to be fully loaded before initializing
     this.bracketService.bracketLoaded$.subscribe(loaded => {
@@ -85,5 +86,9 @@ export class LeaderboardComponent implements OnInit {
 
   closePublishBanner() {
     this.showPublishBanner = false;
+  }
+
+  viewBracket(bracketId: string) {
+    this.router.navigate(['/bracket', this.bracketService.getYear(), bracketId]); // Navigate to the bracket page
   }
 }

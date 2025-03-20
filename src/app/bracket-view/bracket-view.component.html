@@ -1,0 +1,12 @@
+<div class="bracket-view-container">
+    <h2>Viewing Bracket: {{ bracketName || 'Unknown' }}</h2>
+  
+    <div *ngIf="regions">
+      <app-full-bracket [regions]="regions" [year]="year" [champion]="champion"></app-full-bracket>
+    </div>
+  
+    <div *ngIf="!regions">
+      <p>Bracket not found.</p>
+    </div>
+  </div>
+  

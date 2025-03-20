@@ -17,6 +17,6 @@ export const routes: Routes = [
   { path: 'bracket/pick', component: WinnerSelectionComponent },  // Base pick route
   { path: 'bracket/view/full', component: FullBracketWrapperComponent },  // Base display route
   { path: 'bracket/view/:region', component: BracketDisplayComponent },  // Base display route
-  { path: 'bracket/:uuid', component: BracketViewComponent },
+  { path: 'bracket/:year/:uuid', component: BracketViewComponent },
   { path: '**', redirectTo: 'login' } // Redirect any unknown route to home
 ];
