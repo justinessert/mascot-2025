@@ -67,7 +67,7 @@ export const firstFourMapping: Record<number, Record<string, string>> = {
     "san_diego_state_or_north_carolina": "north_carolina",
     "alabama_state_or_saint_francis_u": "alabama_state",
     "american_or_mount_saint_marys": "mount_saint_marys",
-    "texas_or_xavier": "texas_or_xavier",
+    "texas_or_xavier": "xavier",
   }
 }
 
