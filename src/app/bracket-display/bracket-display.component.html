@@ -8,6 +8,6 @@
 
   <!-- Bracket Display -->
   <div class="bracket-container">
-    <app-bracket-segment [currentRegion]="currentRegion"></app-bracket-segment>
+    <app-bracket-segment [currentRegion]="currentRegion" [bracket]="bracketService.getRegionBracket(currentRegion!)"></app-bracket-segment>
   </div>
 </div>

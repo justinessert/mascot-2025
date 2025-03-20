@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BracketService } from '../services/bracket.service';
+import { BracketService, Team } from '../services/bracket.service';
 import { MatchupComponent } from '../matchup/matchup.component';
 
 @Component({
@@ -15,18 +15,15 @@ export class BracketSegmentComponent implements OnInit, OnChanges {
   @Input() currentRegion: string | null = null;
   @Input() reverseOrder: boolean = false;
   @Input() roundHeaders: boolean = true;
-  bracket: any[][] = [];
+  @Input() bracket: (Team | null)[][] = [];
   roundNames: string[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private bracketService: BracketService) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    // Wait for the bracket to be fully loaded before initializing
-    this.bracketService.bracketLoaded$.subscribe(loaded => {
-      if (loaded) {
-        this.initialize();
-      }
-    });
+    if (this.bracket) {
+      this.initialize();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -38,7 +35,6 @@ export class BracketSegmentComponent implements OnInit, OnChanges {
 
   initialize() {
     let region_name = this.currentRegion || "east"
-    this.bracket = this.bracketService.getRegionBracket(region_name);
     let n_rounds = this.bracket.length
     if (region_name == "final_four") {
       this.roundNames = ["Final Four", "Championship"];

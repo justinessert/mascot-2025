@@ -4,7 +4,7 @@
         <div class="bracket-side">
             <div class="bracket-wrapper">
                 <h2>{{ leftRegions[0] | replaceUnderscore | titlecase }} Region</h2>
-                <app-bracket-segment [currentRegion]="leftRegions[0]" [roundHeaders]="false"></app-bracket-segment>
+                <app-bracket-segment [currentRegion]="leftRegions[0]" [bracket]="getRegionBracket(leftRegions[0])" [roundHeaders]="false"></app-bracket-segment>
             </div>
             <div class="final-four-wrapper">
                 <div class="final-four">
@@ -13,15 +13,15 @@
                             <app-matchup [topTeam]="matchup?.[0]" [bottomTeam]="matchup?.[1]"></app-matchup>
                         </div>
                     </div>
-                    <div *ngIf="bracketService.champion" class="final-four-champion">
+                    <div *ngIf="champion" class="final-four-champion">
                         <h2>Champion</h2>
-                        <img [src]="bracketService.champion.image" [alt]="bracketService.champion.name" />
+                        <img [src]="champion.image" [alt]="champion.name" />
                     </div>
                 </div>
             </div>
             <div class="bracket-wrapper">
                 <h2>{{ leftRegions[1] | replaceUnderscore | titlecase }} Region</h2>
-                <app-bracket-segment [currentRegion]="leftRegions[1]" [roundHeaders]="false"></app-bracket-segment>
+                <app-bracket-segment [currentRegion]="leftRegions[1]" [bracket]="getRegionBracket(leftRegions[1])" [roundHeaders]="false"></app-bracket-segment>
             </div>
         </div>
     
@@ -29,13 +29,13 @@
         <div class="bracket-side">
             <div class="bracket-wrapper">
                 <h2 class="reverse">{{ rightRegions[0] | replaceUnderscore | titlecase }} Region</h2>
-                <app-bracket-segment [currentRegion]="rightRegions[0]" [roundHeaders]="false" [reverseOrder]="true"></app-bracket-segment>
+                <app-bracket-segment [currentRegion]="rightRegions[0]" [bracket]="getRegionBracket(rightRegions[0])" [roundHeaders]="false" [reverseOrder]="true"></app-bracket-segment>
             </div>
             <div class="final-four">
             </div>
             <div class="bracket-wrapper">
                 <h2 class="reverse">{{ rightRegions[1] | replaceUnderscore | titlecase }} Region</h2>
-                <app-bracket-segment [currentRegion]="rightRegions[1]" [roundHeaders]="false" [reverseOrder]="true"></app-bracket-segment>
+                <app-bracket-segment [currentRegion]="rightRegions[1]" [bracket]="getRegionBracket(rightRegions[1])" [roundHeaders]="false" [reverseOrder]="true"></app-bracket-segment>
             </div>
         </div>
     </div>

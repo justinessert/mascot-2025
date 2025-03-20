@@ -139,7 +139,7 @@ export class Region {
 })
 export class BracketService {
   private year = 2024;
-  private regions: Record<string, Region | null> = {};
+  regions: Record<string, Region | null> = {};
   user: User | null = null;
   region!: Region;
   saved: boolean = false;
