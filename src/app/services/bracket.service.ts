@@ -331,6 +331,7 @@ export class BracketService {
         userName: this.user.displayName || 'Anonymous',
         score: 0, // Score will be updated later
         timestamp: new Date(),
+        champion: this.champion?.to_dict()
       });
   
       console.log(`Bracket published successfully.`);

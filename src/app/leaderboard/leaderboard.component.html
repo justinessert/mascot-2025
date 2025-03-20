@@ -29,6 +29,7 @@
       <table class="leaderboard-table">
         <thead>
           <tr>
+            <th *ngIf="showChampion">Champion</th>
             <th>Rank</th>
             <th>Score</th>
             <th>Bracket Name</th>
@@ -37,6 +38,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let bracket of leaderboardBrackets$ | async" (click)="viewBracket(bracket.bracketId)">
+            <td *ngIf="showChampion" class="champion-display"><img [src]="bracket.champion?.image" [alt]="bracket.champion?.name"></td>
             <td>{{ bracket.rank }}</td>
             <td>{{ bracket.score }}</td>
             <td>{{ bracket.bracketName }}</td>

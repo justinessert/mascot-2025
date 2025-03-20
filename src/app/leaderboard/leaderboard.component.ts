@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Firestore, collectionData, collection, DocumentData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BracketService } from '../services/bracket.service';
+import { BracketService, Team } from '../services/bracket.service';
 import { Router } from '@angular/router';
 import { cutOffTimes } from '../constants';
 
@@ -14,6 +14,7 @@ interface PublishedBracket {
   userId: string;
   score: number | null;
   rank?: number; // Rank property
+  champion: Team | null;
 }
 
 @Component({
@@ -28,6 +29,7 @@ export class LeaderboardComponent implements OnInit {
   userBracket: PublishedBracket | null = null;
   showUserBanner: boolean = false;
   showPublishBanner: boolean = false;
+  champion: Team | null = null;
 
   constructor(private router: Router, private firestore: Firestore, public bracketService: BracketService) {
 
@@ -51,8 +53,11 @@ export class LeaderboardComponent implements OnInit {
           bracketName: doc["bracketName"] ?? 'Unknown',
           userName: doc["userName"] ?? 'Anonymous',
           userId: doc["userId"] ?? '',
-          score: doc["score"] ?? null
+          score: doc["score"] ?? null,
+          champion: Team.from_dict(doc["champion"]),
         }));
+
+        console.log(typedBrackets)
 
         // Sort brackets by score (Descending)
         typedBrackets.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
@@ -79,6 +84,11 @@ export class LeaderboardComponent implements OnInit {
         return typedBrackets;
       })
     );
+  }
+
+  get showChampion(): boolean {
+    const nowUTC = new Date();
+    return nowUTC >= cutOffTimes[this.bracketService.getYear()]
   }
 
   closeUserBanner() {

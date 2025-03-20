@@ -79,6 +79,7 @@
 .leaderboard-table td {
     padding: 12px;
     text-align: center;
+    align-items: center;
     border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -138,6 +139,7 @@
 
     .header-item {
         text-align: center;
+        align-items: center;
     }
 
     .leaderboard-table th,
@@ -146,3 +148,14 @@
         font-size: 14px;
     }
 }
+
+.champion-display {
+    align-items: center;
+}
+
+.champion-display img {
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    border-radius: 50%;
+  }

@@ -4,6 +4,7 @@ import { DateTime } from "luxon";
 import { updateNCAAGames } from "./games";
 import { manualUpdateGameMappings } from "./mapping";
 import { updateScores } from "./scoring";
+import { addChampToLeaderboard } from "./updateBrackets";
 
 export const manualUpdateNCAAGames = onRequest(
     { timeoutSeconds: 300 },
@@ -81,5 +82,16 @@ export const updateBracketScores = onRequest(
     } catch (error) {
         console.error("❌ Error updating bracket scores:", error);
         res.status(500).json({ error: "Failed to update bracket scores" });
+    }
+});
+
+export const updatePublishedBracketsWithChampion = onRequest(async (req, res) => {
+    try {
+        await addChampToLeaderboard(Number(req.query.year))
+        res.status(200).json({ message: "Successfully updated all published brackets with champions." });
+
+    } catch (error) {
+        console.error("❌ Error updating published brackets:", error);
+        res.status(500).json({ error: "Failed to update published brackets" });
     }
 });
