@@ -7,12 +7,14 @@ import { BracketDisplayComponent } from './bracket-display/bracket-display.compo
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { BracketViewComponent } from './bracket-view/bracket-view.component';
 import { FullBracketWrapperComponent } from './full-bracket-wrapper/full-bracket-wrapper.component';
+import { InfoComponent } from './info/info.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },  // Home page route
   { path: 'login', component: LoginComponent },  // Login page route
   { path: 'signup', component: SignupComponent },  // Signup page route
   { path: 'leaderboard', component: LeaderboardComponent },
+  { path: 'info', component: InfoComponent },
   { path: 'bracket', redirectTo: 'bracket/pick', pathMatch: 'full' },  // Base bracket route
   { path: 'bracket/pick', component: WinnerSelectionComponent },  // Base pick route
   { path: 'bracket/view/full', component: FullBracketWrapperComponent },  // Base display route

@@ -117,6 +117,10 @@
   margin-top: auto;
 }
 
+.app-footer a {
+  color: white;
+}
+
 @media (max-width: 768px) {
   .app-footer {
     font-size: 12px;
