@@ -71,6 +71,11 @@ export const firstFourMapping: Record<number, Record<string, string>> = {
   }
 }
 
+export const cutOffTimes: Record<number, Date> = {
+  2024: new Date(Date.UTC(2024, 2, 21, 16, 15)),
+  2025: new Date(Date.UTC(2025, 2, 20, 16, 15)),
+}
+
 export const nicknames: Record<string, string> = {
     "akron": "zips",
     "alabama": "crimson tide",

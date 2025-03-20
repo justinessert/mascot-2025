@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BracketService } from '../services/bracket.service';
 import { Router } from '@angular/router';
+import { cutOffTimes } from '../constants';
 
 interface PublishedBracket {
   bracketId: string;
@@ -89,6 +90,9 @@ export class LeaderboardComponent implements OnInit {
   }
 
   viewBracket(bracketId: string) {
-    this.router.navigate(['/bracket', this.bracketService.getYear(), bracketId]); // Navigate to the bracket page
+    const nowUTC = new Date();
+    if (nowUTC >= cutOffTimes[this.bracketService.getYear()]) {
+      this.router.navigate(['/bracket', this.bracketService.getYear(), bracketId]); // Navigate to the bracket page
+    }
   }
 }
