@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ReplaceUnderscorePipe } from '../replace-underscore.pipe';
 import { BracketService } from '../services/bracket.service';
 import { Router } from '@angular/router';
+import { cutOffTimes } from '../constants';
 
 @Component({
   selector: 'app-winner-selection',
@@ -28,6 +29,11 @@ export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
         this.initialize();
       }
     });
+  }
+
+  get disablePublish(): boolean {
+    const nowUTC = new Date();
+    return nowUTC > cutOffTimes[this.bracketService.getYear()]
   }
 
   initialize() {
@@ -116,6 +122,11 @@ export class WinnerSelectionComponent implements AfterViewInit, OnDestroy {
   }
 
   async publishBracket() {
+    if (this.disablePublish) {
+      alert("Brackets are no longer able to be published since the games have began.")
+      return
+    }
+
     if (!this.bracketService.saved) {
       await this.saveBracket();
     }
