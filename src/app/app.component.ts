@@ -40,7 +40,7 @@ export class AppComponent {
   isMobileView = window.innerWidth <= 768;
   isHomePage = false;
   currentYear: number = currentYear;
-  showBanner: boolean = this.selectedYear != this.currentYear;
+  bannerDismissed: boolean = false;
   years: number[] = Object.keys(bracketData).map(key => Number(key));
   user: User | null = null;
 
@@ -99,6 +99,10 @@ export class AppComponent {
     return this.bracketService?.getYear();
   }
 
+  get showBanner(): boolean {
+    return (this.selectedYear != new Date().getFullYear()) && !this.bannerDismissed;
+  }
+
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
     if (!this.menuOpen) {
@@ -129,6 +133,6 @@ export class AppComponent {
   }
 
   closeBanner() {
-    this.showBanner = false;
+    this.bannerDismissed = true;
   }
 }
