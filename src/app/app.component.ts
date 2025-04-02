@@ -51,6 +51,7 @@ export class AppComponent {
       this.user = authUser; // Track the signed-in user
       if (this.user) {
         await this.bracketService.loadBracket(); // Load bracket after authentication
+        console.log(this.user)
       }
     });
 
