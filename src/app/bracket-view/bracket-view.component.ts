@@ -39,7 +39,7 @@ export class BracketViewComponent implements OnInit {
     
     if (snapshot.exists()) {
       const data = snapshot.data();
-      this.regions = loadRegions(data['bracket']);
+      this.regions = loadRegions(data['bracket'], this.year);
       this.bracketName = data['name']
     } else {
       console.error("❌ Bracket not found");

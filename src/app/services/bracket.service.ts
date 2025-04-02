@@ -6,6 +6,11 @@ import { bracketData, currentYear, firstFourMapping, nicknames, regionOrder } fr
 import { collection } from 'firebase/firestore';
 
 
+function mapName(team_name: string, year: number): string {
+  let mapName = firstFourMapping[year][team_name] || team_name;
+  return mapName;
+}
+
 export class Team {
   name: string;
   seed: number;
@@ -23,9 +28,9 @@ export class Team {
     this.shortDisplayName = `${this.name}`;
   }
 
-  static from_dict(data: Record<string, any> | null): Team | null {
+  static from_dict(data: Record<string, any> | null, year: number): Team | null {
     if (!data) return null;
-    return new Team(data["name"], data["seed"]);
+    return new Team(mapName(data["name"], year), data["seed"]);
   }
 
   to_dict(): Record<string, any> {
@@ -55,16 +60,16 @@ export class Region {
     }
   }
 
-  static from_dict(data: Record<string, any>): Region {
+  static from_dict(data: Record<string, any>, year: number): Region {
     const region = new Region(data["name"]);
 
     Object.keys(data["bracket"]).forEach(round => {
-      region.bracket[+round] = data["bracket"][round].map((team: any) => team ? Team.from_dict(team) : null);
+      region.bracket[+round] = data["bracket"][round].map((team: any) => team ? Team.from_dict(team, year) : null);
     });
 
     region.currentMatchupIndex = data["currentMatchupIndex"];
     region.roundIndex = data["roundIndex"];
-    region.champion = data["champion"] ? Team.from_dict(data["champion"]) : null;
+    region.champion = data["champion"] ? Team.from_dict(data["champion"], year) : null;
     region.nPicks = data["nPicks"];
     region.totalPicks = data["totalPicks"];
     return region;
@@ -134,8 +139,8 @@ export class Region {
   }
 }
 
-export function loadRegions(bracketData: Record<string, any>): Record<string, Region | null> {
-  return Object.fromEntries(Object.entries(bracketData).map(([key, region]) => [key, Region.from_dict(region as Map<string, any>)]));
+export function loadRegions(bracketData: Record<string, any>, year: number): Record<string, Region | null> {
+  return Object.fromEntries(Object.entries(bracketData).map(([key, region]) => [key, Region.from_dict(region as Map<string, any>, year)]));
 }
 
 @Injectable({
@@ -174,7 +179,7 @@ export class BracketService {
   initialize() {
     for (let region_name of regionOrder[this.getYear()]) {
       this.regions[region_name] = new Region(region_name)
-      this.regions[region_name].initializeBracket(bracketData[this.getYear()][region_name].map((name, index) => new Team(this.mapName(name), index + 1)));
+      this.regions[region_name].initializeBracket(bracketData[this.getYear()][region_name].map((name, index) => new Team(mapName(name, this.getYear()), index + 1)));
     }
 
     this.regions["final_four"] = new Region("final_four");
@@ -193,10 +198,6 @@ export class BracketService {
 
   getRegionOrder() {
     return regionOrder[this.getYear()];
-  }
-
-  mapName(team_name: string): string {
-    return firstFourMapping[this.getYear()][team_name] || team_name;
   }
 
   selectRegion(region_name: string) {
@@ -303,8 +304,8 @@ export class BracketService {
 
     if (snapshot.exists()) {
       const data = snapshot.data();
-      this.regions = loadRegions(data['bracket']);
-      this.name = this.mapName(data['name']);
+      this.regions = loadRegions(data['bracket'], this.getYear());
+      this.name = data['name'];
       this.regions$.next(this.regions);
       this.saved = true;
       this.published = data['published']

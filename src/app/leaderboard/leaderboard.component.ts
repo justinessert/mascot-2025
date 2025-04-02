@@ -69,7 +69,7 @@ export class LeaderboardComponent implements OnInit {
           userId: doc["userId"] ?? '',
           score: doc["score"] ?? null,
           maxScore: doc["maxScore"] ?? null,
-          champion: Team.from_dict(doc["champion"]),
+          champion: Team.from_dict(doc["champion"], this.bracketService.getYear()),
         }));
 
         // Sort brackets by score (Descending)
