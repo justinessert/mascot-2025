@@ -13,6 +13,7 @@ interface PublishedBracket {
   userName: string;
   userId: string;
   score: number | null;
+  maxScore: number | null;
   rank?: number; // Rank property
   champion: Team | null;
 }
@@ -67,6 +68,7 @@ export class LeaderboardComponent implements OnInit {
           userName: doc["userName"] ?? 'Anonymous',
           userId: doc["userId"] ?? '',
           score: doc["score"] ?? null,
+          maxScore: doc["maxScore"] ?? null,
           champion: Team.from_dict(doc["champion"]),
         }));
 

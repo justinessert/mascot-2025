@@ -4,40 +4,66 @@ import { roundOrders } from "./constants";
 import { db } from "./firebase";
 
 // 🎯 **Calculate Score for a Single Bracket**
-function calculateBracketScore(bracket: any, gameMappings: any, ncaaGameResults: any, year: string): number {
-    let totalScore = 0;
+function calculateBracketScore(
+    bracket: any,
+    gameMappings: any,
+    ncaaGameResults: any,
+    year: string
+  ): { score: number; maxScore: number } {
+    let score = 0;
+    let maxScore = 0;
+    let losing_teams: string[] = [];
 
-    for (const [region, rounds] of Object.entries(gameMappings)) {
+    for (const [region, rounds] of Object.entries(gameMappings).sort(([regionA], [regionB]) => {
+        if (regionA === "final_four") return 1; // Move "final_four" to the end
+        if (regionB === "final_four") return -1; // Move "final_four" to the end
+        return 0; // Keep other regions in their original order
+    })) {
         if (!bracket.bracketData.bracket[region]) {
             throw new Error(`Missing bracket data for region: ${region} in bracket ${bracket}`);
         }
 
         for (const [roundKey, gameIds] of Object.entries(rounds as Record<string, string[]>)) {
             let regionRoundScore = 0;
+            let regionRoundMaxScore = 0;
             const roundNumber = parseInt(roundKey.split("_")[1]); // Extracts the round number
             let pointsPerWin = 10 * Math.pow(2, roundNumber - 1); // Doubles each round
             pointsPerWin = region === "final_four" ? pointsPerWin * 16 : pointsPerWin;
             const userRoundOrder = roundOrders[roundNumber];
 
             for (let i = 0; i < gameIds.length; i++) {
-                const gameId = gameIds[i];
-                if (!gameId || !ncaaGameResults[gameId]) continue; // Skip if no game mapping or game data
-
-                const correctWinner = ncaaGameResults[gameId].winner;
                 const userGameIdx = region === "final_four" ? i : userRoundOrder[i]
                 const userSelection = bracket.bracketData.bracket[region]["bracket"][roundNumber]?.[userGameIdx];
                 const userSelectionTransform = transformTeamName(userSelection["name"], year);
 
+                const gameId = gameIds[i];
+                if (!gameId || !ncaaGameResults[gameId]) {
+                    // Check if userSelectionTransform is in losing_teams
+                    if (!losing_teams.includes(userSelectionTransform)) {
+                        // Add to regionRoundMaxScore
+                        regionRoundMaxScore += pointsPerWin;
+                    }
+                    continue; // Skip if no game mapping or game data
+                };
+
+                const correctWinner = ncaaGameResults[gameId].winner;
+
+                // Get Loser and add to list of losers
+                const loser = ncaaGameResults[gameId].loser;
+                losing_teams.push(loser);
+                
                 if (userSelectionTransform === correctWinner) {
                     regionRoundScore += pointsPerWin;
+                    regionRoundMaxScore += pointsPerWin;
                 }
             }
-            totalScore += regionRoundScore;
-            console.log(`Score for ${bracket.bracketData.name} of region ${region} & round ${roundNumber}: ${regionRoundScore}`)
+            score += regionRoundScore;
+            maxScore += regionRoundMaxScore;
+            console.log(`Score for ${bracket.bracketData.name} of region ${region} & round ${roundNumber}: ${regionRoundScore}, Max: ${regionRoundMaxScore}`);
         }
     }
 
-    return totalScore;
+    return { score, maxScore };
 }
 
 // 🎯 **Update Published Bracket Scores**
@@ -130,10 +156,10 @@ export async function updateScores(year: string | number | null = null) {
 
     // **Step 5: Score & Update Each Published Bracket**
     const updatePromises = publishedBrackets.map(async bracket => {
-        const score = calculateBracketScore(bracket, gameMappings, ncaaGameResults, String(year));
-        console.log(`🏆 Bracket ${bracket!.id} - New Score: ${score}`);
+        const { score, maxScore } = calculateBracketScore(bracket, gameMappings, ncaaGameResults, String(year));
+        console.log(`🏆 Bracket ${bracket!.id} - Score: ${score}, Max: ${maxScore}`);
 
-        return publishedBracketsRef.doc(bracket!.id).update({ score });
+        return publishedBracketsRef.doc(bracket!.id).update({ score, maxScore });
     });
 
     await Promise.all(updatePromises);

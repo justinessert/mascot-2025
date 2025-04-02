@@ -32,10 +32,13 @@ async function saveGamesToDatabase(games: any) {
     games.games.forEach((game: any) => {
         const gameRef = gamesCollection.doc(game.game.gameID.toString());
         let winner = null;
+        let loser = null;
         if (game.game.home.winner) {
             winner = game.game.home.names.seo;
+            loser = game.game.away.names.seo;
         } else if (game.game.away.winner) {
             winner = game.game.away.names.seo;
+            loser = game.game.home.names.seo;
         }
         batch.set(gameRef, {
             homeTeam: game.game.home.names.seo,
@@ -45,6 +48,7 @@ async function saveGamesToDatabase(games: any) {
             gameDate: game.game.startDate,
             status: game.game.currentPeriod,
             winner: winner,
+            loser: loser,
             gameId: game.game.gameID.toString(),
             lastUpdated: Timestamp.now(),
         });

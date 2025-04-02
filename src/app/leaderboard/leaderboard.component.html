@@ -32,6 +32,7 @@
             <th *ngIf="showChampion">Champion</th>
             <th>Rank</th>
             <th>Score</th>
+            <th>Max</th>
             <th>Bracket Name</th>
             <th>User</th>
           </tr>
@@ -41,6 +42,7 @@
             <td *ngIf="showChampion" class="champion-display"><img [src]="bracket.champion?.image" [alt]="bracket.champion?.name"></td>
             <td>{{ bracket.rank }}</td>
             <td>{{ bracket.score }}</td>
+            <td>{{ bracket.maxScore }}</td>
             <td>{{ bracket.bracketName }}</td>
             <td>{{ bracket.userName }}</td>
           </tr>
